@@ -15,6 +15,10 @@ Plataforma educativa de programación inspirada en el lenguaje <b>SL</b> del Ins
 </p>
 
 <p align="center">
+ <img src="https://img.shields.io/badge/ITLA-2016--C2-0057B8?style=for-the-badge"/>
+</p>
+
+<p align="center">
 
 ![Python](https://img.shields.io/badge/Python-3.13-blue?logo=python&logoColor=white)
 ![PySide6](https://img.shields.io/badge/PySide6-Qt-success)
