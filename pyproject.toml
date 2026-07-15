@@ -1,0 +1,36 @@
+[build-system]
+requires = ["setuptools>=75", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pysl"
+version = "1.0.2"
+description = "Plataforma educativa que combina la filosofía de SL con el ecosistema Python."
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "PySide6>=6.8,<7.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.3,<10.0",
+    "ruff>=0.9,<1.0",
+]
+build = [
+    "pyinstaller>=6.11,<7.0",
+]
+
+[project.scripts]
+pysl = "pysl.app:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"

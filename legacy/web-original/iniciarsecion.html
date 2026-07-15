@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <title> Login </title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="widtch=device-width, user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1">
+<link rel="stylesheet" href="estilos.css">
+ </head>
+<body bgcolor="#00FFF3">
+<form method="POST" action="Pagina Principal.html" name="formulario">
+
+
+<h1> Ingresa tu nombre de Usuario y Contraseña </h1>
+<label for="n_usuario"> Usuario </label>
+<input type="text" name="user" id="n_usuario"/>
+<label for="pwd"> Contraseña: </label>
+<input type="password" name="pass" id="pwd"/>
+<input type="submit" value="Iniciar Sesion" id="btn" name="submit">
+</form>
+<script>	
+	(function(){		
+		var formulario = document.getElementsByName('formulario')[0],
+		elementos = formulario.elements,
+		boton = document.getElementById('btn');
+
+		/*Validar usuario*/
+		var validarUser = function(e){
+			if(formulario.user.value == 0){
+				alert("Llenar campo usuario");
+				e.preventDefault();
+			}else if(formulario.user.value == "Jairo")/*Nombre de usuario*/{								
+			}else{				
+				e.preventDefault();				
+			}
+		};
+
+		/*Validar contrasena*/
+
+		var validarPass = function(e){
+			if(formulario.pass.value == 0){
+				alert("Llenar campo contraseña");
+				e.preventDefault();
+			}else if(formulario.pass.value == "jairomatias")/*Contraseña*/{											
+			}else{				
+				e.preventDefault();				
+			}
+		};	
+
+		/*Llamar funciones*/
+
+		var validar = function(e){
+			validarUser(e);
+			validarPass(e);
+			if(formulario.user.value == "Jairo" && formulario.pass.value == "jairomatias")/*Condicion que revisa si el usuario y la contrase;a son correcta*/{	alert("cuenta correcta");
+			}else if(formulario.user.value == "" && formulario.pass.value == ""){
+
+			}else{
+				window.open("bad.html", "_self");
+			}
+		};
+
+		formulario.addEventListener("submit", validar);		
+	
+
+
+	}())
+
+</script>
+</body>
+</html>

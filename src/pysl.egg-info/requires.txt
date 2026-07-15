@@ -1,0 +1,8 @@
+PySide6<7.0,>=6.8
+
+[build]
+pyinstaller<7.0,>=6.11
+
+[dev]
+pytest<10.0,>=8.3
+ruff<1.0,>=0.9

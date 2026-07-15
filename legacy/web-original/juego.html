@@ -1,0 +1,224 @@
+<html>
+<head>
+<script language="javascript" type="text/javascript">
+//JUEGO DEL AHORCADO
+
+var hombre = new Array("___\n", "   |\n", "   O\n", "  /", "|", "\\\n", "  /", " \\\n", "___")
+var palabra
+var libreriaPalabras = new Array("s o f t w a r e", "j a v a s c r i p t", "v i d e o j u e g o", "p r o g r a m a c i o n", "h t m l", "b a s e d e d a t o s", "v a r i a b l e", "f o t o g r a m a s", "c s s", "m a q u i n a v i r t u a l", "n i n t e n d o", "a l g o r i t m o", "c o d i g o", "p s e u d o c o d i g o")
+var partes = 0
+var colNueva = 0
+var jugando
+
+function ObtienePalabra() {
+	//obtiene la palabra para jugar de forma pseudoaleatoria
+	var indice = Math.round ( Math.random() * 24 )
+	var cadena = new String( libreriaPalabras[indice] )
+	palabra = cadena.split(" ")
+}
+
+function DibujaHombre(visor, partes) {
+	//dibuja el hombre ahorcado
+	//partes indica el numero de partes a dibujar
+	
+	var dibujo = ""
+	if (partes < 10)
+		for(var x = 0; x < partes; x++) {
+			dibujo += hombre[x]
+		}
+	
+	visor.displayHombre.value = dibujo
+}
+
+function DibujaLetra(visor, letra) {
+	//dibuja una letra de la palabra
+	//posicion indica donde debe dibujar la letra
+
+	var flag = false		//indica si se encontro la letra	
+	
+	//obtiene cadena actual
+	var cadena = new String(visor.displayPalabra.value)
+	
+	//la separa en sus espacios
+	var letrasCadena = cadena.split(" ")
+
+	cadena = ""	
+	for (var x = 0; x < palabra.length; x++) {
+		if (palabra[x] == letra) {
+			cadena += letra + " "
+			flag = true
+		} else
+			cadena += letrasCadena[x] + " "
+	}
+	
+	visor.displayPalabra.value = cadena
+	return flag
+}
+
+function NuevaLetra(visor, letra) {
+	//añade letra lista de letras
+	visor.displayLetras.value += letra + " "
+
+	//comprueba si ha de pasar a la siguiente fila
+	if(colNueva == 3) {
+		visor.displayLetras.value += "\n"
+		colNueva = 0
+	} else
+		colNueva++
+}
+
+function Juega(visor, letra) {
+
+	//comprueba si esta jugando
+	if (jugando) {
+
+		//ciclo de jugada
+	
+		//1. añade letra a la lista
+		NuevaLetra(visor, letra)
+	
+		//2. dibuja la letra y comprueba si acierto
+		var acierto = DibujaLetra(visor, letra)
+	
+		//3. si no acierto, dibuja hombre
+		if (!acierto)
+			DibujaHombre(visor, ++partes)
+	
+		//4. comprueba si fin
+		if (partes == 9)
+			FinJuego(false)
+		else if ( CompruebaPalabra(visor) )
+			FinJuego(true)
+
+	} else {
+		alert('Pulsa Juego nuevo para comenzar\nuna partida nueva.')
+	}
+}
+
+function IniciaJuego() {
+	//inicializa visor y variables globales
+	jugando = true
+	partes = 0
+	colNueva = 0
+	ObtienePalabra()
+	DibujaHombre(document.visor, partes)
+	document.visor.displayPalabra.value = ""
+	for (var x = 0; x < palabra.length; x++)
+		document.visor.displayPalabra.value += "_ "
+	document.visor.displayLetras.value = ""
+}
+
+function CompruebaPalabra(visor) {
+	//comprueba si se completo toda la palabra
+
+	var fin = true
+	
+	//obtiene cadena actual
+	var cadena = new String(visor.displayPalabra.value)
+	
+	//la separa en sus espacios
+	var letrasCadena = cadena.split(" ")
+	
+	for(var x = 0; x < letrasCadena.length; x++)
+		if (letrasCadena[x] == "_")
+			fin = false
+
+	return fin
+}
+
+function FinJuego(resultado) {
+	//indica que si se ha perdido o ganado
+	var solucion = ""
+
+	jugando = false	
+	if (resultado) {
+		document.visor.ganadas.value++
+		alert("¡COMPAI TU ERE UN DURO! ¡MANGATE TU CAMINAO!")
+	} else {
+		document.visor.perdidas.value++
+		//construye la palabra solucion
+		for (var x = 0; x < palabra.length; x++)
+			solucion += palabra[x]
+		alert("¡LA MACATE LOCO, NO MANGATE TU CAMINAO!\n La palabra era: " + solucion)
+	}
+}
+
+window.onload = IniciaJuego;
+if (document.captureEvents) {				//N4 requiere invocar la funcion captureEvents
+	document.captureEvents(Event.LOAD)
+}
+
+
+</script>
+</head>
+<body>
+
+<!-- Para visualizar el juego -->
+<form name="visor">
+  <div align="center"><center><table width="85%">
+    <tr>
+      <td colspan="3" width="33%"><p><textarea name="displayHombre" cols="14" rows="6"></textarea></p></td>
+      <td colspan="3" width="33%"><p><textarea name="displayLetras" cols="14" rows="6"></textarea></p></td>
+      <td width="34%" valign="top">
+      <p><input type="text" name="ganadas" size="4" value="0"><small> Ganadas</small></p>
+      <p><input type="text" name="perdidas" size="4" value="0"><small> Perdidas</small></p>
+      <p><input type="button" value="Limpiar" name="B1"  onClick="this.form.ganadas.value='0'; this.form.perdidas.value='0'"></p>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="6" width="84%"><input name="displayPalabra" value size="34"></td>
+      <td width="16%"></td>
+    </tr>
+    <tr>
+      <td width="11%"><input type="button" name="botA" value=" A " onClick="Juega(this.form, 'a')"></td>
+      <td width="11%"><input type="button" name="botB" value=" B " onClick="Juega(this.form, 'b')"></td>
+      <td width="11%"><input type="button" name="botC" value=" C " onClick="Juega(this.form, 'c')"></td>
+      <td width="11%"><input type="button" name="botD" value=" D " onClick="Juega(this.form, 'd')"></td>
+      <td width="11%"><input type="button" name="botE" value=" E " onClick="Juega(this.form, 'e')"></td>
+      <td width="11%"><input type="button" name="botF" value=" F " onClick="Juega(this.form, 'f')"></td>
+      <td width="34%"><input type="button" name="Inicia" value="Juego nuevo" onClick="IniciaJuego()" ></td>
+    </tr>
+    <tr>
+      <td width="11%"><input type="button" name="botG" value=" G " onClick="Juega(this.form, 'g')"></td>
+      <td width="11%"><input type="button" name="botH" value=" H " onClick="Juega(this.form, 'h')"></td>
+      <td width="11%"><input type="button" name="botI" value=" I " onClick="Juega(this.form, 'i')"></td>
+      <td width="11%"><input type="button" name="botJ" value=" J " onClick="Juega(this.form, 'j')"></td>
+      <td width="11%"><input type="button" name="botK" value=" K " onClick="Juega(this.form, 'k')"></td>
+      <td width="11%"><input type="button" name="botL" value=" L " onClick="Juega(this.form, 'l')"></td>
+      <td width="34%"></td>
+    </tr>
+    <tr>
+      <td width="11%"><input type="button" name="botM" value=" M " onClick="Juega(this.form, 'm')"></td>
+      <td width="11%"><input type="button" name="botN" value=" N " onClick="Juega(this.form, 'n')"></td>
+      <td width="11%"><input type="button" name="botÑ" value=" Ñ " onClick="Juega(this.form, 'ñ')"></td>
+      <td width="11%"><input type="button" name="botO" value=" O " onClick="Juega(this.form, 'o')"></td>
+      <td width="11%"><input type="button" name="botP" value=" P " onClick="Juega(this.form, 'p')"></td>
+      <td width="11%"><input type="button" name="botQ" value=" Q " onClick="Juega(this.form, 'q')"></td>
+      <td width="34%"></td>
+    </tr>
+    <tr>
+      <td width="11%"><input type="button" name="botR" value=" R " onClick="Juega(this.form, 'r')"></td>
+      <td width="11%"><input type="button" name="botS" value=" S " onClick="Juega(this.form, 's')"></td>
+      <td width="11%"><input type="button" name="botT" value=" T " onClick="Juega(this.form, 't')"></td>
+      <td width="11%"><input type="button" name="botU" value=" U " onClick="Juega(this.form, 'u')"></td>
+      <td width="11%"><input type="button" name="botV" value=" V " onClick="Juega(this.form, 'v')"></td>
+      <td width="11%"><input type="button" name="botW" value=" W " onClick="Juega(this.form, 'w')"></td>
+      <td width="34%"></td>
+    </tr>
+    <tr>
+      <td width="11%"><input type="button" name="botX" value=" X " onClick="Juega(this.form, 'x')"></td>
+      <td width="11%"><input type="button" name="botY" value=" Y " onClick="Juega(this.form, 'y')"></td>
+      <td width="11%"><input type="button" name="botZ" value=" Z " onClick="Juega(this.form, 'z')"></td>
+      <td colspan="3" width="33%"></td>
+      <td width="34%"></td>
+    </tr>
+  </table>
+  </center></div>
+</form>
+<form method="POST" action="Pagina Principal.html">
+<input type="submit" value="Volver">
+</body>
+</html>
+
+</body>
+</html>

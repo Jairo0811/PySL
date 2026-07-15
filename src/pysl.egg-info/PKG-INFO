@@ -1,0 +1,91 @@
+Metadata-Version: 2.4
+Name: pysl
+Version: 1.0.2
+Summary: Plataforma educativa que combina la filosofía de SL con el ecosistema Python.
+Requires-Python: >=3.12
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: PySide6<7.0,>=6.8
+Provides-Extra: dev
+Requires-Dist: pytest<10.0,>=8.3; extra == "dev"
+Requires-Dist: ruff<1.0,>=0.9; extra == "dev"
+Provides-Extra: build
+Requires-Dist: pyinstaller<7.0,>=6.11; extra == "build"
+Dynamic: license-file
+
+# PySL 1.0.2
+
+**Del algoritmo a la realidad.**
+
+PySL es una plataforma educativa de escritorio que conserva la filosofía del lenguaje SL y utiliza Python como motor. Nació de la modernización del proyecto final de **Fundamentos de Programación (SOF-001)** del Instituto Tecnológico de Las Américas.
+
+## Funcionalidades
+
+- IDE `.pysl` con números de línea y resaltado de sintaxis.
+- Transpilador y ejecutor restringido mediante AST.
+- Variables, tipos, condicionales, ciclos, vectores y funciones.
+- Conversor PySL ↔ Python.
+- Curso de fundamentos y laboratorios algorítmicos.
+- Ahorcado, Adivina el número, Piedra/Papel/Tijera y Tres en raya.
+- Progreso y preferencias persistentes mediante SQLite.
+- Dashboard, perfil, galería histórica, configuración y documentación.
+- Proyecto web original preservado en `legacy/web-original/`.
+
+## Requisitos para desarrollo
+
+- Python 3.12 o superior.
+- Windows 10/11, Linux o macOS.
+
+## Instalación en Windows
+
+```powershell
+py -3.13 -m venv .venv
+.\.venv\Scripts\Activate.ps1
+python -m pip install --upgrade pip
+python -m pip install -e ".[dev,build]"
+python -m pytest
+python -m pysl.app
+```
+
+Credenciales de demostración:
+
+```text
+Usuario: Jairo
+Contraseña: pysl2026
+```
+
+El acceso es local y demostrativo; no representa un sistema de autenticación para producción.
+
+## Crear el ejecutable
+
+```powershell
+Unblock-File .\scripts\build_windows.ps1
+.\scripts\build_windows.ps1
+```
+
+El ejecutable se genera en:
+
+```text
+dist\PySL\PySL.exe
+```
+
+Los datos del usuario se guardan fuera de la instalación, en la carpeta local de aplicaciones del sistema operativo.
+
+## Documentación
+
+- `docs/SINTAXIS.md`
+- `docs/ARQUITECTURA.md`
+- `CHANGELOG.md`
+
+## Créditos académicos
+
+- **Institución:** Instituto Tecnológico de Las Américas (ITLA)
+- **Autor:** Francis Jairo Matías Rosario
+- **Matrícula:** 2015-2984
+- **Materia:** Fundamentos de Programación (SOF-001)
+- **Período académico:** 2016-C2
+- **Profesor:** Freidy Ramón Núñez Pérez
+
+## Licencia
+
+MIT.

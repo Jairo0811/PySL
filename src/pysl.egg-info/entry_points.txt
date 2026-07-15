@@ -1,0 +1,2 @@
+[console_scripts]
+pysl = pysl.app:main

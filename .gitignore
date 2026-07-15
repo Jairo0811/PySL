@@ -1,0 +1,23 @@
+# Virtual environment
+.venv/
+
+# Pytest
+.pytest_cache/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# Build
+build/
+dist/
+
+# VS Code
+.vscode/
+
+# IDE
+.idea/
+
+# SQLite local
+*.db

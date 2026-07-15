@@ -1,0 +1,53 @@
+<html>
+<head>
+ <link rel="shortcut icon" href="img/favicon.ico">
+ <meta charset="UTF8">
+ <title>Ejercicio</title>
+ <link rel="stylesheet" href="css/general.css">
+ <style>footer{position: absolute;bottom: 0px;}</style>
+</head>
+<body background="bg.jpg">
+<!--Toda la pagina-->
+
+<div id="htd">
+ <section>
+  <h1>Ejercicio propuesto </h1><br><br>
+ <h3>Misión:</h3><br>
+ <p>Leer un Array solicitarme que digite 5 números por teclado y determinar en qué lugar está el menor número par en una tabla HTML mostrando la celda donde está el numero par de color azul y letra blanca, la que no cumpla con el mandato mostrarla de color rojo con letra blanca.</p>
+ </section>
+ <!---->
+ <section>
+ <script>
+  document.write("<center><table border='1px'>");
+  var data= new Array(4);
+  var mayor=99999999999999;
+  var posicion;  
+  for(a=0; a<5; a++){
+   data[a]=prompt("Ingresar numero");
+   data[a]=parseInt(data[a]);
+  }
+  for(a=0; a<5; a++){
+   if(data[a]%2==0){
+    if(data[a]<mayor){
+    mayor = data[a];
+    posicion=a;    
+    }
+   }
+  }
+  for(a=0; a<5; a++){
+   if(a==posicion){
+    document.write("<tr bgcolor='#39319D'><td><font color='#fff'>" + data[a] + "</font></td><td><font color='#fff'>Par menor</font></td></tr>");
+   }else{
+    document.write("<tr bgcolor='#D12D2D'><td><font color='#fff'>" + data[a] + "</font></td><td><font color='#fff'>-</font></td></tr>");
+   }
+  }
+  document.write("</table></center>");
+ </script>  
+ </section>
+ <!---->
+</div>
+<form method="POST" action="Pagina Principal.html">
+<input type="submit" value="Volver">
+
+</body>
+</html>
