@@ -328,7 +328,7 @@ Para ejecutar PySL se recomienda el siguiente entorno:
 ## 1️⃣ Clonar el repositorio
 
 ```bash
-git clone https://github.com/TU-USUARIO/PySL.git
+git clone https://github.com/Jairo0811/PySL
 
 cd PySL
 ```
