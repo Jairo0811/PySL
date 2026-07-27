@@ -2,61 +2,54 @@
   <img src="assets/pysl-logo.png" alt="PySL Logo" width="220">
 </p>
 
-<h1 align="center">
-🐍 PySL
-</h1>
+<h1 align="center">🐍 PySL</h1>
 
 <p align="center">
-<b>Python + SL = Aprender, Crear, Programar</b>
+  <strong>Python + SL = Aprender, Crear, Programar</strong>
 </p>
 
 <p align="center">
-Plataforma educativa de programación inspirada en el lenguaje <b>SL</b> del Instituto Tecnológico de Las Américas (ITLA).
+  Plataforma educativa de escritorio inspirada en el lenguaje <strong>SL</strong> del Instituto Tecnológico de Las Américas (ITLA).
 </p>
 
 <p align="center">
- <img src="https://img.shields.io/badge/ITLA-2016--C2-0057B8?style=for-the-badge"/>
-</p>
-
-<p align="center">
-
-![Python](https://img.shields.io/badge/Python-3.13-blue?logo=python&logoColor=white)
-![PySide6](https://img.shields.io/badge/PySide6-Qt-success)
-![SQLite](https://img.shields.io/badge/SQLite-Database-003B57?logo=sqlite)
-![Version](https://img.shields.io/badge/Version-1.0.2-purple)
-![Status](https://img.shields.io/badge/Status-Finalizado-success)
-![License](https://img.shields.io/badge/License-MIT-blue)
-
-</p>
-
-<p align="center">
-
-<img src="https://skillicons.dev/icons?i=python,sqlite,git,github,vscode" />
-
+  <img src="https://img.shields.io/badge/ITLA-2016--C2-0057B8?style=for-the-badge" alt="ITLA 2016-C2">
+  <img src="https://img.shields.io/badge/Python-3.13-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python 3.13">
+  <img src="https://img.shields.io/badge/Version-1.0.2-7C3AED?style=for-the-badge" alt="Versión 1.0.2">
+  <img src="https://img.shields.io/badge/Status-Finalizado-2EA44F?style=for-the-badge" alt="Estado finalizado">
+  <img src="https://img.shields.io/badge/License-MIT-blue?style=for-the-badge" alt="Licencia MIT">
 </p>
 
 ---
 
 # 📖 Descripción
 
-**PySL** es una plataforma educativa de escritorio desarrollada completamente en **Python** utilizando **PySide6**, diseñada para enseñar programación estructurada mediante una sintaxis inspirada en el lenguaje **SL**, utilizado durante la asignatura **Fundamentos de Programación (SOF-001)** del **Instituto Tecnológico de Las Américas (ITLA)**.
+**PySL** es una plataforma educativa de escritorio desarrollada en **Python** con **PySide6**, diseñada para enseñar programación estructurada mediante una sintaxis inspirada en el lenguaje **SL**, utilizado durante la asignatura **Fundamentos de Programación (SOF-001)** del **Instituto Tecnológico de Las Américas (ITLA)**.
 
-Este proyecto representa una **reinterpretación moderna** del proyecto final desarrollado originalmente durante el período académico **2016-C2**.
+El proyecto representa una reinterpretación moderna del trabajo final desarrollado originalmente durante el período académico **2016-C2**. La versión actual incorpora una arquitectura modular, un IDE para archivos `.pysl`, laboratorios, juegos educativos, conversión entre PySL y Python, persistencia con SQLite y documentación técnica.
 
-En lugar de limitarse a reproducir la versión original, PySL amplía significativamente sus capacidades incorporando una arquitectura modular, un entorno gráfico moderno, un editor de código propio, laboratorios interactivos, juegos educativos y persistencia de datos mediante SQLite.
-
-Su objetivo principal es proporcionar un entorno donde los estudiantes puedan aprender programación de forma práctica, visual e interactiva.
+> **Del algoritmo a la realidad.**
 
 ---
 
-# 🎯 Objetivos
+# 📑 Contenido
 
-- Modernizar el proyecto final de **Fundamentos de Programación**.
-- Preservar el enfoque educativo del lenguaje **SL**.
-- Facilitar el aprendizaje mediante una interfaz gráfica moderna.
-- Integrar teoría, práctica y ejercicios dentro de una sola aplicación.
-- Servir como proyecto académico y de portafolio profesional.
-- Demostrar buenas prácticas de arquitectura y desarrollo de software.
+- [Descripción](#-descripción)
+- [Información académica](#-información-académica)
+- [Funcionalidades](#-funcionalidades)
+- [Tecnologías utilizadas](#-tecnologías-utilizadas)
+- [Arquitectura](#️-arquitectura)
+- [Estructura del repositorio](#-estructura-del-repositorio)
+- [Requisitos](#-requisitos)
+- [Instalación](#-instalación)
+- [Uso](#️-uso)
+- [Lenguaje PySL](#-lenguaje-pysl)
+- [Galería](#-galería)
+- [Evolución del proyecto](#-evolución-del-proyecto)
+- [Estado](#-estado-del-proyecto)
+- [Roadmap](#-roadmap)
+- [Licencia](#-licencia)
+- [Autor](#-autor)
 
 ---
 
@@ -73,226 +66,131 @@ Su objetivo principal es proporcionar un entorno donde los estudiantes puedan ap
 
 ---
 
-# ✨ Características principales
-
-PySL fue diseñado como una plataforma educativa integral que combina teoría, práctica y programación dentro de una única aplicación de escritorio.
+# 🚀 Funcionalidades
 
 ## 🖥️ IDE PySL
 
-El entorno de desarrollo integrado permite crear y ejecutar programas escritos en el lenguaje **PySL**.
-
-### Incluye
-
-- 📝 Editor de código para archivos `.pysl`.
-- 🔢 Numeración automática de líneas.
-- 🎨 Resaltado de sintaxis.
-- ▶️ Ejecución integrada del programa.
-- 💻 Consola de salida.
-- 📂 Apertura y guardado de proyectos.
-- 📋 Interfaz moderna desarrollada con PySide6.
-
----
+- Editor para archivos `.pysl`.
+- Numeración de líneas.
+- Resaltado de sintaxis.
+- Apertura y guardado de archivos.
+- Ejecución integrada.
+- Consola de salida.
 
 ## 🐍 Lenguaje PySL
 
-PySL implementa una sintaxis sencilla inspirada en el lenguaje **SL**, utilizada para introducir los fundamentos de la programación estructurada.
-
-Actualmente soporta:
-
-- Variables
-- Tipos de datos
-- Entrada y salida
-- Operadores aritméticos
-- Operadores lógicos
-- Condicionales
-- Ciclos
-- Vectores
-- Funciones
-- Validación sintáctica
-- Ejecución mediante Runtime propio
-
----
+- Variables y tipos de datos.
+- Entrada y salida.
+- Operadores aritméticos y lógicos.
+- Condicionales.
+- Ciclos.
+- Vectores.
+- Funciones.
+- Validación sintáctica.
+- Ejecución mediante Runtime propio.
 
 ## 🔄 Conversor PySL ↔ Python
 
-El sistema incorpora un conversor que facilita comprender la relación entre el pseudocódigo y Python.
+- Conversión educativa entre ambos lenguajes.
+- Comparación de instrucciones equivalentes.
+- Apoyo a la transición desde programación estructurada hacia Python.
 
-Permite:
+## 📚 Curso y laboratorios
 
-- Convertir código PySL a Python.
-- Comparar ambos lenguajes.
-- Facilitar el aprendizaje progresivo.
-- Comprender la equivalencia entre instrucciones.
-
----
-
-## 📚 Curso interactivo
-
-PySL incorpora un módulo educativo orientado al autoaprendizaje.
-
-Incluye contenido sobre:
-
-- Variables
-- Tipos de datos
-- Operadores
-- Condicionales
-- Ciclos
-- Funciones
-- Algoritmos
-
----
-
-## 🧪 Laboratorios
-
-Los laboratorios permiten poner en práctica los conocimientos adquiridos durante el curso.
-
-Cada laboratorio puede incluir:
-
-- 📖 Explicación del problema.
-- 📝 Algoritmo en lenguaje natural.
-- 🐍 Implementación en PySL.
-- 💻 Conversión a Python.
-- ▶️ Ejecución.
-- 📊 Resultado obtenido.
-
----
+- Variables.
+- Tipos de datos.
+- Operadores.
+- Condicionales.
+- Ciclos.
+- Funciones.
+- Algoritmos básicos.
+- Ejercicio del menor número par.
 
 ## 🎮 Juegos educativos
 
-Como complemento al aprendizaje, PySL incorpora una pequeña colección de juegos desarrollados en Python.
+- Ahorcado.
+- Adivina el número.
+- Piedra, Papel o Tijera.
+- Tres en Raya.
 
-Actualmente incluye:
+## 👤 Experiencia de usuario
 
-- 🎯 Ahorcado.
-- 🔢 Adivina el número.
-- ✊ Piedra, Papel o Tijera.
-- ❌ Tres en Raya.
-
-Estos juegos permiten reforzar conceptos de programación mientras el estudiante interactúa con la aplicación.
-
----
-
-## 👤 Gestión del usuario
-
-La plataforma incorpora un sistema local de usuario para personalizar la experiencia.
-
-Características:
-
-- Inicio de sesión demostrativo.
-- Perfil de usuario.
+- Login local demostrativo.
+- Dashboard.
+- Perfil.
+- Galería histórica.
 - Configuración.
-- Preferencias persistentes.
-- Historial de progreso.
-
----
-
-## 💾 Persistencia de datos
-
-Toda la información del usuario se almacena mediante **SQLite**, permitiendo conservar el progreso entre sesiones.
-
-Se almacenan:
-
-- Configuración.
-- Preferencias.
-- Progreso académico.
-- Estadísticas.
-- Datos de la aplicación.
-
----
-
-## 📖 Documentación integrada
-
-PySL incorpora documentación accesible desde la propia aplicación.
-
-Entre los documentos incluidos se encuentran:
-
-- Sintaxis del lenguaje.
-- Arquitectura del proyecto.
-- Historial de versiones.
-- Información académica.
-- Acerca de PySL.
+- Documentación integrada.
+- Progreso y preferencias persistentes mediante SQLite.
 
 ---
 
 # 🧰 Tecnologías utilizadas
 
-## 🖥️ Interfaz de escritorio
+## 🖥️ Aplicación de escritorio
 
 <p>
-  <img src="https://skillicons.dev/icons?i=python" alt="Python" />
-</p>
-
-- **PySide6 (Qt):** construcción de la interfaz gráfica de escritorio.
-- **Qt Widgets:** ventanas, controles, navegación, editor y componentes visuales.
-
-## ⚙️ Motor, intérprete y lógica de aplicación
-
-<p>
-  <img src="https://skillicons.dev/icons?i=python" alt="Python" />
+  <img src="https://skillicons.dev/icons?i=python" alt="Python">
 </p>
 
 - **Python 3.13:** lenguaje principal del proyecto.
-- **Parser PySL:** análisis y validación sintáctica del código fuente.
-- **Runtime PySL:** interpretación y ejecución de programas `.pysl`.
-- **Conversor PySL ↔ Python:** traducción educativa entre ambos lenguajes.
-- **Arquitectura modular:** separación entre interfaz, núcleo, servicios y módulos educativos.
+- **PySide6 (Qt):** interfaz gráfica, navegación, editor y componentes visuales.
 
-## 🗄️ Persistencia de datos
+## 🗄️ Persistencia
 
 <p>
-  <img src="https://skillicons.dev/icons?i=sqlite" alt="SQLite" />
+  <img src="https://skillicons.dev/icons?i=sqlite" alt="SQLite">
 </p>
 
-- **SQLite:** almacenamiento local de perfiles, preferencias, progreso y configuración.
+- **SQLite:** perfiles, preferencias, progreso y configuración local.
 
-## 🧪 Calidad, distribución y herramientas
-
-<p>
-  <img src="https://skillicons.dev/icons?i=vscode,git,github" alt="Visual Studio Code, Git y GitHub" />
-</p>
+## 🧪 Calidad y distribución
 
 - **Pytest:** pruebas automatizadas.
+- **Ruff:** análisis estático y calidad del código.
 - **PyInstaller:** generación del ejecutable para Windows.
+
+## 🌿 Desarrollo y control de versiones
+
+<p>
+  <img src="https://skillicons.dev/icons?i=vscode,git,github" alt="Visual Studio Code, Git y GitHub">
+</p>
+
 - **Visual Studio Code:** entorno principal de desarrollo.
 - **Git:** control de versiones.
 - **GitHub:** publicación, documentación y seguimiento del proyecto.
 
 ---
 
-# 🏗️ Arquitectura del proyecto
+# 🏗️ Arquitectura
 
-PySL fue desarrollado siguiendo una arquitectura modular que facilita el mantenimiento, la escalabilidad y la incorporación de nuevas funcionalidades.
-
-Cada módulo tiene una responsabilidad específica, reduciendo el acoplamiento entre componentes y favoreciendo la reutilización del código.
+PySL utiliza una arquitectura modular que separa la interfaz, la lógica del lenguaje y la persistencia.
 
 ```text
                          PySL
 
                 +----------------------+
-                |   Interfaz (PySide6) |
+                |   Interfaz PySide6   |
                 +----------------------+
                            │
         ┌──────────────────┼──────────────────┐
         ▼                  ▼                  ▼
 
-   Dashboard          IDE PySL         Laboratorios
+   Dashboard          IDE PySL         Curso/Laboratorios
+        │                  │                  │
+        └──────────────┬───┴──────────────┬───┘
+                       ▼                  ▼
+              Transpilador/Ejecutor      Juegos
+                       │
+                       ▼
+                 Validación AST
 
-        ▼                  ▼                  ▼
-
-     Juegos         Conversor         Documentación
-
-                   ▼
-             Runtime PySL
-
-                   ▼
-              Parser PySL
-
-                   ▼
-             Base de Datos
-                 SQLite
+        +-----------------------------------------+
+        | Persistencia SQLite y configuración     |
+        +-----------------------------------------+
 ```
 
-La arquitectura separa claramente la interfaz gráfica, la lógica del lenguaje PySL y la persistencia de datos, permitiendo que cada componente evolucione de forma independiente.
+Esta separación reduce el acoplamiento y permite que la interfaz, el motor PySL y la persistencia evolucionen de forma independiente.
 
 ---
 
@@ -305,10 +203,11 @@ PySL
 │   ├── 📁 images
 │   └── 📁 videos
 │
+├── 📁 data
+│
 ├── 📁 docs
 │   ├── ARQUITECTURA.md
-│   ├── SINTAXIS.md
-│   └── CHANGELOG.md
+│   └── SINTAXIS.md
 │
 ├── 📁 legacy
 │   └── 📁 web-original
@@ -328,8 +227,9 @@ PySL
 │
 ├── 📁 tests
 │
-├── 📄 README.md
+├── 📄 CHANGELOG.md
 ├── 📄 LICENSE
+├── 📄 README.md
 ├── 📄 pyproject.toml
 └── 📄 .gitignore
 ```
@@ -338,39 +238,33 @@ PySL
 
 # 📦 Requisitos
 
-Para ejecutar PySL se recomienda el siguiente entorno:
-
 | Requisito | Versión |
 |-----------|---------|
-| 🐍 Python | 3.13 o superior |
-| 💻 Sistema Operativo | Windows 10 / Windows 11 |
+| 🐍 Python | 3.12 o superior; 3.13 recomendado |
+| 💻 Sistema operativo | Windows 10/11; compatible con Linux y macOS para desarrollo |
 | 🧠 Memoria RAM | 4 GB mínimo |
 | 💾 Espacio en disco | 300 MB libres |
 | 🖥️ Resolución recomendada | 1366×768 o superior |
 
-> **Nota:** Aunque PySL puede ejecutarse en Linux y macOS, la versión actual está optimizada y probada principalmente para Windows.
+> La aplicación y el proceso de distribución han sido probados principalmente en Windows.
 
 ---
 
 # 🚀 Instalación
 
-## 1️⃣ Clonar el repositorio
+## 1. Clonar el repositorio
 
 ```bash
-git clone https://github.com/Jairo0811/PySL
-
+git clone https://github.com/Jairo0811/PySL.git
 cd PySL
 ```
 
----
-
-## 2️⃣ Crear el entorno virtual
+## 2. Crear el entorno virtual
 
 ### Windows
 
 ```powershell
 py -3.13 -m venv .venv
-
 .\.venv\Scripts\Activate.ps1
 ```
 
@@ -378,466 +272,158 @@ py -3.13 -m venv .venv
 
 ```bash
 python3 -m venv .venv
-
 source .venv/bin/activate
 ```
 
----
-
-## 3️⃣ Instalar las dependencias
+## 3. Instalar dependencias
 
 ```powershell
 python -m pip install --upgrade pip
-
 python -m pip install -e ".[dev,build]"
 ```
 
----
-
-## 4️⃣ Ejecutar las pruebas
+## 4. Ejecutar pruebas
 
 ```powershell
 python -m pytest
 ```
 
-Si todo está correcto se mostrará un resultado similar a:
+Resultado esperado:
 
 ```text
-=============================
-
 20 passed
-
-=============================
 ```
 
 ---
 
-## ▶️ Ejecutar PySL
+# ▶️ Uso
+
+## Ejecutar PySL
 
 ```powershell
 python -m pysl.app
 ```
 
----
-
-## 🔑 Credenciales de demostración
-
-PySL incorpora un sistema de autenticación únicamente con fines demostrativos.
+<details>
+<summary>🔑 Credenciales de demostración</summary>
 
 ```text
-Usuario:
-
-Jairo
-
-Contraseña:
-
-pysl2026
+Usuario: Jairo
+Contraseña: pysl2026
 ```
 
-> **Importante:** Este sistema de autenticación es local y fue implementado exclusivamente para efectos académicos y de demostración. No debe considerarse un mecanismo de seguridad para producción.
+El acceso es local y demostrativo; no representa un sistema de autenticación para producción.
 
----
+</details>
 
-## 🏗️ Generar el ejecutable
+## Generar el ejecutable para Windows
 
 ```powershell
 Unblock-File .\scripts\build_windows.ps1
-
 .\scripts\build_windows.ps1
 ```
 
-El ejecutable será generado en:
+El ejecutable se genera en:
 
 ```text
-dist/
-└── PySL/
-    └── PySL.exe
+dist\PySL\PySL.exe
 ```
 
-Los datos del usuario y la base de datos SQLite se almacenan fuera del directorio de instalación para garantizar que no se pierdan durante futuras actualizaciones.
+Los datos del usuario se almacenan fuera del directorio de instalación para evitar pérdidas durante futuras actualizaciones.
 
 ---
 
-# 🖥️ Módulos de la aplicación
+# 🐍 Lenguaje PySL
 
-PySL está organizado en módulos independientes, cada uno enfocado en una funcionalidad específica. Esta arquitectura facilita el mantenimiento, la escalabilidad y la incorporación de nuevas características.
+PySL implementa una sintaxis educativa inspirada en SL y utiliza Python como motor de ejecución.
 
----
-
-# 🏠 Dashboard
-
-El Dashboard constituye la pantalla principal de la aplicación.
-
-Desde él es posible acceder rápidamente a todas las funcionalidades de PySL.
-
-### Funciones
-
-- 📊 Panel principal.
-- 🚀 Accesos rápidos.
-- 👤 Información del usuario.
-- 📈 Estado general de la aplicación.
-- 🧭 Navegación hacia todos los módulos.
-
----
-
-# 👤 Perfil
-
-El módulo de perfil permite visualizar la información del usuario que utiliza la aplicación.
-
-### Incluye
-
-- Nombre del usuario.
-- Información académica.
-- Configuración personal.
-- Preferencias del sistema.
-
----
-
-# 🐍 IDE PySL
-
-El IDE es el núcleo principal de la plataforma.
-
-Permite escribir, editar y ejecutar programas desarrollados en el lenguaje **PySL**.
-
-## Características
-
-- 📝 Editor para archivos `.pysl`.
-- 🔢 Numeración automática de líneas.
-- 🎨 Resaltado de sintaxis.
-- 📂 Abrir archivos.
-- 💾 Guardar archivos.
-- ▶️ Ejecutar programas.
-- 💻 Consola integrada.
-- ⚡ Interfaz moderna basada en Qt.
-
----
-
-# ⚙️ Runtime PySL
-
-El Runtime interpreta y ejecuta programas escritos en PySL.
-
-Se encarga de:
-
-- Validar instrucciones.
-- Ejecutar operaciones.
-- Administrar variables.
-- Resolver expresiones.
-- Controlar el flujo del programa.
-
----
-
-# 📖 Parser
-
-El Parser analiza el código fuente antes de ejecutarlo.
-
-Entre sus responsabilidades se encuentran:
-
-- Validación sintáctica.
-- Detección de errores.
-- Construcción del árbol lógico.
-- Preparación para la ejecución.
-
----
-
-# 🔄 Conversor PySL ↔ Python
-
-Este módulo permite comprender cómo una instrucción escrita en PySL puede expresarse en Python.
-
-### Incluye
-
-- Conversión de PySL hacia Python.
-- Conversión de Python hacia PySL.
-- Comparación entre ambos lenguajes.
-- Facilita el aprendizaje progresivo.
-
----
-
-# 📚 Curso interactivo
-
-El curso incorpora contenidos orientados a estudiantes que comienzan a programar.
-
-### Temas incluidos
-
-- Variables.
-- Tipos de datos.
-- Operadores.
-- Condicionales.
-- Ciclos.
-- Funciones.
-- Algoritmos.
-
-Cada unidad está pensada para reforzar los conceptos fundamentales de la programación estructurada.
-
----
-
-# 🧪 Laboratorios
-
-Los laboratorios permiten poner en práctica los conocimientos adquiridos durante el curso.
-
-Actualmente incluyen ejercicios relacionados con:
-
-- Variables.
-- Operadores.
-- Condiciones.
-- Ciclos.
-- Funciones.
-- Algoritmos básicos.
-
-Cada laboratorio puede incluir explicación, código PySL, conversión a Python y ejecución.
-
----
-
-# 🎮 Juegos educativos
-
-Como complemento al aprendizaje, PySL incorpora una colección de juegos desarrollados completamente en Python.
-
-## 🎯 Ahorcado
-
-Juego clásico de adivinanza de palabras.
-
-Permite reforzar la lógica de programación mediante interacción con el usuario.
-
----
-
-## 🔢 Adivina el número
-
-Juego basado en generación de números aleatorios.
-
-Permite practicar:
-
-- ciclos;
-- condiciones;
-- entrada de datos.
-
----
-
-## ✊ Piedra, Papel o Tijera
-
-Juego contra la computadora utilizando generación aleatoria y estructuras condicionales.
-
----
-
-## ❌ Tres en Raya
-
-Implementación del clásico Tic-Tac-Toe.
-
-Permite practicar:
-
-- matrices;
-- validación;
-- algoritmos de victoria.
-
----
-
-# 🖼️ Galería
-
-La galería conserva parte del material histórico relacionado con el proyecto original.
-
-Incluye recursos gráficos y referencias utilizadas durante el proceso de modernización.
-
----
-
-# ⚙️ Configuración
-
-Desde este módulo el usuario puede personalizar la aplicación.
-
-Entre las opciones disponibles se encuentran:
-
-- Preferencias.
-- Configuración general.
-- Persistencia mediante SQLite.
-
----
-
-# 📖 Acerca de PySL
-
-Presenta la información institucional y académica del proyecto.
-
-Incluye:
-
-- Instituto Tecnológico de Las Américas.
-- Autor.
-- Matrícula.
-- Materia.
-- Profesor.
-- Período académico.
-
----
-
-# 🐍 El lenguaje PySL
-
-PySL implementa una sintaxis sencilla inspirada en el lenguaje **SL**, facilitando la transición hacia Python.
-
-## Ejemplo
-
-### Código PySL
+## Ejemplo PySL
 
 ```text
 inicio
-
-leer nombre
-
-imprimir "Hola " + nombre
-
+leer(nombre)
+imprimir("Hola", nombre)
 fin
 ```
 
-↓
-
-### Código Python
+## Equivalente en Python
 
 ```python
 nombre = input()
-
-print(f"Hola {nombre}")
+print("Hola", nombre)
 ```
 
----
-
-Actualmente el lenguaje soporta:
-
-- Variables.
-- Tipos de datos.
-- Entrada y salida.
-- Operadores aritméticos.
-- Operadores lógicos.
-- Condicionales.
-- Ciclos.
-- Vectores.
-- Funciones.
-- Validación sintáctica.
-- Ejecución mediante Runtime propio.
-
----
-
-# 📸 Galería del proyecto
-
-Las siguientes capturas muestran algunas de las principales pantallas de PySL.
-
-> **Nota:** Sustituye los siguientes marcadores por las capturas reales de la aplicación una vez finalizada la documentación.
-
----
-
-## 🔐 Inicio de sesión
+## Construcciones soportadas
 
 ```text
-assets/screenshots/login.png
+inicio / fin
+leer(...)
+imprimir(...)
+si / sino / finsi
+mientras / finmientras
+para / finpara
+funcion / finfuncion
+retornar
+vectores
 ```
+
+Consulta [`docs/SINTAXIS.md`](docs/SINTAXIS.md) para conocer la sintaxis completa.
 
 ---
 
-## 🏠 Dashboard
+# 📸 Galería
+
+Las capturas finales se incorporarán en `assets/screenshots/`.
 
 ```text
-assets/screenshots/dashboard.png
+🚧 Próximamente
 ```
+
+Capturas previstas:
+
+- Inicio de sesión.
+- Dashboard.
+- IDE PySL.
+- Conversor.
+- Laboratorios.
+- Juegos.
+- Acerca de PySL.
 
 ---
 
-## 🖥️ IDE PySL
+# 🚀 Evolución del proyecto
 
 ```text
-assets/screenshots/editor.png
+Proyecto final ITLA (2016-C2)
+            │
+            ▼
+Portal web académico
+HTML + CSS + JavaScript
+            │
+            ▼
+Reingeniería completa (2026)
+            │
+            ▼
+PySL
+Python + PySide6 + SQLite
+IDE + Runtime + Conversor + Laboratorios + Juegos
 ```
 
----
+## Mejoras principales
 
-## 🔄 Conversor PySL ↔ Python
-
-```text
-assets/screenshots/converter.png
-```
-
----
-
-## 🧪 Laboratorios
-
-```text
-assets/screenshots/laboratorios.png
-```
-
----
-
-## 🎮 Juegos educativos
-
-```text
-assets/screenshots/games.png
-```
-
----
-
-## 📖 Acerca de PySL
-
-```text
-assets/screenshots/about.png
-```
-
----
-
-Cuando las capturas estén disponibles, simplemente reemplaza cada bloque por una imagen Markdown.
-
-Ejemplo:
-
-```markdown
-![Dashboard](assets/screenshots/dashboard.png)
-```
-
----
-
-# 📊 Estadísticas del proyecto
-
-| Elemento | Cantidad |
-|----------|---------:|
-| 🖥️ Aplicación de escritorio | **1** |
-| 🧩 Módulos principales | **10** |
-| 🎮 Juegos educativos | **4** |
-| 🧪 Laboratorios | **6+** |
-| 🔄 Conversor de lenguajes | **1** |
-| 💾 Base de datos SQLite | **1** |
-| 📄 Documentos técnicos | **3** |
-| 🧪 Pruebas automatizadas | **20** |
-
----
-
-# 🚀 Mejoras respecto al proyecto original
-
-La implementación publicada en este repositorio **no es una copia del proyecto académico original**.
-
-Se trata de una reconstrucción completa desarrollada en **2026**, tomando como referencia únicamente el alcance y los objetivos planteados durante la asignatura.
-
-## Principales mejoras
-
-- ✅ Reescritura completa utilizando **Python**.
-- ✅ Nueva interfaz gráfica desarrollada con **PySide6**.
-- ✅ Arquitectura modular y escalable.
-- ✅ IDE propio para archivos `.pysl`.
-- ✅ Parser y Runtime para el lenguaje PySL.
-- ✅ Conversor entre PySL y Python.
-- ✅ Sistema de laboratorios interactivos.
-- ✅ Juegos educativos integrados.
-- ✅ Persistencia mediante SQLite.
-- ✅ Documentación técnica completa.
-- ✅ Organización profesional del repositorio.
-- ✅ Preparación para distribución mediante ejecutable de Windows.
-- ✅ Identidad visual renovada con logotipo propio.
-
----
-
-# 📚 Conceptos aplicados
-
-Durante el desarrollo de PySL se aplicaron conocimientos relacionados con:
-
-- 🐍 Programación en Python.
-- 🖥️ Desarrollo de aplicaciones de escritorio.
-- 🎨 Interfaces gráficas con Qt.
-- 🧩 Arquitectura modular.
-- 📂 Organización de proyectos.
-- 📄 Interpretación y validación de código.
-- ⚙️ Programación estructurada.
-- 💾 Persistencia de datos con SQLite.
-- 🧪 Pruebas automatizadas.
-- 🌿 Control de versiones con Git.
-- 🐙 Publicación de proyectos en GitHub.
+- Reescritura completa en Python.
+- Interfaz gráfica con PySide6.
+- Arquitectura modular.
+- IDE propio para archivos `.pysl`.
+- Transpilador y ejecutor restringido mediante AST.
+- Conversor PySL ↔ Python.
+- Curso y laboratorios.
+- Juegos educativos.
+- Persistencia con SQLite.
+- Pruebas automatizadas.
+- Documentación técnica.
+- Script de distribución para Windows.
+- Proyecto original preservado en `legacy/web-original/`.
 
 ---
 
@@ -845,137 +431,31 @@ Durante el desarrollo de PySL se aplicaron conocimientos relacionados con:
 
 | Componente | Estado |
 |------------|--------|
-| 🔐 Inicio de sesión | ✅ Completado |
-| 🏠 Dashboard | ✅ Completado |
-| 👤 Perfil | ✅ Completado |
-| 🖥️ IDE PySL | ✅ Completado |
-| ⚙️ Runtime | ✅ Completado |
-| 📖 Parser | ✅ Completado |
-| 🔄 Conversor | ✅ Completado |
-| 🧪 Laboratorios | ✅ Completados |
-| 🎮 Juegos | ✅ Completados |
-| 💾 SQLite | ✅ Implementado |
-| 📄 Documentación | ✅ Completada |
-| 🧪 Pruebas | ✅ Superadas |
-| 📦 Ejecutable Windows | ✅ Disponible |
+| Login y dashboard | ✅ Completado |
+| Perfil y configuración | ✅ Completados |
+| IDE PySL | ✅ Completado |
+| Runtime y validación AST | ✅ Completados |
+| Conversor PySL ↔ Python | ✅ Completado |
+| Curso y laboratorios | ✅ Completados |
+| Juegos educativos | ✅ Completados |
+| Persistencia SQLite | ✅ Implementada |
+| Pruebas automatizadas | ✅ 20 superadas |
+| Documentación | ✅ Completada |
+| Build para Windows | ✅ Preparado |
 
 ---
 
 # 🎯 Competencias demostradas
 
-Este proyecto evidencia experiencia práctica en:
-
-- 🐍 Desarrollo con Python.
-- 🖥️ Aplicaciones de escritorio con PySide6.
-- 🏗️ Arquitectura de software.
-- 📄 Diseño e implementación de un lenguaje educativo.
-- ⚙️ Interpretación y ejecución de código.
-- 💾 Gestión de bases de datos SQLite.
-- 🧪 Testing automatizado con Pytest.
-- 🌿 Git y control de versiones.
-- 🐙 Documentación técnica para GitHub.
-- 📚 Desarrollo de software educativo.
-
----
-
-# 🚀 Evolución del proyecto
-
-```text
-Proyecto Final ITLA (2016)
-
-            │
-
-            ▼
-
-Proyecto Web
-HTML + CSS + JavaScript
-
-            │
-
-            ▼
-
-Reingeniería completa (2026)
-
-            │
-
-            ▼
-
-🐍 PySL
-
-Python
-PySide6
-SQLite
-Arquitectura Modular
-IDE Propio
-Parser
-Runtime
-Laboratorios
-Juegos
-```
-
----
-
-> **PySL representa la evolución de un proyecto académico hacia una plataforma educativa moderna, modular y preparada para distribución.**
-
----
-
-# 📜 Licencia
-
-Este proyecto fue desarrollado originalmente con fines **académicos** para la asignatura **Fundamentos de Programación (SOF-001)** del **Instituto Tecnológico de Las Américas (ITLA)**.
-
-La versión publicada en este repositorio corresponde a una **nueva implementación desarrollada en 2026**, creada desde cero utilizando tecnologías modernas y mejores prácticas de desarrollo de software.
-
-Aunque conserva la idea educativa del proyecto original, su arquitectura, interfaz gráfica, documentación, organización y funcionalidades fueron completamente rediseñadas.
-
-Este repositorio se publica con fines:
-
-- 🎓 Educativos.
-- 💼 Portafolio profesional.
-- 📚 Aprendizaje.
-- 🔬 Investigación.
-
-Consulta el archivo **LICENSE** para más información.
-
----
-
-# 🙌 Agradecimientos
-
-Agradecimientos especiales a:
-
-- 🏫 Instituto Tecnológico de Las Américas (ITLA).
-- 👨‍🏫 Prof. **Freidy Ramón Núñez Pérez**.
-- 🐍 Comunidad de Python.
-- 🖥️ Proyecto Qt y PySide6.
-- 💾 SQLite.
-- 🌎 Comunidad Open Source.
-
----
-
-# 👨‍💻 Autor
-
-## Francis Jairo Matías Rosario
-
-**Tecnólogo en Desarrollo de Software**
-
-**Estudiante de Ingeniería de Software**
-
----
-
-## 📬 Contacto
-
-Si deseas conocer más sobre este proyecto o sobre otros desarrollos, puedes visitar mi perfil de GitHub.
-
----
-
-# 🎓 Contexto académico
-
-PySL nació como una modernización del proyecto final desarrollado durante la asignatura **Fundamentos de Programación (SOF-001)** del **Instituto Tecnológico de Las Américas (ITLA)**.
-
-El proyecto original fue realizado durante el período académico **2016-C2** utilizando tecnologías web.
-
-En **2026**, el proyecto fue reconstruido completamente utilizando **Python**, transformándolo en una plataforma educativa moderna con una arquitectura modular, un entorno gráfico de escritorio y un lenguaje inspirado en **SL**, conservando el propósito formativo de la versión original.
-
-Esta nueva implementación busca demostrar la evolución técnica y profesional alcanzada desde la creación del proyecto original, convirtiéndolo en una aplicación con estándares de calidad adecuados para un portafolio de desarrollo de software.
+- Desarrollo de aplicaciones de escritorio con Python y PySide6.
+- Arquitectura modular y separación de responsabilidades.
+- Interpretación, transpilación y ejecución restringida de código.
+- Persistencia local con SQLite.
+- Testing automatizado con Pytest.
+- Calidad de código con Ruff.
+- Empaquetado con PyInstaller.
+- Git, GitHub y documentación técnica.
+- Desarrollo de software educativo.
 
 ---
 
@@ -983,34 +463,57 @@ Esta nueva implementación busca demostrar la evolución técnica y profesional 
 
 ## ✅ Versión 1.0
 
-- Login.
-- Dashboard.
-- Perfil.
+- Login y dashboard.
 - IDE PySL.
-- Runtime.
-- Parser.
+- Runtime y validación AST.
 - Conversor PySL ↔ Python.
-- Curso interactivo.
-- Laboratorios.
+- Curso y laboratorios.
 - Juegos educativos.
-- Persistencia con SQLite.
+- Persistencia SQLite.
 - Documentación.
-- Ejecutable para Windows.
+- Build para Windows.
 
-### Futuras versiones
+## Posibles mejoras futuras
 
-Algunas ideas para futuras versiones incluyen:
+- Depurador paso a paso.
+- Autocompletado inteligente.
+- Proyectos con múltiples archivos.
+- Biblioteca estándar PySL.
+- Exportación de código.
+- Modo docente.
+- Internacionalización.
 
-- 🔹 Depurador paso a paso.
-- 🔹 Autocompletado inteligente.
-- 🔹 Sistema de proyectos.
-- 🔹 Gestión de múltiples archivos.
-- 🔹 Biblioteca estándar para PySL.
-- 🔹 Exportación de código.
-- 🔹 Sistema de complementos.
-- 🔹 Nuevos laboratorios y ejercicios.
-- 🔹 Modo docente.
-- 🔹 Internacionalización (Español / Inglés).
+---
+
+# 📜 Licencia
+
+PySL se distribuye bajo la licencia **MIT**.
+
+El proyecto fue desarrollado con fines educativos y de portafolio, tomando como referencia el proyecto final de **Fundamentos de Programación (SOF-001)** del ITLA.
+
+Consulta el archivo [`LICENSE`](LICENSE) para más información.
+
+---
+
+# 🙌 Agradecimientos
+
+- Instituto Tecnológico de Las Américas (ITLA).
+- Prof. Freidy Ramón Núñez Pérez.
+- Comunidad de Python.
+- Proyecto Qt y PySide6.
+- SQLite.
+- Comunidad Open Source.
+
+---
+
+# 👨‍💻 Autor
+
+## Francis Jairo Matías Rosario
+
+**Tecnólogo en Desarrollo de Software**  
+**Estudiante de Ingeniería de Software**
+
+GitHub: [@Jairo0811](https://github.com/Jairo0811)
 
 ---
 
@@ -1020,19 +523,9 @@ Algunas ideas para futuras versiones incluyen:
 
 ### Python + SL = Aprender, Crear, Programar
 
-**Plataforma educativa de programación**
+> **Del algoritmo a la realidad.**
 
----
-
-**Inspirado en el lenguaje SL del ITLA**
-
-**Fundamentos de Programación (SOF-001)**
-
----
-
-⭐ Si este proyecto fue de tu interés, considera darle una estrella al repositorio.
-
-Desarrollado con fines académicos, educativos y como parte de un portafolio profesional.
+⭐ Si este proyecto te resultó interesante, considera darle una estrella al repositorio.
 
 **© 2026 · Francis Jairo Matías Rosario**
 
