@@ -125,7 +125,7 @@ El proyecto representa una reinterpretación moderna del trabajo final desarroll
 
 ---
 
-# 🧰 Tecnologías utilizadas
+# 🧰 Stack Tecnologico 
 
 ## 🖥️ Aplicación de escritorio
 
