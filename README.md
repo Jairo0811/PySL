@@ -216,21 +216,46 @@ Entre los documentos incluidos se encuentran:
 
 # 🧰 Tecnologías utilizadas
 
-<p align="center">
+## 🖥️ Interfaz de escritorio
 
-<img src="https://skillicons.dev/icons?i=python,sqlite,git,github,vscode"/>
-
+<p>
+  <img src="https://skillicons.dev/icons?i=python" alt="Python" />
 </p>
 
-| Tecnología | Uso dentro del proyecto |
-|------------|-------------------------|
-| 🐍 Python 3.13 | Lenguaje principal del proyecto. |
-| 🖥️ PySide6 (Qt) | Desarrollo de la interfaz gráfica de escritorio. |
-| 💾 SQLite | Persistencia local de datos y configuración. |
-| 🧪 Pytest | Pruebas automatizadas del proyecto. |
-| 📦 PyInstaller | Generación del ejecutable para Windows. |
-| 🌿 Git | Control de versiones. |
-| 🐙 GitHub | Publicación y documentación del proyecto. |
+- **PySide6 (Qt):** construcción de la interfaz gráfica de escritorio.
+- **Qt Widgets:** ventanas, controles, navegación, editor y componentes visuales.
+
+## ⚙️ Motor, intérprete y lógica de aplicación
+
+<p>
+  <img src="https://skillicons.dev/icons?i=python" alt="Python" />
+</p>
+
+- **Python 3.13:** lenguaje principal del proyecto.
+- **Parser PySL:** análisis y validación sintáctica del código fuente.
+- **Runtime PySL:** interpretación y ejecución de programas `.pysl`.
+- **Conversor PySL ↔ Python:** traducción educativa entre ambos lenguajes.
+- **Arquitectura modular:** separación entre interfaz, núcleo, servicios y módulos educativos.
+
+## 🗄️ Persistencia de datos
+
+<p>
+  <img src="https://skillicons.dev/icons?i=sqlite" alt="SQLite" />
+</p>
+
+- **SQLite:** almacenamiento local de perfiles, preferencias, progreso y configuración.
+
+## 🧪 Calidad, distribución y herramientas
+
+<p>
+  <img src="https://skillicons.dev/icons?i=vscode,git,github" alt="Visual Studio Code, Git y GitHub" />
+</p>
+
+- **Pytest:** pruebas automatizadas.
+- **PyInstaller:** generación del ejecutable para Windows.
+- **Visual Studio Code:** entorno principal de desarrollo.
+- **Git:** control de versiones.
+- **GitHub:** publicación, documentación y seguimiento del proyecto.
 
 ---
 
@@ -409,7 +434,7 @@ Contraseña:
 pysl2026
 ```
 
-> **Importante:** Este sistema de autenticación es local y fue implementado exclusivamente para efectos académicos y de demostración. No debe considerarse un mecanismo de autenticación para entornos de producción.
+> **Importante:** Este sistema de autenticación es local y fue implementado exclusivamente para efectos académicos y de demostración. No debe considerarse un mecanismo de seguridad para producción.
 
 ---
 
@@ -890,7 +915,7 @@ Juegos
 
 ---
 
-> **PySL representa la evolución de un proyecto académico hacia una plataforma educativa moderna, manteniendo el espíritu del lenguaje SL mientras incorpora tecnologías actuales y buenas prácticas de desarrollo de software.**
+> **PySL representa la evolución de un proyecto académico hacia una plataforma educativa moderna, modular y preparada para distribución.**
 
 ---
 
