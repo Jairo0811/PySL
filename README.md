@@ -130,7 +130,7 @@ El proyecto representa una reinterpretación moderna del trabajo final desarroll
 ## 🖥️ Aplicación de escritorio
 
 <p>
-  <img src="https://skillicons.dev/icons?i=python" alt="Python">
+  <img src="https://skillicons.dev/icons?i=python,qt" alt="Python y Qt">
 </p>
 
 - **Python 3.13:** lenguaje principal del proyecto.
@@ -145,6 +145,12 @@ El proyecto representa una reinterpretación moderna del trabajo final desarroll
 - **SQLite:** perfiles, preferencias, progreso y configuración local.
 
 ## 🧪 Calidad y distribución
+
+<p>
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/pytest/pytest-original.svg" alt="Pytest" title="Pytest" width="48" height="48" />
+  <img src="https://img.shields.io/badge/Ruff-Calidad%20de%20código-D7FF64?style=flat-square&logo=python&logoColor=black" alt="Ruff" />
+  <img src="https://img.shields.io/badge/PyInstaller-Ejecutable-3776AB?style=flat-square&logo=python&logoColor=white" alt="PyInstaller" />
+</p>
 
 - **Pytest:** pruebas automatizadas.
 - **Ruff:** análisis estático y calidad del código.
