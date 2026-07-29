@@ -1,16 +1,11 @@
 <p align="center">
-  <img src="assets/pysl-logo.png" alt="PySL Logo" width="220">
+  <img src="assets/pysl-logo.png" alt="PySL Logo" width="420">
 </p>
 
 <p align="center">
     <img src="https://img.shields.io/badge/ITLA-2016--C2-0057B8?style=for-the-badge" alt="ITLA 2016-C2">
 </p>
 
-<h1 align="center">🐍 PySL</h1>
-
-<p align="center">
-  <strong>Python + SL = Aprender, Crear, Programar</strong>
-</p>
 
 <p align="center">
   Plataforma educativa de escritorio inspirada en el lenguaje <strong>SL</strong> del Instituto Tecnológico de Las Américas (ITLA).
