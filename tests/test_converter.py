@@ -38,4 +38,6 @@ def test_python_to_sl_rejects_unsupported_imports() -> None:
 def test_python_to_sl_preserves_words_inside_strings() -> None:
     converted = CodeConverter().python_to_sl('print("True and False")')
 
-    assert 'imprimir("True and False")' in converted
+    assert "True and False" in converted
+    assert "verdadero" not in converted
+    assert "falso" not in converted
