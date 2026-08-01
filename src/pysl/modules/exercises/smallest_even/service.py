@@ -1,5 +1,5 @@
-from dataclasses import dataclass
 from collections.abc import Sequence
+from dataclasses import dataclass
 
 
 @dataclass(frozen=True, slots=True)
@@ -22,9 +22,7 @@ class SmallestEvenService:
 
         normalized = tuple(int(value) for value in values)
         even_candidates = [
-            (index, value)
-            for index, value in enumerate(normalized)
-            if value % 2 == 0
+            (index, value) for index, value in enumerate(normalized) if value % 2 == 0
         ]
 
         if not even_candidates:

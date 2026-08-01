@@ -23,6 +23,17 @@ if ($LASTEXITCODE -ne 0) {
     throw "Las pruebas fallaron. Se canceló la compilación."
 }
 
+Write-Host "Ejecutando controles de calidad..."
+& $PythonPath -m ruff check .
+if ($LASTEXITCODE -ne 0) {
+    throw "Ruff encontró problemas de calidad."
+}
+
+& $PythonPath -m ruff format --check .
+if ($LASTEXITCODE -ne 0) {
+    throw "El formato de Ruff no está limpio."
+}
+
 Write-Host "Validando el código fuente..."
 & $PythonPath -m compileall -q src
 if ($LASTEXITCODE -ne 0) {
@@ -39,6 +50,8 @@ Write-Host "Generando el ejecutable de Windows..."
     --add-data "assets;assets" `
     --add-data "data;data" `
     --add-data "legacy;legacy" `
+    --add-data "docs;docs" `
+    --add-data "examples;examples" `
     "src\pysl\app.py"
 
 if ($LASTEXITCODE -ne 0) {

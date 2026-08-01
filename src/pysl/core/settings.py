@@ -5,6 +5,8 @@ import sys
 from dataclasses import dataclass
 from pathlib import Path
 
+from pysl import __version__
+
 
 def _resource_root() -> Path:
     """Return the bundled resource directory in development and PyInstaller builds."""
@@ -28,7 +30,7 @@ def _user_data_root(app_name: str) -> Path:
 class AppSettings:
     app_name: str = "PySL"
     organization_name: str = "Francis Jairo Matías Rosario"
-    version: str = "1.0.2"
+    version: str = __version__
     window_width: int = 1440
     window_height: int = 900
 

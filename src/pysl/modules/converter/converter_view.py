@@ -25,12 +25,12 @@ class ConverterView(QWidget):
         title = QLabel("Convertidor de código")
         title.setObjectName("pageTitle")
         subtitle = QLabel(
-            "Convierte entre PySL y Python. Python → PySL cubre estructuras educativas comunes."
+            "Convierte entre SL y Python. Python → SL cubre el subconjunto educativo documentado."
         )
         subtitle.setObjectName("subtitle")
         controls = QHBoxLayout()
         self._direction = QComboBox()
-        self._direction.addItems(["PySL → Python", "Python → PySL"])
+        self._direction.addItems(["SL → Python", "Python → SL"])
         button = QPushButton("Convertir")
         button.clicked.connect(self._convert)
         swap = QPushButton("Intercambiar")
@@ -42,7 +42,7 @@ class ConverterView(QWidget):
         controls.addStretch()
 
         splitter = QSplitter(Qt.Orientation.Horizontal)
-        self._source = QPlainTextEdit('inicio\nimprimir("Hola PySL")\nfin')
+        self._source = QPlainTextEdit('inicio\nimprimir("Hola desde SL")\nfin')
         self._source.setObjectName("codeEditor")
         self._target = QPlainTextEdit()
         self._target.setObjectName("codeEditor")
@@ -58,9 +58,9 @@ class ConverterView(QWidget):
         try:
             source = self._source.toPlainText()
             if self._direction.currentIndex() == 0:
-                result = self._converter.pysl_to_python(source)
+                result = self._converter.sl_to_python(source)
             else:
-                result = self._converter.python_to_pysl(source)
+                result = self._converter.python_to_sl(source)
             self._target.setPlainText(result)
         except Exception as exc:
             QMessageBox.critical(self, "Error de conversión", str(exc))

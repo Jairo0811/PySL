@@ -5,7 +5,7 @@ T = TypeVar("T")
 
 
 def imprimir(*valores: object, separador: str = " ", fin: str = "\n") -> None:
-    """Equivalente PySL de imprimir() en SL."""
+    """Implement the SL ``imprimir`` operation for console examples."""
     print(*valores, sep=separador, end=fin)
 
 

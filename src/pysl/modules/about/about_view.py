@@ -13,6 +13,8 @@ from PySide6.QtWidgets import (
     QWidget,
 )
 
+from pysl.core.settings import SETTINGS
+
 
 class AboutView(QWidget):
     """Presentación institucional y académica de PySL."""
@@ -30,9 +32,7 @@ class AboutView(QWidget):
         scroll_area = QScrollArea()
         scroll_area.setWidgetResizable(True)
         scroll_area.setFrameShape(QFrame.Shape.NoFrame)
-        scroll_area.setHorizontalScrollBarPolicy(
-            Qt.ScrollBarPolicy.ScrollBarAlwaysOff
-        )
+        scroll_area.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
 
         content = QWidget()
         content.setObjectName("aboutContent")
@@ -50,7 +50,7 @@ class AboutView(QWidget):
         title.setAlignment(Qt.AlignmentFlag.AlignCenter)
         content_layout.addWidget(title)
 
-        version = QLabel("Versión 1.0.2")
+        version = QLabel(f"Versión {SETTINGS.version}")
         version.setObjectName("aboutVersion")
         version.setAlignment(Qt.AlignmentFlag.AlignCenter)
         content_layout.addWidget(version)
@@ -64,10 +64,7 @@ class AboutView(QWidget):
         content_layout.addWidget(self._create_separator())
         content_layout.addSpacing(8)
 
-        institution = QLabel(
-            "Instituto Tecnológico de Las Américas\n"
-            "(ITLA)"
-        )
+        institution = QLabel("Instituto Tecnológico de Las Américas\n(ITLA)")
         institution.setObjectName("aboutInstitution")
         institution.setAlignment(Qt.AlignmentFlag.AlignCenter)
         content_layout.addWidget(institution)
@@ -149,31 +146,8 @@ class AboutView(QWidget):
 
     @staticmethod
     def _resolve_itla_logo_path() -> Path:
-        """
-        Resuelve la ruta del logo tanto en desarrollo como
-        dentro del ejecutable generado con PyInstaller.
-        """
-
-        relative_path = Path(
-            "assets",
-            "ITLA-logo-fondo-blanco.png",
-        )
-
-        try:
-            from pysl.core.paths import resource_path
-
-            bundled_path = Path(
-                resource_path(relative_path.as_posix())
-            )
-
-            if bundled_path.exists():
-                return bundled_path
-        except (ImportError, TypeError, AttributeError):
-            pass
-
-        project_root = Path(__file__).resolve().parents[4]
-
-        return project_root / relative_path
+        """Resolve the institutional logo in development and packaged builds."""
+        return SETTINGS.assets_dir / "ITLA-logo-fondo-blanco.png"
 
     @staticmethod
     def _create_separator() -> QFrame:

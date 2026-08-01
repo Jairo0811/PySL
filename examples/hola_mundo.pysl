@@ -1,0 +1,5 @@
+inicio
+cadena nombre
+leer(nombre)
+imprimir("Hola", nombre)
+fin

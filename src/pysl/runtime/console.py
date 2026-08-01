@@ -1,9 +1,6 @@
-import os
-
-
 def cls() -> None:
-    """Limpia la consola en Windows, Linux y macOS."""
-    os.system("cls" if os.name == "nt" else "clear")
+    """Clear ANSI-compatible terminals, including current Windows consoles."""
+    print("\033[2J\033[H", end="")
 
 
 def pausa(mensaje: str = "Presione Enter para continuar...") -> None:

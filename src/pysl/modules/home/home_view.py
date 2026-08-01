@@ -47,7 +47,7 @@ class HomeView(QWidget):
 
         actions = QHBoxLayout()
         start = QPushButton("Comenzar en el IDE")
-        start.clicked.connect(lambda: self._navigate("IDE PySL"))
+        start.clicked.connect(lambda: self._navigate("IDE de SL"))
         course = QPushButton("Continuar el curso")
         course.setObjectName("secondaryButton")
         course.clicked.connect(lambda: self._navigate("Curso"))
@@ -113,9 +113,7 @@ class HomeView(QWidget):
         for index, (title_text, destination) in enumerate(destinations):
             button = QPushButton(title_text)
             button.setObjectName("secondaryButton")
-            button.clicked.connect(
-                lambda checked=False, target=destination: self._navigate(target)
-            )
+            button.clicked.connect(lambda checked=False, target=destination: self._navigate(target))
             quick_actions.addWidget(button, index // 2, index % 2)
 
         root.addWidget(hero)

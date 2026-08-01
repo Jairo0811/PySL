@@ -1,8 +1,10 @@
 # Virtual environment
 .venv/
+*.egg-info/
 
 # Pytest
 .pytest_cache/
+.ruff_cache/
 
 # Python cache
 __pycache__/
