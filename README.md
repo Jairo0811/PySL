@@ -119,15 +119,42 @@ Más detalles en [docs/ARQUITECTURA.md](docs/ARQUITECTURA.md).
 
 ## Stack tecnológico
 
+### Lenguaje, interfaz y persistencia
+
 <p align="center">
-  <img src="https://img.shields.io/badge/Python-3.12%2B-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python 3.12 o superior">
-  <img src="https://img.shields.io/badge/PySide6-Qt_6-41CD52?style=for-the-badge&logo=qt&logoColor=white" alt="PySide6 y Qt 6">
-  <img src="https://img.shields.io/badge/SQLite-Local-003B57?style=for-the-badge&logo=sqlite&logoColor=white" alt="SQLite">
-  <img src="https://img.shields.io/badge/Pytest-Pruebas-0A9EDC?style=for-the-badge&logo=pytest&logoColor=white" alt="Pytest">
-  <img src="https://img.shields.io/badge/Ruff-Calidad-D7FF64?style=for-the-badge&logo=ruff&logoColor=black" alt="Ruff">
-  <img src="https://img.shields.io/badge/PyInstaller-Build-FFDD54?style=for-the-badge&logo=python&logoColor=black" alt="PyInstaller">
-  <img src="https://img.shields.io/badge/GitHub_Actions-CI%2FCD-2088FF?style=for-the-badge&logo=githubactions&logoColor=white" alt="GitHub Actions">
-  <img src="https://img.shields.io/badge/Windows-Compatible-0078D4?style=for-the-badge&logo=windows11&logoColor=white" alt="Compatible con Windows">
+  <img src="https://skillicons.dev/icons?i=python,qt,sqlite" alt="Python, Qt y SQLite">
+</p>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/Python-3.12%2B-3776AB?style=flat-square&logo=python&logoColor=white" alt="Python 3.12 o superior">
+  <img src="https://img.shields.io/badge/PySide6-Qt%206-41CD52?style=flat-square&logo=qt&logoColor=white" alt="PySide6 y Qt 6">
+  <img src="https://img.shields.io/badge/SQLite-Persistencia%20local-003B57?style=flat-square&logo=sqlite&logoColor=white" alt="SQLite">
+</p>
+
+### Calidad, pruebas y distribución
+
+<p align="center">
+  <img src="https://skillicons.dev/icons?i=pytest,githubactions" alt="Pytest y GitHub Actions">
+</p>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/Pytest-Pruebas-0A9EDC?style=flat-square&logo=pytest&logoColor=white" alt="Pytest">
+  <img src="https://img.shields.io/badge/Ruff-Calidad-D7FF64?style=flat-square&logo=ruff&logoColor=black" alt="Ruff">
+  <img src="https://img.shields.io/badge/PyInstaller-Build-FFDD54?style=flat-square&logo=python&logoColor=black" alt="PyInstaller">
+  <img src="https://img.shields.io/badge/GitHub%20Actions-CI%2FCD-2088FF?style=flat-square&logo=githubactions&logoColor=white" alt="GitHub Actions">
+</p>
+
+### Desarrollo y control de versiones
+
+<p align="center">
+  <img src="https://skillicons.dev/icons?i=vscode,git,github" alt="Visual Studio Code, Git y GitHub">
+</p>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/Visual%20Studio%20Code-Editor-007ACC?style=flat-square&logo=visualstudiocode&logoColor=white" alt="Visual Studio Code">
+  <img src="https://img.shields.io/badge/Git-Control%20de%20versiones-F05032?style=flat-square&logo=git&logoColor=white" alt="Git">
+  <img src="https://img.shields.io/badge/GitHub-Repositorio-181717?style=flat-square&logo=github&logoColor=white" alt="GitHub">
+  <img src="https://img.shields.io/badge/Windows-Compatible-0078D4?style=flat-square&logo=windows11&logoColor=white" alt="Compatible con Windows">
 </p>
 
 | Categoría | Tecnología |
@@ -139,6 +166,7 @@ Más detalles en [docs/ARQUITECTURA.md](docs/ARQUITECTURA.md).
 | Calidad | Ruff |
 | Distribución | PyInstaller |
 | Automatización | GitHub Actions |
+| Desarrollo | Visual Studio Code, Git y GitHub |
 
 ## Instalación para desarrollo
 
