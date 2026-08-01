@@ -2,8 +2,14 @@ name: Release
 
 on:
   push:
+    branches:
+      - main
     tags:
       - "v*.*.*"
+    paths:
+      - ".github/workflows/release.yml"
+      - "src/pysl/__init__.py"
+  workflow_dispatch:
 
 permissions:
   contents: write
@@ -14,29 +20,52 @@ jobs:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: actions/setup-python@v5
         with:
           python-version: "3.13"
           cache: pip
-      - name: Validar versión del tag
+      - name: Determinar versión de la release
+        id: version
         shell: pwsh
         run: |
           $packageVersion = & python -c "import sys; sys.path.insert(0, 'src'); import pysl; print(pysl.__version__)"
-          if ("v$packageVersion" -ne "${{ github.ref_name }}") {
+          $tagName = "v$packageVersion"
+          if ("${{ github.ref_type }}" -eq "tag" -and $tagName -ne "${{ github.ref_name }}") {
             throw "El tag ${{ github.ref_name }} no coincide con la versión $packageVersion."
           }
+          "tag=$tagName" >> $env:GITHUB_OUTPUT
+      - name: Comprobar release existente
+        id: existing_release
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          $null = gh release view "${{ steps.version.outputs.tag }}" --repo "${{ github.repository }}" 2>$null
+          if ($LASTEXITCODE -eq 0) {
+            "exists=true" >> $env:GITHUB_OUTPUT
+          } else {
+            "exists=false" >> $env:GITHUB_OUTPUT
+          }
       - name: Crear entorno virtual
+        if: steps.existing_release.outputs.exists != 'true'
         run: python -m venv .venv
       - name: Compilar y verificar
+        if: steps.existing_release.outputs.exists != 'true'
         shell: pwsh
         run: ./scripts/build_windows.ps1
       - name: Crear archivo distribuible
+        if: steps.existing_release.outputs.exists != 'true'
         shell: pwsh
         run: Compress-Archive -Path dist/PySL/* -DestinationPath PySL-Windows-x64.zip
       - name: Publicar GitHub Release
+        if: steps.existing_release.outputs.exists != 'true'
         uses: softprops/action-gh-release@v2
         with:
-          name: PySL ${{ github.ref_name }}
+          name: PySL ${{ steps.version.outputs.tag }}
+          tag_name: ${{ steps.version.outputs.tag }}
+          target_commitish: ${{ github.sha }}
           generate_release_notes: true
           make_latest: true
           files: PySL-Windows-x64.zip

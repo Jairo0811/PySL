@@ -29,10 +29,9 @@ La versión se define una sola vez en `src/pysl/__init__.py` y `pyproject.toml` 
 
 1. actualizar `__version__`, README y CHANGELOG;
 2. fusionar CI en verde a `main`;
-3. crear un tag anotado `vMAJOR.MINOR.PATCH`;
-4. enviar el tag a GitHub.
+3. dejar que `release.yml` valide la versión, cree el tag `vMAJOR.MINOR.PATCH` y publique el artefacto.
 
-El workflow `release.yml` valida que el tag coincida con la versión, repite las pruebas y el build, comprime el resultado y publica `PySL-Windows-x64.zip` en GitHub Releases.
+El workflow también admite ejecución manual y tags creados de forma explícita. Antes de compilar comprueba si la release ya existe para evitar publicaciones duplicadas. Después repite las pruebas y el build, comprime el resultado y publica `PySL-Windows-x64.zip` en GitHub Releases.
 
 ## Datos de usuario
 
