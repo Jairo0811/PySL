@@ -18,9 +18,6 @@
   <img src="https://img.shields.io/badge/Licencia-MIT-0A66C2?style=for-the-badge" alt="Licencia MIT">
 </p>
 
-<p align="center">
-  <img src="https://skillicons.dev/icons?i=python,qt,sqlite,vscode,git,github" alt="Python, Qt, SQLite, Visual Studio Code, Git y GitHub">
-</p>
 
 > **📌 Nomenclatura oficial:** PySL es la plataforma. SL y Python son los lenguajes. El conversor trabaja en las direcciones **SL → Python** y **Python → SL**.
 
