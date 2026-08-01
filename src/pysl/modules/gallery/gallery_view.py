@@ -14,17 +14,43 @@ class GalleryView(QWidget):
         root = QVBoxLayout(self)
         title = QLabel("Galería histórica")
         title.setObjectName("pageTitle")
-        subtitle = QLabel("Recursos recuperados del proyecto web original, conservados como memoria académica.")
+        subtitle = QLabel(
+            "Recursos recuperados del proyecto web original, conservados como memoria académica."
+        )
         subtitle.setObjectName("subtitle")
-        scroll = QScrollArea(); scroll.setWidgetResizable(True)
-        content = QWidget(); grid = QGridLayout(content); grid.setSpacing(14)
-        images = sorted([p for p in SETTINGS.legacy_dir.iterdir() if p.suffix.lower() in {".jpg", ".jpeg", ".png"}])[:12]
+        scroll = QScrollArea()
+        scroll.setWidgetResizable(True)
+        content = QWidget()
+        grid = QGridLayout(content)
+        grid.setSpacing(14)
+        images = []
+        if SETTINGS.legacy_dir.is_dir():
+            images = sorted(
+                path
+                for path in SETTINGS.legacy_dir.iterdir()
+                if path.suffix.lower() in {".jpg", ".jpeg", ".png"}
+            )[:12]
         for index, path in enumerate(images):
-            image = QLabel(); image.setAlignment(Qt.AlignmentFlag.AlignCenter)
+            image = QLabel()
+            image.setAlignment(Qt.AlignmentFlag.AlignCenter)
             image.setMinimumSize(260, 220)
             pixmap = QPixmap(str(path))
-            image.setPixmap(pixmap.scaled(250, 200, Qt.AspectRatioMode.KeepAspectRatio, Qt.TransformationMode.SmoothTransformation))
+            image.setPixmap(
+                pixmap.scaled(
+                    250,
+                    200,
+                    Qt.AspectRatioMode.KeepAspectRatio,
+                    Qt.TransformationMode.SmoothTransformation,
+                )
+            )
             image.setToolTip(path.name)
             grid.addWidget(image, index // 4, index % 4)
+        if not images:
+            empty_state = QLabel("No hay recursos históricos disponibles en esta instalación.")
+            empty_state.setObjectName("subtitle")
+            empty_state.setAlignment(Qt.AlignmentFlag.AlignCenter)
+            grid.addWidget(empty_state, 0, 0)
         scroll.setWidget(content)
-        root.addWidget(title); root.addWidget(subtitle); root.addWidget(scroll, 1)
+        root.addWidget(title)
+        root.addWidget(subtitle)
+        root.addWidget(scroll, 1)

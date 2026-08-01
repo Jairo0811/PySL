@@ -1,0 +1,9 @@
+funcion sumar(a, b)
+    retornar a + b
+finfuncion
+
+inicio
+vector numeros = [2, 4, 6]
+numeros[0] = sumar(numeros[1], numeros[2])
+imprimir("Resultado:", numeros[0])
+fin

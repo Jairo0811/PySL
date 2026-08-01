@@ -58,6 +58,9 @@ class LoginView(QWidget):
 
         login_button = QPushButton("Iniciar sesión")
         login_button.clicked.connect(self._authenticate)
+        guest_button = QPushButton("Continuar como invitado")
+        guest_button.setObjectName("secondaryButton")
+        guest_button.clicked.connect(self._authenticate_guest)
 
         card_layout.addWidget(title)
         card_layout.addWidget(subtitle)
@@ -66,6 +69,7 @@ class LoginView(QWidget):
         card_layout.addWidget(self._password_input)
         card_layout.addWidget(self._message_label)
         card_layout.addWidget(login_button)
+        card_layout.addWidget(guest_button)
 
         root.addWidget(card)
 
@@ -81,3 +85,10 @@ class LoginView(QWidget):
 
         self._message_label.clear()
         self._on_authenticated(self._username_input.text().strip())
+
+    def _authenticate_guest(self) -> None:
+        username = "Invitado"
+        result = self._authentication_service.authenticate_demo(username)
+        if result.is_valid:
+            self._message_label.clear()
+            self._on_authenticated(username)

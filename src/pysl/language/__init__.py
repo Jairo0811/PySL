@@ -1,4 +1,10 @@
-from pysl.language.executor import ExecutionResult, PySLExecutor
-from pysl.language.transpiler import PySLTranspiler, TranspilationError
+from pysl.language.executor import ExecutionLimits, ExecutionResult, SLExecutor
+from pysl.language.transpiler import SLTranspiler, TranspilationError
 
-__all__ = ["ExecutionResult", "PySLExecutor", "PySLTranspiler", "TranspilationError"]
+__all__ = [
+    "ExecutionLimits",
+    "ExecutionResult",
+    "SLExecutor",
+    "SLTranspiler",
+    "TranspilationError",
+]

@@ -1,5 +1,9 @@
 from pathlib import Path
+
+import pytest
+
 from pysl.core.database import Database
+
 
 def test_database_persists_progress(tmp_path: Path) -> None:
     db = Database(tmp_path / "test.db")
@@ -10,7 +14,17 @@ def test_database_persists_progress(tmp_path: Path) -> None:
     assert summary.games_played == 1
     assert summary.games_won == 1
 
+
 def test_preferences(tmp_path: Path) -> None:
     db = Database(tmp_path / "test.db")
     db.set_preference("theme", "Oscuro")
     assert db.get_preference("theme") == "Oscuro"
+
+
+def test_database_validates_keys_and_scores(tmp_path: Path) -> None:
+    db = Database(tmp_path / "test.db")
+
+    with pytest.raises(ValueError, match="item_key"):
+        db.mark_completed("")
+    with pytest.raises(ValueError, match="score"):
+        db.mark_completed("variables", score=101)

@@ -35,7 +35,7 @@ class DashboardView(QWidget):
         "Curso",
         "Laboratorios",
         "Juegos",
-        "IDE PySL",
+        "IDE de SL",
         "Convertidor",
         "Galería",
         "Documentación",
@@ -122,7 +122,7 @@ class DashboardView(QWidget):
     def navigate(self, module_name: str) -> None:
         aliases = {
             "Laboratorio": "Laboratorios",
-            "Editor PySL": "IDE PySL",
+            "Editor SL": "IDE de SL",
             "Acerca de": "Acerca de PySL",
         }
         index = self._index_by_name.get(aliases.get(module_name, module_name))

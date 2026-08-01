@@ -1,5 +1,5 @@
 from PySide6.QtGui import QIcon
-from PySide6.QtWidgets import QMainWindow, QStackedWidget
+from PySide6.QtWidgets import QMainWindow, QStackedWidget, QWidget
 
 from pysl.core.session import UserSession
 from pysl.core.settings import SETTINGS
@@ -22,16 +22,22 @@ class MainWindow(QMainWindow):
         self._show_login()
 
     def _show_login(self) -> None:
-        self._replace_current_view(LoginView(self._authentication_service, self._handle_authenticated))
+        self._replace_current_view(
+            LoginView(self._authentication_service, self._handle_authenticated)
+        )
 
     def _handle_authenticated(self, username: str) -> None:
         self._session.start(username)
         self._replace_current_view(DashboardView(username, self._handle_logout))
 
     def _handle_logout(self) -> None:
-        self._session.clear(); self._show_login()
+        self._session.clear()
+        self._show_login()
 
-    def _replace_current_view(self, widget) -> None:  # type: ignore[no-untyped-def]
+    def _replace_current_view(self, widget: QWidget) -> None:
         while self._stack.count():
-            current = self._stack.widget(0); self._stack.removeWidget(current); current.deleteLater()
-        self._stack.addWidget(widget); self._stack.setCurrentWidget(widget)
+            current = self._stack.widget(0)
+            self._stack.removeWidget(current)
+            current.deleteLater()
+        self._stack.addWidget(widget)
+        self._stack.setCurrentWidget(widget)

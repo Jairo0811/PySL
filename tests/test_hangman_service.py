@@ -1,4 +1,5 @@
 import pytest
+
 from pysl.modules.games.hangman.service import HangmanGame
 
 

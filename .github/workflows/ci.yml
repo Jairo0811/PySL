@@ -1,0 +1,81 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  quality:
+    name: Python ${{ matrix.python-version }} · Ubuntu
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.12", "3.13"]
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+      - name: Instalar dependencias
+        run: python -m pip install --upgrade pip && python -m pip install -e ".[dev]"
+      - name: Ruff
+        run: |
+          python -m ruff check .
+          python -m ruff format --check .
+      - name: Pytest
+        run: python -m pytest --maxfail=1
+      - name: Compilar bytecode
+        run: python -m compileall -q src
+
+  screenshots:
+    name: Capturas reproducibles
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+          cache: pip
+      - name: Instalar dependencias gráficas
+        run: sudo apt-get update && sudo apt-get install --yes libegl1
+      - name: Instalar aplicación
+        run: python -m pip install --upgrade pip && python -m pip install -e .
+      - name: Generar capturas
+        env:
+          QT_QPA_PLATFORM: offscreen
+          XDG_DATA_HOME: ${{ runner.temp }}/pysl-data
+        run: python scripts/capture_screenshots.py --output build/screenshots
+      - uses: actions/upload-artifact@v4
+        with:
+          name: portfolio-screenshots
+          path: build/screenshots/*.png
+          if-no-files-found: error
+
+  windows-build:
+    name: Build · Windows 11
+    needs: quality
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+          cache: pip
+      - name: Crear entorno virtual
+        run: python -m venv .venv
+      - name: Compilar PySL
+        shell: pwsh
+        run: ./scripts/build_windows.ps1
+      - uses: actions/upload-artifact@v4
+        with:
+          name: PySL-Windows-x64
+          path: dist/PySL/**
+          if-no-files-found: error

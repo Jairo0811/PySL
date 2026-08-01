@@ -1,0 +1,10 @@
+inicio
+entero limite = 5
+para numero desde 1 hasta limite
+    si numero % 2 == 0 entonces
+        imprimir(numero, "es par")
+    sino
+        imprimir(numero, "es impar")
+    finsi
+finpara
+fin

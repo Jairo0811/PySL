@@ -1,41 +1,48 @@
 # Changelog
 
+Todos los cambios relevantes de PySL se documentan en este archivo. El proyecto utiliza [versionado semántico](https://semver.org/lang/es/).
+
+## 1.0.3 - 2026-08-01
+
+### Seguridad y estabilidad
+
+- Ejecuta programas SL en un proceso aislado con límites de tiempo, pasos, ciclos, entrada, salida, AST, colecciones, enteros y memoria compatible.
+- Impide sobrescribir nombres internos, usar atributos, imports o llamadas fuera del subconjunto autorizado.
+- Valida expresiones de SL sin modificar palabras lógicas dentro de cadenas.
+- Verifica la credencial demostrativa mediante PBKDF2 en lugar de comparar texto plano.
+- Endurece SQLite con tiempo de espera, `busy_timeout`, WAL, columnas explícitas y validación de datos.
+- Añade registro rotativo y manejo global de errores de la aplicación.
+
+### Conversión y experiencia
+
+- Sustituye el conversor basado en líneas por análisis AST seguro para Python → SL.
+- Corrige conversión de bloques anidados, `else`, funciones, ciclos y expresiones lógicas.
+- Ejecuta el runtime desde un worker para no bloquear la interfaz de Qt.
+- Normaliza toda la interfaz y documentación a **SL → Python** y **Python → SL**.
+
+### Calidad y distribución
+
+- Amplía la suite a 31 pruebas automatizadas.
+- Configura Ruff, formato reproducible y versión centralizada.
+- Añade CI para Python 3.12/3.13, capturas reproducibles y build verificado en Windows.
+- Añade publicación automática de GitHub Releases con ejecutable Windows.
+- Incorpora ejemplos, documentación de arquitectura, seguridad y distribución.
+
 ## 1.0.2 - 2026-07-14
 
-- Cierra la versión estable de PySL para portafolio.
-- Rediseña **Acerca de PySL** para evitar compresión y superposición de textos.
-- Amplía el logo institucional y centraliza toda la información académica.
-- Renombra el menú a **Laboratorios**, **IDE PySL** y **Acerca de PySL**.
-- Renueva el Dashboard con accesos rápidos y estadísticas reales de SQLite.
-- Guarda la base de datos en una ruta de usuario escribible.
-- Añade compatibilidad de recursos para ejecutables creados con PyInstaller.
-- Fortalece el script de compilación con pruebas y validación de sintaxis.
-- Actualiza créditos, versión, documentación y metadatos de la aplicación.
+- Rediseñó la pantalla Acerca de PySL y centralizó la información académica.
+- Renovó el dashboard con accesos rápidos y estadísticas reales de SQLite.
+- Movió los datos de usuario a una ruta escribible independiente de la instalación.
+- Añadió compatibilidad de recursos y script de compilación para PyInstaller.
+- Actualizó créditos, versión y documentación.
 
 ## 1.0.1 - 2026-07-14
 
-- Actualiza la pantalla **Acerca de PySL** con información académica centralizada.
-- Integra el logo oficial del ITLA.
-- Corrige el resaltado de línea actual en PySide6 6.11.
-- Añade icono `.ico` para el ejecutable de Windows.
-- Corrige el script de compilación para detenerse ante errores reales.
+- Corrigió el resaltado de línea actual para PySide6 6.11.
+- Añadió el icono de Windows y mejoró el script de compilación.
+- Actualizó la presentación académica de la plataforma.
 
-## 1.0.0
+## 1.0.0 - 2026-07-14
 
-- Sintaxis estable con variables, decisiones, ciclos, vectores y funciones.
-- Editor con numeración de líneas, resaltado, abrir y guardar `.pysl`.
-- Cuatro juegos educativos.
-- Curso integrado y laboratorio original.
-- Persistencia SQLite para progreso y preferencias.
-- Configuración y documentación final.
-- Preparación para distribución en Windows.
-
-## v1.0.2
-
-- Nueva pantalla About
-- Mejoras UI
-- Corrección editor
-- Runtime
-- Parser
-- SQLite
-...
+- Publicó el IDE para archivos `.pysl`, runtime, conversor, curso, laboratorio y juegos.
+- Incorporó persistencia SQLite, documentación y preparación de distribución Windows.

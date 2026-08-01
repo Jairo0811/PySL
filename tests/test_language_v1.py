@@ -1,7 +1,8 @@
-from pysl.language.executor import PySLExecutor
+from pysl.language.executor import SLExecutor
+
 
 def test_vectors_and_functions() -> None:
-    source = '''
+    source = """
 funcion sumar(a, b)
     retornar a + b
 finfuncion
@@ -10,13 +11,14 @@ vector numeros = [2, 4, 6]
 numeros[0] = sumar(numeros[1], numeros[2])
 imprimir(numeros[0])
 fin
-'''
-    result = PySLExecutor().execute(source)
+"""
+    result = SLExecutor().execute(source)
     assert result.output == "10"
     assert result.variables["numeros"] == [10, 4, 6]
 
+
 def test_nested_blocks() -> None:
-    source = '''
+    source = """
 inicio
 entero total = 0
 para i desde 1 hasta 3
@@ -26,5 +28,5 @@ para i desde 1 hasta 3
 finpara
 imprimir(total)
 fin
-'''
-    assert PySLExecutor().execute(source).output == "5"
+"""
+    assert SLExecutor().execute(source).output == "5"

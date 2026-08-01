@@ -10,7 +10,7 @@ from PySide6.QtWidgets import QPlainTextEdit, QTextEdit, QWidget
 class LineNumberArea(QWidget):
     """Área lateral encargada de mostrar los números de línea."""
 
-    def __init__(self, editor: "CodeEditor") -> None:
+    def __init__(self, editor: CodeEditor) -> None:
         super().__init__(editor)
         self._editor = editor
 
@@ -75,9 +75,7 @@ class CodeEditor(QPlainTextEdit):
 
         block = self.firstVisibleBlock()
         block_number = block.blockNumber()
-        top = round(
-            self.blockBoundingGeometry(block).translated(self.contentOffset()).top()
-        )
+        top = round(self.blockBoundingGeometry(block).translated(self.contentOffset()).top())
         bottom = top + round(self.blockBoundingRect(block).height())
 
         while block.isValid() and top <= event.rect().bottom():

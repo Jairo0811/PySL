@@ -7,16 +7,15 @@ from PySide6.QtWidgets import (
     QLineEdit,
     QMessageBox,
     QPushButton,
-    QTabWidget,
     QTableWidget,
     QTableWidgetItem,
+    QTabWidget,
     QTextEdit,
     QVBoxLayout,
     QWidget,
 )
 
 from pysl.modules.exercises.smallest_even.service import SmallestEvenService
-
 
 SL_CODE = """var
     numeros[5], menorPar, posicion: numerico

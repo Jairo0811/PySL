@@ -1,11 +1,25 @@
 from __future__ import annotations
 
-from dataclasses import dataclass, field
 import random
 import unicodedata
+from dataclasses import dataclass, field
 
-
-WORDS = ("software", "javascript", "videojuego", "programacion", "html", "base de datos", "variable", "fotogramas", "css", "maquina virtual", "nintendo", "algoritmo", "codigo", "pseudocodigo")
+WORDS = (
+    "software",
+    "javascript",
+    "videojuego",
+    "programacion",
+    "html",
+    "base de datos",
+    "variable",
+    "fotogramas",
+    "css",
+    "maquina virtual",
+    "nintendo",
+    "algoritmo",
+    "codigo",
+    "pseudocodigo",
+)
 
 
 def normalize(value: str) -> str:
@@ -21,7 +35,7 @@ class HangmanGame:
     failures: int = 0
 
     @classmethod
-    def random(cls, rng: random.Random | None = None) -> "HangmanGame":
+    def random(cls, rng: random.Random | None = None) -> HangmanGame:
         chooser = rng or random
         return cls(chooser.choice(WORDS))
 
@@ -40,7 +54,10 @@ class HangmanGame:
     @property
     def masked_word(self) -> str:
         normalized_word = normalize(self.word)
-        return " ".join(original if (original == " " or normalized in self.used_letters) else "_" for original, normalized in zip(self.word, normalized_word))
+        return " ".join(
+            original if (original == " " or normalized in self.used_letters) else "_"
+            for original, normalized in zip(self.word, normalized_word, strict=False)
+        )
 
     @property
     def won(self) -> bool:
