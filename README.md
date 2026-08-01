@@ -119,6 +119,17 @@ Más detalles en [docs/ARQUITECTURA.md](docs/ARQUITECTURA.md).
 
 ## Stack tecnológico
 
+<p align="center">
+  <img src="https://img.shields.io/badge/Python-3.12%2B-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python 3.12 o superior">
+  <img src="https://img.shields.io/badge/PySide6-Qt_6-41CD52?style=for-the-badge&logo=qt&logoColor=white" alt="PySide6 y Qt 6">
+  <img src="https://img.shields.io/badge/SQLite-Local-003B57?style=for-the-badge&logo=sqlite&logoColor=white" alt="SQLite">
+  <img src="https://img.shields.io/badge/Pytest-Pruebas-0A9EDC?style=for-the-badge&logo=pytest&logoColor=white" alt="Pytest">
+  <img src="https://img.shields.io/badge/Ruff-Calidad-D7FF64?style=for-the-badge&logo=ruff&logoColor=black" alt="Ruff">
+  <img src="https://img.shields.io/badge/PyInstaller-Build-FFDD54?style=for-the-badge&logo=python&logoColor=black" alt="PyInstaller">
+  <img src="https://img.shields.io/badge/GitHub_Actions-CI%2FCD-2088FF?style=for-the-badge&logo=githubactions&logoColor=white" alt="GitHub Actions">
+  <img src="https://img.shields.io/badge/Windows-Compatible-0078D4?style=for-the-badge&logo=windows11&logoColor=white" alt="Compatible con Windows">
+</p>
+
 | Categoría | Tecnología |
 |---|---|
 | Plataforma | Python 3.12+ |
@@ -148,7 +159,14 @@ En Linux o macOS, activa el entorno con `source .venv/bin/activate`.
 python -m pysl.app
 ```
 
-El login es local y demostrativo; no representa un sistema de identidad para producción. Usa **Continuar como invitado** para explorar la plataforma sin credenciales. La cuenta académica conservada por compatibilidad verifica su contraseña mediante PBKDF2 y no la publica ni la almacena en texto plano.
+## Credenciales predeterminadas
+
+| Campo | Valor |
+|---|---|
+| Usuario | `Jairo` |
+| Contraseña | `pysl2026` |
+
+Estas credenciales pertenecen exclusivamente a la cuenta local de demostración. La aplicación compara la contraseña mediante PBKDF2 y no la almacena en texto plano. También puedes usar **Continuar como invitado** para explorar PySL sin introducir credenciales. Este acceso no representa un sistema de identidad para producción.
 
 Los ejemplos se encuentran en [`examples/`](examples/):
 
