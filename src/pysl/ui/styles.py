@@ -80,58 +80,58 @@ def get_stylesheet(theme: str = DARK_THEME, font_size: int = DEFAULT_FONT_SIZE) 
 
     return f"""
 QWidget {{
-    background-color: {colors['background']};
-    color: {colors['foreground']};
+    background-color: {colors["background"]};
+    color: {colors["foreground"]};
     font-family: "Segoe UI";
     font-size: {size}px;
 }}
 QFrame#sidebar, QFrame#card, QFrame#statCard {{
-    background-color: {colors['card']};
-    border: 1px solid {colors['border']};
+    background-color: {colors["card"]};
+    border: 1px solid {colors["border"]};
     border-radius: 16px;
 }}
 QFrame#sidebar {{ border-radius: 18px; }}
 QLabel#title {{ font-size: 30px; font-weight: 750; }}
 QLabel#pageTitle {{ font-size: 28px; font-weight: 750; }}
 QLabel#sectionTitle {{ font-size: 19px; font-weight: 700; }}
-QLabel#subtitle, QLabel#muted {{ color: {colors['muted']}; }}
-QLabel#accent {{ color: {colors['accent']}; font-weight: 700; }}
+QLabel#subtitle, QLabel#muted {{ color: {colors["muted"]}; }}
+QLabel#accent {{ color: {colors["accent"]}; font-weight: 700; }}
 QLineEdit, QPlainTextEdit, QTextEdit, QComboBox, QSpinBox {{
-    background-color: {colors['input']};
-    color: {colors['foreground']};
-    border: 1px solid {colors['border']};
+    background-color: {colors["input"]};
+    color: {colors["foreground"]};
+    border: 1px solid {colors["border"]};
     border-radius: 10px;
     padding: 10px;
-    selection-background-color: {colors['primary']};
+    selection-background-color: {colors["primary"]};
 }}
 QComboBox QAbstractItemView {{
-    background-color: {colors['card']};
-    color: {colors['foreground']};
-    selection-background-color: {colors['primary']};
+    background-color: {colors["card"]};
+    color: {colors["foreground"]};
+    selection-background-color: {colors["primary"]};
 }}
 QLineEdit:focus, QPlainTextEdit:focus, QTextEdit:focus, QComboBox:focus {{
-    border: 1px solid {colors['primary_hover']};
+    border: 1px solid {colors["primary_hover"]};
 }}
 QPushButton {{
-    background-color: {colors['primary']};
+    background-color: {colors["primary"]};
     color: #ffffff;
     border: none;
     border-radius: 10px;
     padding: 11px 16px;
     font-weight: 650;
 }}
-QPushButton:hover {{ background-color: {colors['primary_hover']}; }}
-QPushButton:pressed {{ background-color: {colors['primary_pressed']}; }}
+QPushButton:hover {{ background-color: {colors["primary_hover"]}; }}
+QPushButton:pressed {{ background-color: {colors["primary_pressed"]}; }}
 QPushButton#secondaryButton {{
-    background-color: {colors['secondary']};
-    color: {colors['foreground']};
+    background-color: {colors["secondary"]};
+    color: {colors["foreground"]};
 }}
-QPushButton#secondaryButton:hover {{ background-color: {colors['secondary_hover']}; }}
-QPushButton#dangerButton {{ background-color: {colors['danger']}; color: #ffffff; }}
-QPushButton#dangerButton:hover {{ background-color: {colors['danger_hover']}; }}
-QPushButton#successButton {{ background-color: {colors['success']}; color: #ffffff; }}
+QPushButton#secondaryButton:hover {{ background-color: {colors["secondary_hover"]}; }}
+QPushButton#dangerButton {{ background-color: {colors["danger"]}; color: #ffffff; }}
+QPushButton#dangerButton:hover {{ background-color: {colors["danger_hover"]}; }}
+QPushButton#successButton {{ background-color: {colors["success"]}; color: #ffffff; }}
 QGroupBox {{
-    border: 1px solid {colors['border']};
+    border: 1px solid {colors["border"]};
     border-radius: 12px;
     margin-top: 12px;
     padding: 16px 10px 10px 10px;
@@ -139,20 +139,20 @@ QGroupBox {{
 }}
 QGroupBox::title {{ subcontrol-origin: margin; left: 12px; padding: 0 5px; }}
 QTableWidget, QTabWidget::pane {{
-    background-color: {colors['card']};
-    color: {colors['foreground']};
-    border: 1px solid {colors['border']};
+    background-color: {colors["card"]};
+    color: {colors["foreground"]};
+    border: 1px solid {colors["border"]};
     border-radius: 10px;
 }}
 QHeaderView::section {{
-    background-color: {colors['header']};
-    color: {colors['foreground']};
+    background-color: {colors["header"]};
+    color: {colors["foreground"]};
     padding: 8px;
     border: none;
 }}
 QLabel#resultLabel {{
-    background-color: {colors['card']};
-    border-left: 4px solid {colors['primary_hover']};
+    background-color: {colors["card"]};
+    border-left: 4px solid {colors["primary_hover"]};
     border-radius: 8px;
     padding: 12px;
     font-weight: 650;
@@ -163,7 +163,7 @@ QPlainTextEdit#codeEditor, QPlainTextEdit#console {{
 }}
 QListWidget {{
     background-color: transparent;
-    color: {colors['foreground']};
+    color: {colors["foreground"]};
     border: none;
     padding: 4px;
     outline: none;
@@ -173,21 +173,21 @@ QListWidget::item {{
     margin: 2px 0;
     border-radius: 9px;
 }}
-QListWidget::item:hover {{ background-color: {colors['secondary']}; }}
-QListWidget::item:selected {{ background-color: {colors['primary']}; color: #ffffff; }}
+QListWidget::item:hover {{ background-color: {colors["secondary"]}; }}
+QListWidget::item:selected {{ background-color: {colors["primary"]}; color: #ffffff; }}
 QScrollArea {{ border: none; background: transparent; }}
-QScrollBar:vertical {{ background: {colors['scrollbar']}; width: 10px; }}
-QScrollBar::handle:vertical {{ background: {colors['scroll_handle']}; border-radius: 5px; }}
+QScrollBar:vertical {{ background: {colors["scrollbar"]}; width: 10px; }}
+QScrollBar::handle:vertical {{ background: {colors["scroll_handle"]}; border-radius: 5px; }}
 QTabBar::tab {{
-    background: {colors['card']};
-    color: {colors['foreground']};
+    background: {colors["card"]};
+    color: {colors["foreground"]};
     padding: 10px 14px;
 }}
-QTabBar::tab:selected {{ background: {colors['primary']}; color: #ffffff; }}
+QTabBar::tab:selected {{ background: {colors["primary"]}; color: #ffffff; }}
 QToolTip {{
-    background-color: {colors['card']};
-    color: {colors['foreground']};
-    border: 1px solid {colors['border']};
+    background-color: {colors["card"]};
+    color: {colors["foreground"]};
+    border: 1px solid {colors["border"]};
 }}
 """
 
