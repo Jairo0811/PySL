@@ -95,7 +95,9 @@ class SettingsView(QWidget):
         self.theme.setCurrentText(DARK_THEME)
         self.font_size.setValue(DEFAULT_FONT_SIZE)
         self._apply_preferences(DARK_THEME, DEFAULT_FONT_SIZE)
-        QMessageBox.information(self, "Progreso", "El progreso y las preferencias se restablecieron.")
+        QMessageBox.information(
+            self, "Progreso", "El progreso y las preferencias se restablecieron."
+        )
 
     def _stored_font_size(self) -> int:
         try:
