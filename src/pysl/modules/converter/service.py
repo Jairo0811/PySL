@@ -55,12 +55,25 @@ class CodeConverter:
         "or": "o",
         "not": "no",
     }
+    _RUNTIME_TO_PYTHON_NAMES: ClassVar[dict[str, str]] = {
+        "__leer__": "input",
+        "__imprimir__": "print",
+    }
 
     def __init__(self) -> None:
         self._transpiler = SLTranspiler()
 
     def sl_to_python(self, source: str) -> str:
-        return self._transpiler.transpile(source).python_code
+        """Return readable standard Python without exposing runtime helper names."""
+        runtime_code = self._transpiler.transpile(source).python_code
+        tokens = tokenize.generate_tokens(io.StringIO(runtime_code).readline)
+        translated_tokens: list[tokenize.TokenInfo] = []
+        for token in tokens:
+            replacement = token.string
+            if token.type == tokenize.NAME:
+                replacement = self._RUNTIME_TO_PYTHON_NAMES.get(token.string, token.string)
+            translated_tokens.append(token._replace(string=replacement))
+        return tokenize.untokenize(translated_tokens).rstrip() + "\n"
 
     def python_to_sl(self, source: str) -> str:
         try:
