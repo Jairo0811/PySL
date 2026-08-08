@@ -108,10 +108,14 @@ class CodeEditor(QPlainTextEdit):
         self.setExtraSelections([selection])
 
     def refresh_theme(self) -> None:
-        """Refresh custom-painted editor elements after an application theme change."""
+        """Refresh custom-painted editor elements and syntax colors after a theme change."""
         self.highlight_current_line()
         self.line_number_area.update()
         self.viewport().update()
+        for child in self.document().children():
+            refresh_theme = getattr(child, "refresh_theme", None)
+            if callable(refresh_theme):
+                refresh_theme()
 
     @staticmethod
     def _active_theme() -> str:
