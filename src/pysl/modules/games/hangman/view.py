@@ -9,6 +9,7 @@ from PySide6.QtWidgets import (
     QWidget,
 )
 
+from pysl.core.database import Database
 from pysl.modules.games.hangman.service import HangmanGame
 
 STAGES = (
@@ -23,8 +24,9 @@ STAGES = (
 
 
 class HangmanView(QWidget):
-    def __init__(self) -> None:
+    def __init__(self, database: Database | None = None) -> None:
         super().__init__()
+        self._database = database or Database()
         self._game = HangmanGame.random()
         self._wins = 0
         self._losses = 0
@@ -80,6 +82,7 @@ class HangmanView(QWidget):
             self._refresh()
             if self._game.won:
                 self._wins += 1
+                self._database.record_game("hangman", True)
                 QMessageBox.information(
                     self,
                     "¡Victoria!",
@@ -88,6 +91,7 @@ class HangmanView(QWidget):
                 self._new_game()
             elif self._game.lost:
                 self._losses += 1
+                self._database.record_game("hangman", False)
                 QMessageBox.warning(
                     self,
                     "Partida terminada",
