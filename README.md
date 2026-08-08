@@ -13,11 +13,10 @@
 <p align="center">
   <a href="https://github.com/Jairo0811/PySL/actions/workflows/ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/Jairo0811/PySL/ci.yml?branch=main&style=for-the-badge&label=CI" alt="Estado de CI"></a>
   <img src="https://img.shields.io/badge/Python-3.12%2B-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python 3.12 o superior">
-  <img src="https://img.shields.io/badge/Versión-1.0.3-7C3AED?style=for-the-badge" alt="Versión 1.0.3">
+  <img src="https://img.shields.io/badge/Versión-1.0.4-7C3AED?style=for-the-badge" alt="Versión 1.0.4">
   <img src="https://img.shields.io/badge/Estado-Estable-2EA44F?style=for-the-badge" alt="Estado estable">
   <img src="https://img.shields.io/badge/Licencia-MIT-0A66C2?style=for-the-badge" alt="Licencia MIT">
 </p>
-
 
 > **📌 Nomenclatura oficial:** PySL es la plataforma. SL y Python son los lenguajes. El conversor trabaja en las direcciones **SL → Python** y **Python → SL**.
 
@@ -44,7 +43,8 @@ PySL no es un lenguaje de programación. Python es el lenguaje de propósito gen
 | 🎓 Aprendizaje | Curso integrado, laboratorio del menor número par y ejemplos ejecutables |
 | 🎮 Juegos | Ahorcado, adivina el número, piedra/papel/tijera y tres en raya |
 | 💾 Datos | Progreso, estadísticas y preferencias persistentes con SQLite |
-| 🧭 Experiencia | Login demostrativo local, dashboard, perfil, galería, configuración y documentación |
+| 🎨 Apariencia | Temas claro y oscuro, tamaño de fuente configurable y aplicación inmediata |
+| 🧭 Experiencia | Login demostrativo local, dashboard, perfil, configuración y documentación |
 
 ## 🛡️ Seguridad del runtime de SL
 
@@ -114,7 +114,7 @@ src/pysl/
 ├── language/   📘 Parser/transpilador, validación AST y ejecución aislada
 ├── modules/    🧩 Casos de uso y vistas organizados por funcionalidad
 ├── runtime/    ▶️ Utilidades educativas para ejemplos de consola
-├── ui/         🖥️ Ventana principal y estilos compartidos
+├── ui/         🖥️ Ventana principal, temas y estilos compartidos
 └── app.py      🚀 Composición y punto de entrada
 ```
 
@@ -216,7 +216,7 @@ python -m pytest
 python -m compileall -q src
 ```
 
-La suite contiene **31 pruebas automatizadas** que cubren autenticación, parser/transpilador, límites del runtime, conversores, SQLite, utilidades, laboratorio y juegos. CI verifica Python 3.12 y 3.13; además genera y prueba el ejecutable en Windows.
+La suite contiene **33 pruebas automatizadas** que cubren autenticación, parser/transpilador, límites del runtime, conversores, SQLite, utilidades, temas visuales, laboratorio y juegos. CI verifica Python 3.12 y 3.13; además genera y prueba el ejecutable en Windows.
 
 ## 📦 Distribución para Windows
 
@@ -255,7 +255,7 @@ Las capturas son reproducibles mediante `python scripts/capture_screenshots.py` 
 | 👨‍🏫 Profesor | Freidy Ramón Núñez Pérez |
 | 👨‍💻 Autor | Francis Jairo Matías Rosario (2015-2984) |
 
-La versión actual es una reingeniería del proyecto final original, preservado en `legacy/web-original/` como memoria académica.
+La versión actual es una reingeniería del proyecto final original, preservado en `legacy/web-original/` como memoria académica. Ese material histórico permanece en el repositorio, pero ya no forma parte de la navegación principal de la aplicación.
 
 ## 📌 Estado y versionado
 
