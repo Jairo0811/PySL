@@ -1,0 +1,124 @@
+/*
+ * Estilos de conservación del proyecto web original (2016).
+ * La intención es mantener su apariencia histórica mientras se elimina
+ * marcado obsoleto e inline de los archivos HTML.
+ */
+
+html {
+    font-family: serif;
+}
+
+body {
+    margin: 8px;
+}
+
+body.home-page {
+    background-image: url("../d82.png");
+}
+
+body.login-page {
+    background-color: #00fff3;
+}
+
+body.gallery-page {
+    background-image: url("../fuego.jpg");
+}
+
+body.profile-page {
+    background-image: url("../softwarebg1.jpg");
+}
+
+.centered {
+    text-align: center;
+}
+
+.hero-banner {
+    width: 1000px;
+    height: 200px;
+    border: 0;
+}
+
+.main-navigation {
+    margin-top: 48px;
+}
+
+.main-navigation button {
+    margin: 0 2px;
+}
+
+.legacy-video {
+    display: block;
+    width: 400px;
+    height: 200px;
+    margin: 144px auto 0;
+}
+
+.gallery-image {
+    width: 300px;
+    height: 200px;
+    border: 0;
+    object-fit: fill;
+}
+
+.profile-photo,
+.error-image {
+    float: left;
+}
+
+.profile-label,
+.error-message {
+    color: red;
+}
+
+.error-image {
+    width: 300px;
+    height: 200px;
+    border: 0;
+}
+
+.legacy-spacer {
+    height: 64px;
+}
+
+.exercise-table {
+    margin: 0 auto;
+    border-collapse: separate;
+    border-spacing: 2px;
+}
+
+.exercise-table,
+.exercise-table td {
+    border: 1px solid;
+}
+
+.exercise-table td {
+    color: #fff;
+    padding: 1px;
+}
+
+.exercise-table .smallest-even {
+    background-color: #39319d;
+}
+
+.exercise-table .not-selected {
+    background-color: #d12d2d;
+}
+
+.hangman-table {
+    width: 85%;
+    margin: 0 auto;
+}
+
+.hangman-word {
+    width: 34ch;
+}
+
+.back-form {
+    margin-top: 1em;
+}
+
+.clearfix::after {
+    display: table;
+    clear: both;
+    content: "";
+}
