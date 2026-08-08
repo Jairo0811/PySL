@@ -13,10 +13,14 @@ Todos los cambios relevantes de PySL se documentan en este archivo. El proyecto 
 - Adapta la numeración de líneas y el resaltado de línea actual del editor al tema activo.
 - Mantiene el **Menor número par** como laboratorio, preservando el ejercicio académico original sin duplicarlo como juego.
 - Integra el **Ahorcado** original al sistema de estadísticas SQLite compartido por el Arcade PySL.
+- Clarifica el convertidor con paneles **Código SL** y **Código Python** según la dirección seleccionada.
+- Evita exponer helpers internos del runtime en SL → Python; la salida educativa utiliza `print()` e `input()` estándar.
+- Inicializa el ejemplo SL → Python con una conversión visible y mantiene el contenido literal del programa sin modificarlo.
 
 ### Calidad
 
 - Añade pruebas automatizadas para normalización de temas y límites del tamaño de fuente.
+- Añade pruebas para garantizar que SL → Python no exponga `__imprimir__` ni `__leer__`.
 - Mantiene la configuración visual centralizada en `pysl.ui.styles` para evitar estilos duplicados.
 - Actualiza README y documentación de versión para reflejar el alcance final simplificado.
 
