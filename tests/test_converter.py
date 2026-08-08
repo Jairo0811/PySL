@@ -3,9 +3,16 @@ import pytest
 from pysl.modules.converter.service import CodeConverter, ConversionError
 
 
-def test_converts_sl_to_python() -> None:
+def test_converts_sl_to_standard_python() -> None:
     converted = CodeConverter().sl_to_python('inicio\nimprimir("Hola")\nfin')
-    assert '__imprimir__("Hola")' in converted
+    assert 'print("Hola")' in converted
+    assert "__imprimir__" not in converted
+
+
+def test_converts_sl_input_to_standard_python() -> None:
+    converted = CodeConverter().sl_to_python("inicio\nleer(nombre)\nfin")
+    assert "nombre = input()" in converted
+    assert "__leer__" not in converted
 
 
 def test_converts_basic_python_to_sl() -> None:
