@@ -1,24 +1,25 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
-<title>Mi Perfil</title>
-
-<img align="left"  src="1.jpg"/>
-	<h3> <FONT Color=red> Nombres: </FONT> Francis Jairo
-	<h3> <FONT Color=red> Apellidos: </FONT> Matias Rosario
-	<h3> <FONT Color=red> Materia: </FONT>  Introduccion a la Programacion  
-	<h3> <FONT Color=red> Nacionalidad: </FONT> Dominicano
-	<br/>
-	<br/>
-	<br/>
-	<br/>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Mi Perfil</title>
+    <link rel="stylesheet" href="css/legacy.css">
 </head>
-<body  background="softwarebg1.jpg">
+<body class="profile-page">
+    <main class="clearfix">
+        <img class="profile-photo" src="1.jpg" alt="Foto de perfil">
 
-<form method="POST" action="Pagina Principal.html">
-<input type="submit" value="Volver">
+        <h3><span class="profile-label">Nombres:</span> Francis Jairo</h3>
+        <h3><span class="profile-label">Apellidos:</span> Matias Rosario</h3>
+        <h3><span class="profile-label">Materia:</span> Introduccion a la Programacion</h3>
+        <h3><span class="profile-label">Nacionalidad:</span> Dominicano</h3>
 
+        <div class="legacy-spacer" aria-hidden="true"></div>
+    </main>
 
-
+    <form class="back-form" method="GET" action="Pagina Principal.html">
+        <input type="submit" value="Volver">
+    </form>
 </body>
 </html>
