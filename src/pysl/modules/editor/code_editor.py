@@ -4,7 +4,9 @@ from typing import Any
 
 from PySide6.QtCore import QRect, QSize, Qt
 from PySide6.QtGui import QColor, QPainter, QTextFormat
-from PySide6.QtWidgets import QPlainTextEdit, QTextEdit, QWidget
+from PySide6.QtWidgets import QApplication, QPlainTextEdit, QTextEdit, QWidget
+
+from pysl.ui.styles import DARK_THEME, theme_colors
 
 
 class LineNumberArea(QWidget):
@@ -70,8 +72,9 @@ class CodeEditor(QPlainTextEdit):
         )
 
     def line_number_area_paint_event(self, event: Any) -> None:
+        colors = theme_colors(self._active_theme())
         painter = QPainter(self.line_number_area)
-        painter.fillRect(event.rect(), QColor("#111827"))
+        painter.fillRect(event.rect(), QColor(colors["line_number_background"]))
 
         block = self.firstVisibleBlock()
         block_number = block.blockNumber()
@@ -80,7 +83,7 @@ class CodeEditor(QPlainTextEdit):
 
         while block.isValid() and top <= event.rect().bottom():
             if block.isVisible() and bottom >= event.rect().top():
-                painter.setPen(QColor("#64748b"))
+                painter.setPen(QColor(colors["line_number_foreground"]))
                 painter.drawText(
                     0,
                     top,
@@ -96,12 +99,24 @@ class CodeEditor(QPlainTextEdit):
             block_number += 1
 
     def highlight_current_line(self) -> None:
+        colors = theme_colors(self._active_theme())
         selection = QTextEdit.ExtraSelection()
-        selection.format.setBackground(QColor("#172033"))
-        selection.format.setProperty(
-            QTextFormat.Property.FullWidthSelection,
-            True,
-        )
+        selection.format.setBackground(QColor(colors["current_line"]))
+        selection.format.setProperty(QTextFormat.Property.FullWidthSelection, True)
         selection.cursor = self.textCursor()
         selection.cursor.clearSelection()
         self.setExtraSelections([selection])
+
+    def refresh_theme(self) -> None:
+        """Refresh custom-painted editor elements after an application theme change."""
+        self.highlight_current_line()
+        self.line_number_area.update()
+        self.viewport().update()
+
+    @staticmethod
+    def _active_theme() -> str:
+        application = QApplication.instance()
+        if application is None:
+            return DARK_THEME
+        theme = application.property("pysl_theme")
+        return str(theme) if theme else DARK_THEME
