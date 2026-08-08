@@ -28,7 +28,9 @@ class SettingsView(QWidget):
 
         title = QLabel("Configuración")
         title.setObjectName("pageTitle")
-        subtitle = QLabel("Personaliza la apariencia de PySL. Los cambios se aplican al guardar.")
+        subtitle = QLabel(
+            "Personaliza la apariencia de PySL. El tema y el tamaño se previsualizan al instante."
+        )
         subtitle.setObjectName("subtitle")
 
         form = QFormLayout()
@@ -39,6 +41,9 @@ class SettingsView(QWidget):
         self.font_size = QSpinBox()
         self.font_size.setRange(11, 24)
         self.font_size.setValue(self._stored_font_size())
+
+        self.theme.currentTextChanged.connect(self._preview_preferences)
+        self.font_size.valueChanged.connect(self._preview_preferences)
 
         form.addRow("Tema", self.theme)
         form.addRow("Tamaño de fuente", self.font_size)
@@ -57,6 +62,9 @@ class SettingsView(QWidget):
         root.addWidget(reset)
         root.addStretch()
 
+    def _preview_preferences(self, _value: object = None) -> None:
+        self._apply_preferences(normalize_theme(self.theme.currentText()), self.font_size.value())
+
     def _save(self) -> None:
         selected_theme = normalize_theme(self.theme.currentText())
         selected_font_size = self.font_size.value()
@@ -68,7 +76,7 @@ class SettingsView(QWidget):
         QMessageBox.information(
             self,
             "Configuración",
-            "Las preferencias se guardaron y se aplicaron correctamente.",
+            "Las preferencias se guardaron correctamente.",
         )
 
     def _reset(self) -> None:
