@@ -2,6 +2,22 @@
 
 Todos los cambios relevantes de PySL se documentan en este archivo. El proyecto utiliza [versionado semántico](https://semver.org/lang/es/).
 
+## 1.0.4 - 2026-08-08
+
+### Interfaz y experiencia
+
+- Elimina el módulo **Galería** de la navegación y del código fuente; el material histórico permanece preservado en `legacy/web-original/`.
+- Implementa temas **Oscuro** y **Claro** funcionales en toda la aplicación.
+- Aplica el cambio de tema y tamaño de fuente en tiempo real desde Configuración.
+- Restaura automáticamente las preferencias visuales guardadas al iniciar PySL.
+- Adapta la numeración de líneas y el resaltado de línea actual del editor al tema activo.
+
+### Calidad
+
+- Añade pruebas automatizadas para normalización de temas y límites del tamaño de fuente.
+- Mantiene la configuración visual centralizada en `pysl.ui.styles` para evitar estilos duplicados.
+- Actualiza README y documentación de versión para reflejar el alcance final simplificado.
+
 ## 1.0.3 - 2026-08-01
 
 ### Seguridad y estabilidad
