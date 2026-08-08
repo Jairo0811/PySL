@@ -120,7 +120,7 @@ class GamesView(QWidget):
         title = QLabel("Arcade PySL")
         title.setObjectName("pageTitle")
         tabs = QTabWidget()
-        tabs.addTab(HangmanView(), "Ahorcado")
+        tabs.addTab(HangmanView(db), "Ahorcado")
         tabs.addTab(GuessView(db), "Adivina el número")
         tabs.addTab(RpsView(db), "Piedra, papel o tijera")
         tabs.addTab(TicView(db), "Tres en raya")
