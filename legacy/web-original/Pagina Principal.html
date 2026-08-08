@@ -1,55 +1,27 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
-	<title>Pagina Principal</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Pagina Principal</title>
+    <link rel="stylesheet" href="css/legacy.css">
 </head>
-<body  background="d82.png">
+<body class="home-page">
+    <main class="centered">
+        <img class="hero-banner" src="wwe.PNG" alt="Banner del proyecto">
 
- 
+        <nav class="main-navigation" aria-label="Navegación principal">
+            <button type="button"><a href="perfil.html">Perfil</a></button>
+            <button type="button"><a href="imagenes.html">Galeria</a></button>
+            <button type="button"><a href="juego.html">Juego</a></button>
+            <button type="button"><a href="ejercicio.html">Mi Ejercicio</a></button>
+            <button type="button"><a href="iniciarsecion.html">Cerrar Sesion</a></button>
+        </nav>
 
-<div align="center">
-
-<img src="wwe.png" border="0"  width="1000" height="200">
-
-
-<br><br><br>
-
-<button>
-<a href="perfil.html">Perfil</a>
-
-</button>
-
-<button>
-
-<a href="imagenes.html">Galeria</a>
-
-</button>
-
-<button>
-
-<a href="juego.html">Juego</a>
-
-</button>
-
-<button>
-
-<a href="ejercicio.html">Mi Ejercicio</a>
-
-</button>
-
-<button>
-
-<a href="iniciarsecion.html"> Cerrar Sesion <a/>
-
-
-
-
-</div>
-
-<br><br><br><br><br><br><br><br><br>
-
-<div align="center">
-<embed src="Smash4.mp4" border "0" width="400" height="200">
-</div>
+        <video class="legacy-video" controls>
+            <source src="Smash4.mp4" type="video/mp4">
+            Tu navegador no puede reproducir este video.
+        </video>
+    </main>
 </body>
 </html>
