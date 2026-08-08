@@ -21,7 +21,6 @@ from pysl.modules.course.course_view import CourseView
 from pysl.modules.docs.docs_view import DocsView
 from pysl.modules.editor.editor_view import EditorView
 from pysl.modules.exercises.smallest_even.view import SmallestEvenView
-from pysl.modules.gallery.gallery_view import GalleryView
 from pysl.modules.games.games_view import GamesView
 from pysl.modules.home.home_view import HomeView
 from pysl.modules.profile.profile_view import ProfileView
@@ -37,7 +36,6 @@ class DashboardView(QWidget):
         "Juegos",
         "IDE de SL",
         "Convertidor",
-        "Galería",
         "Documentación",
         "Configuración",
         "Acerca de PySL",
@@ -82,7 +80,7 @@ class DashboardView(QWidget):
 
         self._menu = QListWidget()
         self._menu.setObjectName("mainMenu")
-        icons = ("⌂", "♙", "▤", "⚗", "▣", "</>", "⇄", "▧", "?", "⚙", "ⓘ")
+        icons = ("⌂", "♙", "▤", "⚗", "▣", "</>", "⇄", "?", "⚙", "ⓘ")
         for icon, title in zip(icons, self.MODULES, strict=True):
             self._menu.addItem(QListWidgetItem(f"{icon}   {title}"))
         self._menu.currentRowChanged.connect(self._pages_set_current_index)
@@ -106,7 +104,6 @@ class DashboardView(QWidget):
             GamesView(),
             EditorView(),
             ConverterView(),
-            GalleryView(),
             DocsView(),
             SettingsView(),
             AboutView(),
