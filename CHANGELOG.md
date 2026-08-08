@@ -11,6 +11,8 @@ Todos los cambios relevantes de PySL se documentan en este archivo. El proyecto 
 - Aplica el cambio de tema y tamaño de fuente en tiempo real desde Configuración.
 - Restaura automáticamente las preferencias visuales guardadas al iniciar PySL.
 - Adapta la numeración de líneas y el resaltado de línea actual del editor al tema activo.
+- Mantiene el **Menor número par** como laboratorio, preservando el ejercicio académico original sin duplicarlo como juego.
+- Integra el **Ahorcado** original al sistema de estadísticas SQLite compartido por el Arcade PySL.
 
 ### Calidad
 
