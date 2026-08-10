@@ -18,6 +18,16 @@
   <img src="https://img.shields.io/badge/Licencia-MIT-0A66C2?style=for-the-badge" alt="Licencia MIT">
 </p>
 
+<p align="center">
+  <a href="https://github.com/Jairo0811/PySL/releases/latest">
+    <img src="https://img.shields.io/badge/⬇️_DESCARGAR-PySL_para_Windows-7C3AED?style=for-the-badge&logo=windows11&logoColor=white" alt="Descargar PySL para Windows">
+  </a>
+</p>
+
+<p align="center">
+  <strong>📦 Descarga la última versión estable para Windows x64 desde GitHub Releases.</strong>
+</p>
+
 > **📌 Nomenclatura oficial:** PySL es la plataforma. SL y Python son los lenguajes. El conversor trabaja en las direcciones **SL → Python** y **Python → SL**.
 
 ## 📚 ¿Qué es SL?
@@ -173,7 +183,26 @@ Más detalles en [docs/ARQUITECTURA.md](docs/ARQUITECTURA.md).
 | ⚙️ Automatización | GitHub Actions |
 | 🛠️ Desarrollo | Visual Studio Code, Git y GitHub |
 
+## ⬇️ Descargar PySL para Windows
+
+La forma más sencilla de probar PySL es descargar la **última versión estable para Windows x64**. No necesitas clonar el repositorio ni preparar un entorno de desarrollo.
+
+<p align="center">
+  <a href="https://github.com/Jairo0811/PySL/releases/latest">
+    <img src="https://img.shields.io/badge/Descargar-Última_versión_estable-2EA44F?style=for-the-badge&logo=github&logoColor=white" alt="Descargar última versión estable de PySL">
+  </a>
+</p>
+
+1. Abre la sección de **Releases** mediante el botón anterior.
+2. En **Assets**, descarga `PySL-Windows-x64.zip`.
+3. Extrae el contenido del archivo ZIP en una carpeta.
+4. Ejecuta `PySL.exe`.
+
+> 📦 PySL se distribuye de forma portable. Los datos y preferencias del usuario se almacenan fuera del directorio de instalación para conservarlos entre actualizaciones.
+
 ## 🚀 Instalación para desarrollo
+
+Si deseas revisar, modificar o contribuir al código fuente:
 
 ```powershell
 git clone https://github.com/Jairo0811/PySL.git
@@ -218,7 +247,9 @@ python -m compileall -q src
 
 La suite contiene **33 pruebas automatizadas** que cubren autenticación, parser/transpilador, límites del runtime, conversores, SQLite, utilidades, temas visuales, laboratorio y juegos. CI verifica Python 3.12 y 3.13; además genera y prueba el ejecutable en Windows.
 
-## 📦 Distribución para Windows
+## 📦 Crear una distribución para Windows
+
+Si deseas generar el ejecutable desde el código fuente:
 
 ```powershell
 Unblock-File .\scripts\build_windows.ps1
