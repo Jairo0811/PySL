@@ -3,7 +3,7 @@
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/ITLA-2016--C2-0057B8?style=for-the-badge" alt="ITLA 2016-C2">
+  <img src="https://img.shields.io/badge/ITLA-SOF--001-0057B8?style=for-the-badge" alt="ITLA SOF-001">
 </p>
 
 <p align="center">
@@ -132,15 +132,15 @@ La interfaz no ejecuta código SL directamente: delega en el servicio de lenguaj
 
 Más detalles en [docs/ARQUITECTURA.md](docs/ARQUITECTURA.md).
 
-## 🧰 Stack tecnológico
+## 🧱 Stack tecnológico
 
 ### 🐍 Lenguaje, interfaz y persistencia
 
-<p align="center">
+<p>
   <img src="https://skillicons.dev/icons?i=python,qt,sqlite" alt="Python, Qt y SQLite">
 </p>
 
-<p align="center">
+<p>
   <img src="https://img.shields.io/badge/Python-3.12%2B-3776AB?style=flat-square&logo=python&logoColor=white" alt="Python 3.12 o superior">
   <img src="https://img.shields.io/badge/PySide6-Qt%206-41CD52?style=flat-square&logo=qt&logoColor=white" alt="PySide6 y Qt 6">
   <img src="https://img.shields.io/badge/SQLite-Persistencia%20local-003B57?style=flat-square&logo=sqlite&logoColor=white" alt="SQLite">
@@ -148,11 +148,11 @@ Más detalles en [docs/ARQUITECTURA.md](docs/ARQUITECTURA.md).
 
 ### 🧪 Calidad, pruebas y distribución
 
-<p align="center">
+<p>
   <img src="https://skillicons.dev/icons?i=pytest,githubactions" alt="Pytest y GitHub Actions">
 </p>
 
-<p align="center">
+<p>
   <img src="https://img.shields.io/badge/Pytest-Pruebas-0A9EDC?style=flat-square&logo=pytest&logoColor=white" alt="Pytest">
   <img src="https://img.shields.io/badge/Ruff-Calidad-D7FF64?style=flat-square&logo=ruff&logoColor=black" alt="Ruff">
   <img src="https://img.shields.io/badge/PyInstaller-Build-FFDD54?style=flat-square&logo=python&logoColor=black" alt="PyInstaller">
@@ -161,11 +161,11 @@ Más detalles en [docs/ARQUITECTURA.md](docs/ARQUITECTURA.md).
 
 ### 🛠️ Desarrollo y control de versiones
 
-<p align="center">
+<p>
   <img src="https://skillicons.dev/icons?i=vscode,git,github" alt="Visual Studio Code, Git y GitHub">
 </p>
 
-<p align="center">
+<p>
   <img src="https://img.shields.io/badge/Visual%20Studio%20Code-Editor-007ACC?style=flat-square&logo=visualstudiocode&logoColor=white" alt="Visual Studio Code">
   <img src="https://img.shields.io/badge/Git-Control%20de%20versiones-F05032?style=flat-square&logo=git&logoColor=white" alt="Git">
   <img src="https://img.shields.io/badge/GitHub-Repositorio-181717?style=flat-square&logo=github&logoColor=white" alt="GitHub">
@@ -276,7 +276,7 @@ Las versiones etiquetadas como `vMAJOR.MINOR.PATCH` publican automáticamente un
 
 Las capturas son reproducibles mediante `python scripts/capture_screenshots.py` y se verifican como artefacto de CI.
 
-## 🎓 Origen académico
+## 🎓 Información académica
 
 | Campo | Información |
 |---|---|
@@ -287,6 +287,19 @@ Las capturas son reproducibles mediante `python scripts/capture_screenshots.py` 
 | 👨‍💻 Autor | Francis Jairo Matías Rosario (2015-2984) |
 
 La versión actual es una reingeniería del proyecto final original, preservado en `legacy/web-original/` como memoria académica. Ese material histórico permanece en el repositorio, pero ya no forma parte de la navegación principal de la aplicación.
+
+## 🧭 Continuidad académica
+
+### 👨‍🏫 Continuidad por profesor
+
+**PySL** y [**GameCore**](https://github.com/Jairo0811/GameCore) documentan dos proyectos académicos distintos cursados con el profesor **Freidy Ramón Núñez Pérez** durante el mismo período **2016-C2**.
+
+| Orden | Asignatura | Proyecto | Período |
+|---:|---|---|---|
+| 1 | Fundamentos de Programación (SOF-001) | **PySL** | 2016-C2 |
+| 2 | Introducción a las Bases de Datos (SOF-006) | [**GameCore**](https://github.com/Jairo0811/GameCore) | 2016-C2 |
+
+La relación es **académica y docente**, no una dependencia técnica ni una secuencia de versiones. Ambos proyectos corresponden a asignaturas diferentes cursadas en paralelo dentro del mismo cuatrimestre.
 
 ## 📌 Estado y versionado
 
