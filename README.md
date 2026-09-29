@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/pysl-logo.png" alt="Logo de PySL" width="360">
+  <img src="assets/pysl-logo.png" alt="Logo de PySL" width="720">
 </p>
 
 <p align="center">
