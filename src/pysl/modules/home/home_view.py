@@ -82,7 +82,8 @@ class HomeView(QWidget):
         quick = QLabel("Accesos rápidos")
         quick.setObjectName("sectionTitle")
         root.addWidget(quick)
-        root.addLayout(self._build_quick_access(), 1)
+        root.addLayout(self._build_quick_access())
+        root.addStretch(1)
 
         self.refresh_stats()
 
@@ -103,7 +104,7 @@ class HomeView(QWidget):
         )
         body.setObjectName("subtitle")
         body.setWordWrap(True)
-        body.setMaximumWidth(760)
+        body.setMinimumHeight(46)
 
         actions = QHBoxLayout()
         actions.setSpacing(12)
@@ -170,7 +171,7 @@ class HomeView(QWidget):
             button.clicked.connect(lambda checked=False, target=destination: self._navigate(target))
             layout.addWidget(heading)
             layout.addWidget(description)
-            layout.addStretch()
+            layout.addSpacing(4)
             layout.addWidget(button)
             grid.addWidget(card, index // 2, index % 2)
             grid.setColumnStretch(index % 2, 1)
