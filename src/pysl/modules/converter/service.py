@@ -204,7 +204,7 @@ class CodeConverter:
         ):
             raise ConversionError("Python → SL solo convierte ciclos for basados en range.")
         if len(expression.args) == 1:
-            return "0", f"({self._expression(expression.args[0])}) - 1"
+            return "0", self._inclusive_bound(expression.args[0])
         if len(expression.args) == 2:
             start = self._expression(expression.args[0])
             stop = expression.args[1]
@@ -215,8 +215,21 @@ class CodeConverter:
                 and stop.right.value == 1
             ):
                 return start, self._expression(stop.left)
-            return start, f"({self._expression(stop)}) - 1"
+            return start, self._inclusive_bound(stop)
         raise ConversionError("Python → SL solo admite range(límite) o range(inicio, límite).")
+
+    def _inclusive_bound(self, stop: ast.expr) -> str:
+        """Express Python's exclusive ``range`` limit as SL's inclusive ``hasta`` value."""
+        if (
+            isinstance(stop, ast.Constant)
+            and isinstance(stop.value, int)
+            and not isinstance(stop.value, bool)
+        ):
+            return str(stop.value - 1)
+        expression = self._expression(stop)
+        if isinstance(stop, ast.Name):
+            return f"{expression} - 1"
+        return f"({expression}) - 1"
 
     def _target(self, target: ast.expr) -> str:
         if isinstance(target, ast.Name) and not target.id.startswith("_"):
