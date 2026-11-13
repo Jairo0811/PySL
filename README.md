@@ -284,7 +284,7 @@ Las capturas son reproducibles mediante `python scripts/capture_screenshots.py` 
 | 📘 Materia | Fundamentos de Programación (SOF-001) |
 | 📅 Período | 2016-C2 |
 | 👨‍🏫 Profesor | Freidy Ramón Núñez Pérez |
-| 👨‍💻 Autor | Francis Jairo Matías Rosario (2015-2984) |
+| 👨‍💻 Autor | Francis Jairo Matías Rosario |
 
 La versión actual es una reingeniería del proyecto final original, preservado en `legacy/web-original/` como memoria académica. Ese material histórico permanece en el repositorio, pero ya no forma parte de la navegación principal de la aplicación.
 

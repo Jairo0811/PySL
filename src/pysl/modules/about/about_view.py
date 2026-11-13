@@ -80,13 +80,6 @@ class AboutView(QWidget):
 
         content_layout.addWidget(
             self._create_academic_field(
-                "Matrícula",
-                "2015-2984",
-            )
-        )
-
-        content_layout.addWidget(
-            self._create_academic_field(
                 "Materia",
                 "Fundamentos de Programación (SOF-001)",
             )
