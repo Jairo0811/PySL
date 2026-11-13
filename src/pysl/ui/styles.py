@@ -108,7 +108,13 @@ QLabel#title {{ font-size: 30px; font-weight: 750; }}
 QLabel#pageTitle {{ font-size: 28px; font-weight: 750; }}
 QLabel#sectionTitle {{ font-size: 19px; font-weight: 700; }}
 QLabel#subtitle, QLabel#muted {{ color: {colors["muted"]}; }}
-QLabel#accent {{ color: {colors["accent"]}; font-weight: 700; }}
+QLabel#accent {{ color: {colors["accent"]}; font-weight: 700; letter-spacing: 1px; }}
+QLabel#notice {{
+    color: {colors["muted"]};
+    background-color: {colors["secondary"]};
+    border-radius: 8px;
+    padding: 8px 12px;
+}}
 QLineEdit, QPlainTextEdit, QTextEdit, QComboBox, QSpinBox {{
     background-color: {colors["input"]};
     color: {colors["foreground"]};
@@ -128,11 +134,13 @@ QLineEdit:focus, QPlainTextEdit:focus, QTextEdit:focus, QComboBox:focus {{
 QPushButton {{
     background-color: {colors["primary"]};
     color: #ffffff;
-    border: none;
+    border: 2px solid transparent;
     border-radius: 10px;
-    padding: 11px 16px;
+    padding: 9px 14px;
     font-weight: 650;
 }}
+QPushButton:focus {{ border-color: {colors["accent"]}; }}
+QPushButton:disabled {{ background-color: {colors["secondary"]}; color: {colors["muted"]}; }}
 QPushButton:hover {{ background-color: {colors["primary_hover"]}; }}
 QPushButton:pressed {{ background-color: {colors["primary_pressed"]}; }}
 QPushButton#secondaryButton {{
@@ -185,6 +193,10 @@ QListWidget::item {{
     padding: 13px 12px;
     margin: 2px 0;
     border-radius: 9px;
+}}
+QListWidget#mainMenu:focus {{
+    border: 1px solid {colors["accent"]};
+    border-radius: 12px;
 }}
 QListWidget::item:hover {{ background-color: {colors["secondary"]}; }}
 QListWidget::item:selected {{ background-color: {colors["primary"]}; color: #ffffff; }}

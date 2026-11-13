@@ -1,7 +1,6 @@
 from collections.abc import Callable
 
-from PySide6.QtCore import Qt
-from PySide6.QtGui import QPixmap, QShowEvent
+from PySide6.QtGui import QShowEvent
 from PySide6.QtWidgets import (
     QFrame,
     QGridLayout,
@@ -14,6 +13,33 @@ from PySide6.QtWidgets import (
 
 from pysl.core.database import Database
 from pysl.core.settings import SETTINGS
+
+QUICK_ACCESS = (
+    (
+        "Laboratorio",
+        "Resuelve el menor número par y compáralo con su algoritmo en SL.",
+        "Resolver laboratorio",
+        "Laboratorios",
+    ),
+    (
+        "Arcade",
+        "Ahorcado, adivina el número, piedra papel o tijera y tres en raya.",
+        "Abrir juegos",
+        "Juegos",
+    ),
+    (
+        "Convertidor",
+        "Traduce programas entre SL y Python y compara ambas sintaxis.",
+        "Convertir código",
+        "Convertidor",
+    ),
+    (
+        "Documentación",
+        "Referencia rápida de la sintaxis de SL, operadores y atajos del IDE.",
+        "Consultar documentación",
+        "Documentación",
+    ),
+)
 
 
 class HomeView(QWidget):
@@ -49,25 +75,39 @@ class HomeView(QWidget):
     def _build_ui(self) -> None:
         root = QVBoxLayout(self)
         root.setContentsMargins(6, 6, 6, 6)
-        root.setSpacing(18)
+        root.setSpacing(20)
 
+        root.addWidget(self._build_hero())
+        root.addLayout(self._build_stats())
+
+        quick = QLabel("Accesos rápidos")
+        quick.setObjectName("sectionTitle")
+        root.addWidget(quick)
+        root.addLayout(self._build_quick_access(), 1)
+
+        self.refresh_stats()
+
+    def _build_hero(self) -> QFrame:
         hero = QFrame()
         hero.setObjectName("card")
-        hero_layout = QHBoxLayout(hero)
-        hero_layout.setContentsMargins(34, 28, 34, 28)
+        layout = QVBoxLayout(hero)
+        layout.setContentsMargins(40, 34, 40, 34)
+        layout.setSpacing(10)
 
-        text = QVBoxLayout()
+        eyebrow = QLabel("PLATAFORMA EDUCATIVA · SL + PYTHON")
+        eyebrow.setObjectName("accent")
         title = QLabel(f"Bienvenido a PySL, {self._username}")
         title.setObjectName("pageTitle")
         body = QLabel(
-            "Aprende programación estructurada con la claridad de SL y el poder "
-            "de Python. Continúa tu formación desde el laboratorio, el IDE o el curso."
+            "Aprende programación estructurada con la claridad de SL y el poder de Python. "
+            "Sigue el curso, practica en el IDE y compara tu código con su equivalente."
         )
         body.setObjectName("subtitle")
         body.setWordWrap(True)
-        body.setMaximumWidth(700)
+        body.setMaximumWidth(760)
 
         actions = QHBoxLayout()
+        actions.setSpacing(12)
         start = QPushButton("Comenzar en el IDE")
         start.clicked.connect(lambda: self._navigate("IDE de SL"))
         course = QPushButton("Continuar el curso")
@@ -77,33 +117,19 @@ class HomeView(QWidget):
         actions.addWidget(course)
         actions.addStretch()
 
-        text.addWidget(title)
-        text.addWidget(body)
-        text.addSpacing(8)
-        text.addLayout(actions)
-        text.addStretch()
+        layout.addWidget(eyebrow)
+        layout.addWidget(title)
+        layout.addWidget(body)
+        layout.addSpacing(8)
+        layout.addLayout(actions)
+        return hero
 
-        logo = QLabel()
-        pixmap = QPixmap(str(SETTINGS.assets_dir / "pysl-logo.png"))
-        if not pixmap.isNull():
-            logo.setPixmap(
-                pixmap.scaled(
-                    225,
-                    225,
-                    Qt.AspectRatioMode.KeepAspectRatio,
-                    Qt.TransformationMode.SmoothTransformation,
-                )
-            )
-        logo.setAlignment(Qt.AlignmentFlag.AlignCenter)
-
-        hero_layout.addLayout(text, 3)
-        hero_layout.addWidget(logo, 1)
-
+    def _build_stats(self) -> QGridLayout:
         stats_data = (
             ("labs", "0", "Laboratorios completados"),
             ("played", "0", "Partidas jugadas"),
             ("won", "0", "Victorias"),
-            ("version", SETTINGS.version, "Versión estable"),
+            ("version", SETTINGS.version, "Versión de PySL"),
         )
         stats = QGridLayout()
         stats.setHorizontalSpacing(14)
@@ -121,27 +147,33 @@ class HomeView(QWidget):
             card_layout.addWidget(number)
             card_layout.addWidget(description)
             stats.addWidget(card, 0, column)
+            stats.setColumnStretch(column, 1)
+        return stats
 
-        quick = QLabel("Accesos rápidos")
-        quick.setObjectName("sectionTitle")
-        quick_actions = QGridLayout()
-        quick_actions.setSpacing(12)
-        destinations = (
-            ("Resolver laboratorio", "Laboratorios"),
-            ("Abrir juegos", "Juegos"),
-            ("Convertir código", "Convertidor"),
-            ("Consultar documentación", "Documentación"),
-        )
-        for index, (title_text, destination) in enumerate(destinations):
-            button = QPushButton(title_text)
+    def _build_quick_access(self) -> QGridLayout:
+        grid = QGridLayout()
+        grid.setSpacing(14)
+        for index, (title_text, description_text, action_text, destination) in enumerate(
+            QUICK_ACCESS
+        ):
+            card = QFrame()
+            card.setObjectName("card")
+            layout = QVBoxLayout(card)
+            layout.setContentsMargins(22, 18, 22, 18)
+            layout.setSpacing(6)
+            heading = QLabel(title_text)
+            heading.setObjectName("sectionTitle")
+            description = QLabel(description_text)
+            description.setObjectName("subtitle")
+            description.setWordWrap(True)
+            button = QPushButton(action_text)
             button.setObjectName("secondaryButton")
             button.clicked.connect(lambda checked=False, target=destination: self._navigate(target))
-            quick_actions.addWidget(button, index // 2, index % 2)
-
-        self.refresh_stats()
-
-        root.addWidget(hero)
-        root.addLayout(stats)
-        root.addWidget(quick)
-        root.addLayout(quick_actions)
-        root.addStretch()
+            layout.addWidget(heading)
+            layout.addWidget(description)
+            layout.addStretch()
+            layout.addWidget(button)
+            grid.addWidget(card, index // 2, index % 2)
+            grid.setColumnStretch(index % 2, 1)
+            grid.setRowStretch(index // 2, 1)
+        return grid

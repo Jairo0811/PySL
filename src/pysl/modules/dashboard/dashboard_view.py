@@ -87,9 +87,8 @@ class DashboardView(QWidget):
 
         self._menu = QListWidget()
         self._menu.setObjectName("mainMenu")
-        icons = ("⌂", "♙", "▤", "⚗", "▣", "</>", "⇄", "?", "⚙", "ⓘ")
-        for icon, title in zip(icons, self.MODULES, strict=True):
-            self._menu.addItem(QListWidgetItem(f"{icon}   {title}"))
+        for title in self.MODULES:
+            self._menu.addItem(QListWidgetItem(title))
         self._menu.currentRowChanged.connect(self._pages_set_current_index)
 
         logout = QPushButton("Cerrar sesión")
