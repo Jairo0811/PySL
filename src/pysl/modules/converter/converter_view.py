@@ -1,5 +1,6 @@
 from PySide6.QtCore import Qt
 from PySide6.QtWidgets import (
+    QApplication,
     QComboBox,
     QHBoxLayout,
     QLabel,
@@ -41,11 +42,19 @@ class ConverterView(QWidget):
         swap = QPushButton("Intercambiar")
         swap.setObjectName("secondaryButton")
         swap.clicked.connect(self._swap)
+        self._copy_button = QPushButton("Copiar resultado")
+        self._copy_button.setObjectName("secondaryButton")
+        self._copy_button.clicked.connect(self._copy_result)
 
         controls.addWidget(self._direction)
         controls.addWidget(button)
         controls.addWidget(swap)
+        controls.addWidget(self._copy_button)
         controls.addStretch()
+
+        self._notice = QLabel("Python → SL solo soporta el subconjunto educativo documentado.")
+        self._notice.setObjectName("notice")
+        self._notice.setWordWrap(True)
 
         splitter = QSplitter(Qt.Orientation.Horizontal)
 
@@ -77,6 +86,7 @@ class ConverterView(QWidget):
         root.addWidget(title)
         root.addWidget(subtitle)
         root.addLayout(controls)
+        root.addWidget(self._notice)
         root.addWidget(splitter, 1)
 
     def _refresh_language_labels(self) -> None:
@@ -86,6 +96,7 @@ class ConverterView(QWidget):
             source_language, target_language = "Python", "SL"
         self._source_label.setText(f"Código {source_language}")
         self._target_label.setText(f"Código {target_language}")
+        self._notice.setVisible(self._direction.currentIndex() == 1)
 
     def _convert(self) -> None:
         try:
@@ -95,14 +106,22 @@ class ConverterView(QWidget):
             else:
                 result = self._converter.python_to_sl(source)
             self._target.setPlainText(result)
-        except Exception as exc:
+        except Exception as exc:  # conversion errors are shown to the student, never fatal
+            self._target.clear()
             QMessageBox.critical(self, "Error de conversión", str(exc))
 
     def _swap(self) -> None:
-        source = self._source.toPlainText()
-        target = self._target.toPlainText()
-
+        """Use the current result as the new input, flip the direction and reconvert."""
+        result = self._target.toPlainText()
+        self._direction.blockSignals(True)
         self._direction.setCurrentIndex(1 - self._direction.currentIndex())
-        self._source.setPlainText(target)
-        self._target.setPlainText(source)
+        self._direction.blockSignals(False)
         self._refresh_language_labels()
+        if result.strip():
+            self._source.setPlainText(result)
+        self._convert()
+
+    def _copy_result(self) -> None:
+        text = self._target.toPlainText()
+        if text:
+            QApplication.clipboard().setText(text)
