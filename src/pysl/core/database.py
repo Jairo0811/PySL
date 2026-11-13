@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 import sqlite3
+from collections.abc import Iterator
+from contextlib import contextmanager
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -30,14 +32,28 @@ class Database:
         connection.row_factory = sqlite3.Row
         connection.execute("PRAGMA foreign_keys = ON")
         connection.execute("PRAGMA busy_timeout = 5000")
+        connection.execute("PRAGMA synchronous = NORMAL")
         return connection
 
+    @contextmanager
+    def _transaction(self) -> Iterator[sqlite3.Connection]:
+        """Commit on success, roll back on error and always release the file handle.
+
+        ``with sqlite3.connect(...)`` only manages the transaction; it never closes the
+        connection, which keeps the database file locked on Windows until garbage collection.
+        """
+        connection = self.connect()
+        try:
+            with connection:
+                yield connection
+        finally:
+            connection.close()
+
     def _initialize(self) -> None:
-        with self.connect() as connection:
+        with self._transaction() as connection:
             connection.executescript(
                 """
                 PRAGMA journal_mode = WAL;
-                PRAGMA synchronous = NORMAL;
                 CREATE TABLE IF NOT EXISTS progress (
                     item_key TEXT PRIMARY KEY,
                     item_type TEXT NOT NULL,
@@ -63,7 +79,7 @@ class Database:
         self._validate_key(item_type, "item_type")
         if not 0 <= score <= 100:
             raise ValueError("score debe estar entre 0 y 100.")
-        with self.connect() as connection:
+        with self._transaction() as connection:
             connection.execute(
                 """
                 INSERT INTO progress(item_key, item_type, completed, score)
@@ -74,9 +90,12 @@ class Database:
                 (item_key, item_type, score),
             )
 
-    def record_game(self, game_key: str, won: bool) -> None:
+    def record_game(self, game_key: str, won: bool, *, drawn: bool = False) -> None:
+        """Register a finished game. A draw counts as played but neither won nor lost."""
         self._validate_key(game_key, "game_key")
-        with self.connect() as connection:
+        if won and drawn:
+            raise ValueError("Una partida no puede ser victoria y empate a la vez.")
+        with self._transaction() as connection:
             connection.execute(
                 """
                 INSERT INTO game_stats(game_key, played, won, lost)
@@ -86,11 +105,11 @@ class Database:
                     won = won + excluded.won,
                     lost = lost + excluded.lost
                 """,
-                (game_key, int(won), int(not won)),
+                (game_key, int(won), int(not won and not drawn)),
             )
 
     def summary(self) -> ProgressSummary:
-        with self.connect() as connection:
+        with self._transaction() as connection:
             completed = connection.execute(
                 "SELECT COUNT(*) FROM progress WHERE completed = 1"
             ).fetchone()[0]
@@ -103,7 +122,7 @@ class Database:
         self._validate_key(key, "preference_key")
         if len(value) > self._MAX_PREFERENCE_LENGTH:
             raise ValueError("La preferencia supera el tamaño máximo permitido.")
-        with self.connect() as connection:
+        with self._transaction() as connection:
             connection.execute(
                 """
                 INSERT INTO preferences(preference_key, preference_value)
@@ -116,14 +135,14 @@ class Database:
 
     def get_preference(self, key: str, default: str = "") -> str:
         self._validate_key(key, "preference_key")
-        with self.connect() as connection:
+        with self._transaction() as connection:
             row = connection.execute(
                 "SELECT preference_value FROM preferences WHERE preference_key = ?", (key,)
             ).fetchone()
         return row[0] if row else default
 
     def reset(self) -> None:
-        with self.connect() as connection:
+        with self._transaction() as connection:
             connection.execute("DELETE FROM progress")
             connection.execute("DELETE FROM game_stats")
             connection.execute("DELETE FROM preferences")
