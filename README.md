@@ -106,7 +106,7 @@ for numero in range(1, 4):
 
 ```text
 inicio
-    para numero desde 1 hasta (4) - 1
+    para numero desde 1 hasta 3
         si numero % 2 == 0 entonces
             imprimir("par", numero)
         finsi
