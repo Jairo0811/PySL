@@ -26,3 +26,9 @@ def test_font_size_is_clamped_to_supported_range() -> None:
     assert normalize_font_size(16) == 16
     assert normalize_font_size(30) == 24
     assert "font-size: 24px" in get_stylesheet(DARK_THEME, 30)
+
+
+def test_labels_are_transparent_so_cards_do_not_show_dark_boxes() -> None:
+    for theme in (DARK_THEME, LIGHT_THEME):
+        assert "QLabel {\n    background-color: transparent;" not in get_stylesheet(theme)
+        assert "QLabel { background-color: transparent; }" in get_stylesheet(theme)

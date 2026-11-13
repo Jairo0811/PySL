@@ -5,11 +5,13 @@ import os
 import sys
 from collections.abc import Iterable
 from pathlib import Path
+from tempfile import TemporaryDirectory
 
 os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
 
 from PySide6.QtWidgets import QApplication, QWidget
 
+from pysl.core.database import Database
 from pysl.modules.authentication.login_view import LoginView
 from pysl.modules.authentication.service import AuthenticationService
 from pysl.modules.dashboard.dashboard_view import DashboardView
@@ -35,17 +37,19 @@ def capture(output_directory: Path) -> Iterable[Path]:
     generated.append(login_path)
     login.close()
 
-    dashboard = DashboardView("Jairo", lambda: None)
-    for module_name, filename in (
-        ("Inicio", "dashboard.png"),
-        ("IDE de SL", "ide-sl.png"),
-        ("Convertidor", "converter.png"),
-    ):
-        dashboard.navigate(module_name)
-        path = output_directory / filename
-        _render(dashboard, path)
-        generated.append(path)
-    dashboard.close()
+    with TemporaryDirectory() as data_directory:
+        dashboard = DashboardView("Jairo", lambda: None, Database(Path(data_directory) / "demo.db"))
+        for module_name, filename in (
+            ("Inicio", "dashboard.png"),
+            ("IDE de SL", "ide-sl.png"),
+            ("Convertidor", "converter.png"),
+        ):
+            dashboard.navigate(module_name)
+            path = output_directory / filename
+            _render(dashboard, path)
+            generated.append(path)
+        dashboard._editor_view.editor.document().setModified(False)
+        dashboard.close()
     return generated
 
 

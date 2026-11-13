@@ -12,7 +12,14 @@ from pysl.language.transpiler import SLTranspiler
 
 
 class SLExecutionError(RuntimeError):
-    """Raised when an SL program cannot finish safely."""
+    """Raised when an SL program cannot finish safely.
+
+    ``line`` is the SL source line where the failure happened, when it is known.
+    """
+
+    def __init__(self, message: str, line: int | None = None) -> None:
+        super().__init__(message)
+        self.line = line
 
 
 class ExecutionLimitExceeded(SLExecutionError):
@@ -50,6 +57,7 @@ class _SafeOperationTransformer(ast.NodeTransformer):
         ast.Add: "__suma_segura__",
         ast.Mult: "__multiplicacion_segura__",
         ast.Pow: "__potencia_segura__",
+        ast.Mod: "__modulo_seguro__",
     }
 
     def visit_BinOp(self, node: ast.BinOp) -> ast.AST:
@@ -171,10 +179,13 @@ class SLExecutor:
             finally:
                 process.join(timeout=0.5)
 
-            status, category, message, output, variables = payload
+            status, category, message, output, variables, python_line = payload
             if status == "error":
                 error_type = ExecutionLimitExceeded if category == "limit" else SLExecutionError
-                raise error_type(message)
+                sl_line = program.sl_line(python_line)
+                if sl_line is not None:
+                    message = f"{message} (línea {sl_line})"
+                raise error_type(message, sl_line)
             return ExecutionResult(output, program.python_code, variables)
         finally:
             receiver.close()
@@ -328,6 +339,7 @@ def _execute_in_child(
             "__suma_segura__": lambda left, right: _safe_add(left, right, limits),
             "__multiplicacion_segura__": lambda left, right: _safe_multiply(left, right, limits),
             "__potencia_segura__": lambda base, exponent: _safe_power(base, exponent, limits),
+            "__modulo_seguro__": lambda left, right: _safe_modulo(left, right, limits),
             "int": safe_int,
             "float": safe_float,
             "str": safe_str,
@@ -344,41 +356,70 @@ def _execute_in_child(
         finally:
             sys.settrace(None)
 
-        excluded = {
-            "int",
-            "float",
-            "str",
-            "range",
-            "len",
-            "min",
-            "max",
-            "sum",
-        }
         variables = {
             key: value
             for key, value in environment.items()
-            if not key.startswith("__") and key not in excluded and not callable(value)
+            if not key.startswith("__")
+            and key not in SLExecutor._BUILTIN_CALLS
+            and not callable(value)
         }
         for value in variables.values():
             _ensure_safe_value(value, limits)
-        connection.send(("ok", "", "", "\n".join(output_lines), variables))
+        connection.send(("ok", "", "", "\n".join(output_lines), variables, None))
     except ExecutionLimitExceeded as exc:
-        connection.send(("error", "limit", str(exc), "", {}))
-    except (
-        ArithmeticError,
-        IndexError,
-        NameError,
-        RecursionError,
-        SLExecutionError,
-        TypeError,
-    ) as exc:
-        connection.send(("error", "runtime", f"Error de ejecución: {exc}", "", {}))
-    except MemoryError:
-        connection.send(("error", "limit", "El programa superó el límite de memoria.", "", {}))
-    except Exception as exc:  # pragma: no cover - defensive child-process boundary
-        connection.send(("error", "runtime", f"El runtime rechazó el programa: {exc}", "", {}))
+        connection.send(("error", "limit", str(exc), "", {}, _failure_line(exc)))
+    except MemoryError as exc:
+        message = "El programa superó el límite de memoria."
+        connection.send(("error", "limit", message, "", {}, _failure_line(exc)))
+    except Exception as exc:  # child-process boundary: every failure is reported to the parent
+        message = f"Error de ejecución: {_describe_error(exc)}"
+        connection.send(("error", "runtime", message, "", {}, _failure_line(exc)))
     finally:
         connection.close()
+
+
+def _failure_line(exc: BaseException) -> int | None:
+    """Return the innermost generated-Python line that was running when ``exc`` was raised."""
+    line: int | None = None
+    traceback = exc.__traceback__
+    while traceback is not None:
+        if traceback.tb_frame.f_code.co_filename == "<sl>":
+            line = traceback.tb_lineno
+        traceback = traceback.tb_next
+    return line
+
+
+def _describe_error(exc: BaseException) -> str:
+    """Explain a runtime failure in Spanish instead of leaking Python's English messages."""
+    detail = str(exc)
+    if isinstance(exc, SLExecutionError):
+        return detail
+    if isinstance(exc, ZeroDivisionError):
+        return "división entre cero."
+    if isinstance(exc, IndexError):
+        return "el índice está fuera del rango del vector."
+    if isinstance(exc, NameError):
+        name = getattr(exc, "name", None)
+        if name:
+            return f"la variable o función '{name}' no está definida."
+        return "se usó un nombre que no está definido."
+    if isinstance(exc, RecursionError):
+        return "recursión demasiado profunda; revisa el caso base de la función."
+    if isinstance(exc, OverflowError):
+        return "el resultado numérico es demasiado grande."
+    if isinstance(exc, ArithmeticError):
+        return "operación aritmética no válida."
+    if isinstance(exc, ValueError):
+        if "invalid literal" in detail or "could not convert" in detail:
+            return "no se pudo convertir el valor a número."
+        return "el valor no es válido para esta operación."
+    if isinstance(exc, TypeError):
+        if "positional argument" in detail:
+            return "la cantidad de argumentos de la llamada no coincide con la función."
+        if "NoneType" in detail:
+            return "se usó una variable que todavía no tiene valor asignado."
+        return "los tipos de datos no son compatibles con la operación."
+    return "el programa no pudo completarse."
 
 
 def _safe_add(left: object, right: object, limits: ExecutionLimits) -> object:
@@ -403,6 +444,19 @@ def _safe_multiply(left: object, right: object, limits: ExecutionLimits) -> obje
                 "La multiplicación produciría una colección demasiado grande."
             )
     result = left * right  # type: ignore[operator]
+    _ensure_safe_value(result, limits)
+    return result
+
+
+def _safe_modulo(left: object, right: object, limits: ExecutionLimits) -> object:
+    """Allow numeric ``%`` only.
+
+    With text on the left Python performs printf-style formatting, which can allocate a
+    huge string (``"%900000000d" % 1``) before any size check runs. SL has no formatting.
+    """
+    if isinstance(left, (str, list, tuple)):
+        raise SLExecutionError("El operador % solo admite números.")
+    result = left % right  # type: ignore[operator]
     _ensure_safe_value(result, limits)
     return result
 

@@ -13,12 +13,14 @@ El runtime permite ejecutar ejercicios SL escritos por el usuario local. Reduce 
 5. Los nombres internos y los identificadores que comienzan con `_` están reservados.
 6. El programa se ejecuta en otro proceso sin `__builtins__` generales.
 7. Se aplican límites de tiempo, pasos, ciclos, AST, entrada, salida, colecciones y enteros.
-8. En sistemas POSIX se aplica además `RLIMIT_AS`; en Windows se mantienen el aislamiento de proceso y los límites lógicos.
-9. La interfaz ejecuta el servicio en un worker de Qt y permanece receptiva.
+8. En sistemas POSIX se aplica además `RLIMIT_AS`; **en Windows no existe ese límite de memoria**: se mantienen el aislamiento de proceso, la terminación por tiempo y los límites lógicos de enteros, colecciones y salida.
+9. El operador `%` se resuelve con una función segura: el formateo de cadenas (`"%s" % x`) queda rechazado para evitar su uso como vector de consumo de memoria.
+10. La interfaz ejecuta el servicio en un worker de Qt y permanece receptiva.
 
 ## Datos locales
 
-- SQLite usa consultas parametrizadas.
+- SQLite usa consultas parametrizadas, transacciones que siempre cierran la conexión, WAL y `busy_timeout`.
+- Si el archivo de base de datos está dañado, se renombra a `*.corrupt-<fecha UTC>` (con sus archivos `-wal`/`-shm`) y se crea una base nueva en lugar de fallar o borrar datos.
 - La base y los logs se almacenan en la carpeta de datos del usuario.
 - El login es demostrativo y local; ofrece acceso explícito como invitado y la cuenta académica compatible compara su contraseña con un derivado PBKDF2.
 - Los logs rotan y no registran contraseñas ni el contenido de las entradas del programa.

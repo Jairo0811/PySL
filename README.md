@@ -13,7 +13,7 @@
 <p align="center">
   <a href="https://github.com/Jairo0811/PySL/actions/workflows/ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/Jairo0811/PySL/ci.yml?branch=main&style=for-the-badge&label=CI" alt="Estado de CI"></a>
   <img src="https://img.shields.io/badge/Python-3.12%2B-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python 3.12 o superior">
-  <img src="https://img.shields.io/badge/Versión-1.0.4-7C3AED?style=for-the-badge" alt="Versión 1.0.4">
+  <img src="https://img.shields.io/badge/Versión-1.0.5-7C3AED?style=for-the-badge" alt="Versión 1.0.5">
   <img src="https://img.shields.io/badge/Estado-Estable-2EA44F?style=for-the-badge" alt="Estado estable">
   <img src="https://img.shields.io/badge/Licencia-MIT-0A66C2?style=for-the-badge" alt="Licencia MIT">
 </p>
@@ -27,6 +27,8 @@
 <p align="center">
   <strong>📦 Descarga la última versión estable para Windows x64 desde GitHub Releases.</strong>
 </p>
+
+> ℹ️ *PySL es un proyecto académico independiente y no constituye una aplicación oficial del Instituto Tecnológico de Las Américas (ITLA).*
 
 > **📌 Nomenclatura oficial:** PySL es la plataforma. SL y Python son los lenguajes. El conversor trabaja en las direcciones **SL → Python** y **Python → SL**.
 
@@ -106,7 +108,7 @@ for numero in range(1, 4):
 
 ```text
 inicio
-    para numero desde 1 hasta (4) - 1
+    para numero desde 1 hasta 3
         si numero % 2 == 0 entonces
             imprimir("par", numero)
         finsi
@@ -245,7 +247,7 @@ python -m pytest
 python -m compileall -q src
 ```
 
-La suite contiene **33 pruebas automatizadas** que cubren autenticación, parser/transpilador, límites del runtime, conversores, SQLite, utilidades, temas visuales, laboratorio y juegos. CI verifica Python 3.12 y 3.13; además genera y prueba el ejecutable en Windows.
+La suite contiene **137 pruebas automatizadas** que cubren autenticación, parser/transpilador, límites del runtime, conversores, SQLite (incluida la recuperación ante archivos corruptos), interfaz sin pantalla, ejemplos del curso, temas visuales, laboratorio y juegos. CI verifica Python 3.12 y 3.13; además genera y prueba el ejecutable en Windows.
 
 ## 📦 Crear una distribución para Windows
 
@@ -284,9 +286,9 @@ Las capturas son reproducibles mediante `python scripts/capture_screenshots.py` 
 | 📘 Materia | Fundamentos de Programación (SOF-001) |
 | 📅 Período | 2016-C2 |
 | 👨‍🏫 Profesor | Freidy Ramón Núñez Pérez |
-| 👨‍💻 Autor | Francis Jairo Matías Rosario (2015-2984) |
+| 👨‍💻 Autor | Francis Jairo Matías Rosario |
 
-La versión actual es una reingeniería del proyecto final original, preservado en `legacy/web-original/` como memoria académica. Ese material histórico permanece en el repositorio, pero ya no forma parte de la navegación principal de la aplicación.
+La versión actual es una reingeniería del proyecto final original (2016 → 2026), preservado en `legacy/web-original/` como memoria académica. Ese material histórico permanece en el repositorio, pero ya no forma parte de la navegación principal de la aplicación y solo se empaqueta en el ejecutable la imagen del perfil. Consulta [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) para el origen y las condiciones del material heredado.
 
 ## 🧭 Continuidad académica
 

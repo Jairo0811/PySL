@@ -49,7 +49,7 @@ Write-Host "Generando el ejecutable de Windows..."
     --icon "assets\pysl-logo.ico" `
     --add-data "assets;assets" `
     --add-data "data;data" `
-    --add-data "legacy;legacy" `
+    --add-data "legacy\web-original\1.jpg;legacy/web-original" `
     --add-data "docs;docs" `
     --add-data "examples;examples" `
     "src\pysl\app.py"

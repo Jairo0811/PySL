@@ -7,6 +7,8 @@ from PySide6.QtWidgets import QApplication
 DARK_THEME: Final = "Oscuro"
 LIGHT_THEME: Final = "Claro"
 DEFAULT_FONT_SIZE: Final = 14
+MIN_FONT_SIZE: Final = 11
+MAX_FONT_SIZE: Final = 24
 
 _THEME_COLORS: Final = {
     DARK_THEME: {
@@ -31,6 +33,7 @@ _THEME_COLORS: Final = {
         "line_number_background": "#111827",
         "line_number_foreground": "#64748b",
         "current_line": "#172033",
+        "error_line": "#4a1d25",
     },
     LIGHT_THEME: {
         "background": "#f8fafc",
@@ -54,6 +57,7 @@ _THEME_COLORS: Final = {
         "line_number_background": "#f1f5f9",
         "line_number_foreground": "#64748b",
         "current_line": "#ede9fe",
+        "error_line": "#fee2e2",
     },
 }
 
@@ -65,7 +69,15 @@ def normalize_theme(theme: str) -> str:
 
 def normalize_font_size(font_size: int) -> int:
     """Keep the configurable UI/editor font size inside the supported range."""
-    return max(11, min(24, int(font_size)))
+    return max(MIN_FONT_SIZE, min(MAX_FONT_SIZE, int(font_size)))
+
+
+def parse_font_size(raw_value: str) -> int:
+    """Convert a stored preference into a valid font size, tolerating corrupt values."""
+    try:
+        return normalize_font_size(int(raw_value))
+    except (TypeError, ValueError):
+        return DEFAULT_FONT_SIZE
 
 
 def theme_colors(theme: str) -> dict[str, str]:
@@ -85,6 +97,7 @@ QWidget {{
     font-family: "Segoe UI";
     font-size: {size}px;
 }}
+QLabel {{ background-color: transparent; }}
 QFrame#sidebar, QFrame#card, QFrame#statCard {{
     background-color: {colors["card"]};
     border: 1px solid {colors["border"]};
@@ -95,7 +108,18 @@ QLabel#title {{ font-size: 30px; font-weight: 750; }}
 QLabel#pageTitle {{ font-size: 28px; font-weight: 750; }}
 QLabel#sectionTitle {{ font-size: 19px; font-weight: 700; }}
 QLabel#subtitle, QLabel#muted {{ color: {colors["muted"]}; }}
-QLabel#accent {{ color: {colors["accent"]}; font-weight: 700; }}
+QLabel#aboutTitle {{ font-size: 34px; font-weight: 800; }}
+QLabel#aboutVersion, QLabel#aboutSlogan {{ color: {colors["muted"]}; }}
+QLabel#aboutInstitution {{ font-weight: 650; }}
+QLabel#academicFieldLabel {{ color: {colors["muted"]}; font-size: 12px; }}
+QLabel#academicFieldValue {{ font-weight: 650; }}
+QLabel#accent {{ color: {colors["accent"]}; font-weight: 700; letter-spacing: 1px; }}
+QLabel#notice {{
+    color: {colors["muted"]};
+    background-color: {colors["secondary"]};
+    border-radius: 8px;
+    padding: 8px 12px;
+}}
 QLineEdit, QPlainTextEdit, QTextEdit, QComboBox, QSpinBox {{
     background-color: {colors["input"]};
     color: {colors["foreground"]};
@@ -115,11 +139,13 @@ QLineEdit:focus, QPlainTextEdit:focus, QTextEdit:focus, QComboBox:focus {{
 QPushButton {{
     background-color: {colors["primary"]};
     color: #ffffff;
-    border: none;
+    border: 2px solid transparent;
     border-radius: 10px;
-    padding: 11px 16px;
+    padding: 9px 14px;
     font-weight: 650;
 }}
+QPushButton:focus {{ border-color: {colors["accent"]}; }}
+QPushButton:disabled {{ background-color: {colors["secondary"]}; color: {colors["muted"]}; }}
 QPushButton:hover {{ background-color: {colors["primary_hover"]}; }}
 QPushButton:pressed {{ background-color: {colors["primary_pressed"]}; }}
 QPushButton#secondaryButton {{
@@ -169,9 +195,13 @@ QListWidget {{
     outline: none;
 }}
 QListWidget::item {{
-    padding: 13px 12px;
-    margin: 2px 0;
+    padding: 9px 12px;
+    margin: 1px 0;
     border-radius: 9px;
+}}
+QListWidget#mainMenu:focus {{
+    border: 1px solid {colors["accent"]};
+    border-radius: 12px;
 }}
 QListWidget::item:hover {{ background-color: {colors["secondary"]}; }}
 QListWidget::item:selected {{ background-color: {colors["primary"]}; color: #ffffff; }}

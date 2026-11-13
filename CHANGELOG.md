@@ -2,6 +2,52 @@
 
 Todos los cambios relevantes de PySL se documentan en este archivo. El proyecto utiliza [versionado semántico](https://semver.org/lang/es/).
 
+## 1.0.5 - 2026-11-13
+
+Última versión funcional de la línea 1.x: a partir de aquí solo se aceptan correcciones de errores y de seguridad.
+
+### Lenguaje y runtime
+
+- Los errores de ejecución se muestran **en español** y con la **línea SL** donde ocurrieron (división entre cero, índice fuera de rango, variable no definida, tipos incompatibles, conversión inválida, recursión, límites de recursos).
+- Corrige `int("abc")`, que se reportaba como "El runtime rechazó el programa" en lugar de un error de ejecución normal.
+- `imprimir()` sin argumentos imprime una línea en blanco (antes fallaba).
+- Los comentarios con `#` al final de cualquier instrucción (`imprimir`, `leer`, `si`, `finsi`, `fin`…) ahora se aceptan; antes solo funcionaban en asignaciones. `//` sigue siendo división entera salvo al inicio de línea.
+- Usar una palabra reservada de Python (`class`, `import`, `lambda`…) como nombre produce un error claro con su línea.
+- El conversor Python → SL genera límites legibles: `range(1, 4)` ahora da `hasta 3` en lugar de `hasta (4) - 1`.
+
+### Interfaz
+
+- El IDE resalta la línea con error, muestra el nombre del archivo con marca de cambios sin guardar y pide confirmación antes de descartar cambios al crear/abrir, cerrar sesión o cerrar la aplicación.
+- Corrige **Abrir**: un archivo ilegible o que no es UTF-8 ya no queda como archivo actual (riesgo de sobrescribirlo al guardar) ni provoca el diálogo de error global.
+- Añade atajos: Ctrl+N, Ctrl+O, Ctrl+S, Ctrl+Mayús+S, F5 y Ctrl+Enter.
+- Inicio refresca las estadísticas al mostrarse y el laboratorio **Menor número par** ahora registra el progreso (antes "Laboratorios completados" siempre mostraba 0).
+- Configuración revierte la vista previa si se sale sin guardar.
+- El resaltador distingue comentarios, cadenas con comilla simple y división entera.
+- Corrige fondos oscuros detrás de las etiquetas dentro de tarjetas y la fuente monoespaciada del Ahorcado fuera de Windows.
+- El curso incluye ejemplos ejecutables en las seis lecciones y la documentación integrada cubre operadores, vectores, funciones y atajos.
+
+### Pulido final
+
+- Barra lateral compacta (todas las secciones caben en 1100×700 sin desplazamiento), páginas de Inicio y Laboratorio con desplazamiento en ventanas pequeñas, Configuración alineada y Acerca de legible en ambos temas.
+- Inicio: héroe sin logo duplicado, estadísticas y accesos rápidos con jerarquía y proporciones consistentes.
+- Acceso: leyenda "Cuenta académica de demostración · sesión local" y eslogan en español natural.
+- Convertidor: **Intercambiar** usa el resultado actual como nueva entrada y **Copiar resultado** usa el portapapeles de Qt.
+- Curso: cada una de las seis unidades incluye objetivo, idea clave, sintaxis, ejemplo ejecutable, salida esperada y mini reto.
+- Acerca de y README declaran que PySL es un proyecto académico independiente, no oficial del ITLA.
+- Privacidad: se retira la matrícula de la aplicación, los datos y el README.
+- Se añade `THIRD_PARTY_NOTICES.md`; el ejecutable empaqueta solo la imagen heredada que usa la aplicación.
+- Base de datos: recuperación automática ante archivo corrupto y versión de esquema (`user_version`).
+- Seguridad: el operador `%` rechaza el formateo de cadenas; la documentación aclara que el límite de memoria solo existe en POSIX.
+- Capturas del README regeneradas con `scripts/capture_screenshots.py`.
+
+### Datos y calidad
+
+- SQLite cierra cada conexión (antes `with connection` solo confirmaba la transacción y dejaba el archivo abierto, problemático en Windows).
+- Los empates (piedra/papel/tijera, tres en raya) ya no se contabilizan como derrotas.
+- Una única instancia de `Database` se comparte entre todas las vistas.
+- Los límites de tamaño de fuente se centralizan en `pysl.ui.styles`.
+- La suite pasa de 34 a 137 pruebas, incluyendo pruebas de interfaz sin pantalla y la ejecución de cada ejemplo del curso.
+
 ## 1.0.4 - 2026-08-08
 
 ### Interfaz y experiencia

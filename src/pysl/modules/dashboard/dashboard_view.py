@@ -14,6 +14,7 @@ from PySide6.QtWidgets import (
     QWidget,
 )
 
+from pysl.core.database import Database
 from pysl.core.settings import SETTINGS
 from pysl.modules.about.about_view import AboutView
 from pysl.modules.converter.converter_view import ConverterView
@@ -25,6 +26,7 @@ from pysl.modules.games.games_view import GamesView
 from pysl.modules.home.home_view import HomeView
 from pysl.modules.profile.profile_view import ProfileView
 from pysl.modules.settings.settings_view import SettingsView
+from pysl.ui.layout import scrollable
 
 
 class DashboardView(QWidget):
@@ -41,8 +43,14 @@ class DashboardView(QWidget):
         "Acerca de PySL",
     )
 
-    def __init__(self, username: str, on_logout: Callable[[], None]) -> None:
+    def __init__(
+        self,
+        username: str,
+        on_logout: Callable[[], None],
+        database: Database | None = None,
+    ) -> None:
         super().__init__()
+        self._database = database or Database()
         self._username = username
         self._on_logout = on_logout
         self._index_by_name: dict[str, int] = {}
@@ -65,14 +73,14 @@ class DashboardView(QWidget):
         if not pixmap.isNull():
             logo.setPixmap(
                 pixmap.scaled(
-                    128,
-                    128,
+                    104,
+                    104,
                     Qt.AspectRatioMode.KeepAspectRatio,
                     Qt.TransformationMode.SmoothTransformation,
                 )
             )
         logo.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        logo.setMinimumHeight(132)
+        logo.setMinimumHeight(108)
 
         user = QLabel(f"Sesión: {self._username}")
         user.setObjectName("subtitle")
@@ -80,9 +88,8 @@ class DashboardView(QWidget):
 
         self._menu = QListWidget()
         self._menu.setObjectName("mainMenu")
-        icons = ("⌂", "♙", "▤", "⚗", "▣", "</>", "⇄", "?", "⚙", "ⓘ")
-        for icon, title in zip(icons, self.MODULES, strict=True):
-            self._menu.addItem(QListWidgetItem(f"{icon}   {title}"))
+        for title in self.MODULES:
+            self._menu.addItem(QListWidgetItem(title))
         self._menu.currentRowChanged.connect(self._pages_set_current_index)
 
         logout = QPushButton("Cerrar sesión")
@@ -96,16 +103,17 @@ class DashboardView(QWidget):
         sidebar.addWidget(logout)
 
         self._pages = QStackedWidget()
+        self._editor_view = EditorView()
         pages = [
-            HomeView(self._username, self.navigate),
+            scrollable(HomeView(self._username, self.navigate, self._database)),
             ProfileView(),
             CourseView(),
-            SmallestEvenView(),
-            GamesView(),
-            EditorView(),
+            scrollable(SmallestEvenView(self._database)),
+            GamesView(self._database),
+            self._editor_view,
             ConverterView(),
             DocsView(),
-            SettingsView(),
+            SettingsView(self._database),
             AboutView(),
         ]
         for index, (name, page) in enumerate(zip(self.MODULES, pages, strict=True)):
@@ -115,6 +123,10 @@ class DashboardView(QWidget):
         root.addWidget(sidebar_frame)
         root.addWidget(self._pages, 1)
         self._menu.setCurrentRow(0)
+
+    def confirm_exit(self) -> bool:
+        """Return False when the student cancels leaving with unsaved editor changes."""
+        return self._editor_view.confirm_discard()
 
     def navigate(self, module_name: str) -> None:
         aliases = {

@@ -10,7 +10,9 @@ imprimir("Hola")
 fin
 ```
 
-Los comentarios comienzan con `//` o `#` y ocupan el resto de la línea.
+Los comentarios comienzan con `//` al inicio de una línea o con `#` en cualquier posición fuera de una cadena, y ocupan el resto de la línea. Al final de una instrucción solo `#` inicia un comentario, porque `//` es la división entera.
+
+Si un programa falla, la consola indica el motivo en español junto con la línea SL, y el IDE resalta esa línea. Los nombres de variables y funciones no pueden ser palabras reservadas de Python (`class`, `import`, `lambda`…).
 
 ## Tipos y variables
 

@@ -39,9 +39,14 @@ class LoginView(QWidget):
         title.setObjectName("title")
         title.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
-        subtitle = QLabel("Fundamentos de Programación Reimagined")
+        subtitle = QLabel("Fundamentos de Programación, reimaginados.")
         subtitle.setObjectName("subtitle")
         subtitle.setAlignment(Qt.AlignmentFlag.AlignCenter)
+
+        account_note = QLabel("Cuenta académica de demostración · sesión local")
+        account_note.setObjectName("accent")
+        account_note.setWordWrap(True)
+        account_note.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
         self._username_input = QLineEdit()
         self._username_input.setPlaceholderText("Usuario")
@@ -65,11 +70,22 @@ class LoginView(QWidget):
         card_layout.addWidget(title)
         card_layout.addWidget(subtitle)
         card_layout.addSpacing(8)
+        card_layout.addWidget(account_note)
         card_layout.addWidget(self._username_input)
         card_layout.addWidget(self._password_input)
         card_layout.addWidget(self._message_label)
         card_layout.addWidget(login_button)
         card_layout.addWidget(guest_button)
+
+        disclaimer = QLabel(
+            "Esta sesión se valida únicamente en este equipo, sin servidor ni cuentas reales. "
+            "PySL es un proyecto académico independiente."
+        )
+        disclaimer.setObjectName("subtitle")
+        disclaimer.setWordWrap(True)
+        disclaimer.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        card_layout.addSpacing(4)
+        card_layout.addWidget(disclaimer)
 
         root.addWidget(card)
 

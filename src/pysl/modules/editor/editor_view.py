@@ -3,6 +3,7 @@ from __future__ import annotations
 from pathlib import Path
 
 from PySide6.QtCore import Qt, QThreadPool
+from PySide6.QtGui import QKeySequence, QShortcut
 from PySide6.QtWidgets import (
     QFileDialog,
     QHBoxLayout,
@@ -43,6 +44,8 @@ class EditorView(QWidget):
         root = QVBoxLayout(self)
         title = QLabel("IDE de SL")
         title.setObjectName("pageTitle")
+        self.file_label = QLabel()
+        self.file_label.setObjectName("subtitle")
 
         toolbar = QHBoxLayout()
         actions = (
@@ -66,6 +69,8 @@ class EditorView(QWidget):
         self.editor = CodeEditor()
         self.editor.setObjectName("codeEditor")
         self.editor.setPlainText(SAMPLE)
+        self.editor.document().setModified(False)
+        self.editor.document().modificationChanged.connect(self._update_file_label)
         self.highlighter = SLHighlighter(self.editor.document())
         self.console = QPlainTextEdit()
         self.console.setObjectName("console")
@@ -76,16 +81,67 @@ class EditorView(QWidget):
         splitter.setSizes([520, 220])
 
         root.addWidget(title)
+        root.addWidget(self.file_label)
         root.addLayout(toolbar)
         root.addWidget(self.inputs)
         root.addWidget(splitter, 1)
 
-    def _new(self) -> None:
-        self.current_path = None
-        self.editor.setPlainText(SAMPLE)
+        self._install_shortcuts()
+        self._update_file_label()
+
+    def _install_shortcuts(self) -> None:
+        bindings = (
+            (QKeySequence.StandardKey.New, self._new),
+            (QKeySequence.StandardKey.Open, self._open),
+            (QKeySequence.StandardKey.Save, self._save),
+            (QKeySequence("Ctrl+Shift+S"), self._save_as),
+            (QKeySequence("F5"), self._run),
+            (QKeySequence("Ctrl+Return"), self._run),
+        )
+        for sequence, slot in bindings:
+            shortcut = QShortcut(sequence, self)
+            shortcut.setContext(Qt.ShortcutContext.WidgetWithChildrenShortcut)
+            shortcut.activated.connect(slot)
+
+    def _update_file_label(self, *_: object) -> None:
+        name = self.current_path.name if self.current_path else "Sin título"
+        marker = " *" if self.editor.document().isModified() else ""
+        self.file_label.setText(f"{name}{marker}")
+
+    def confirm_discard(self) -> bool:
+        """Ask what to do with unsaved changes; return False when the user cancels."""
+        if not self.editor.document().isModified():
+            return True
+        answer = QMessageBox.question(
+            self,
+            "Cambios sin guardar",
+            "El programa tiene cambios sin guardar. ¿Deseas guardarlos antes de continuar?",
+            QMessageBox.StandardButton.Save
+            | QMessageBox.StandardButton.Discard
+            | QMessageBox.StandardButton.Cancel,
+            QMessageBox.StandardButton.Save,
+        )
+        if answer == QMessageBox.StandardButton.Cancel:
+            return False
+        if answer == QMessageBox.StandardButton.Save:
+            return self._save()
+        return True
+
+    def _load_text(self, text: str, path: Path | None) -> None:
+        self.current_path = path
+        self.editor.setPlainText(text)
+        self.editor.document().setModified(False)
         self.console.clear()
+        self._update_file_label()
+
+    def _new(self) -> None:
+        if not self.confirm_discard():
+            return
+        self._load_text(SAMPLE, None)
 
     def _open(self) -> None:
+        if not self.confirm_discard():
+            return
         path, _ = QFileDialog.getOpenFileName(
             self,
             "Abrir programa SL",
@@ -94,22 +150,28 @@ class EditorView(QWidget):
         )
         if not path:
             return
+        # Read first: a failed read must not leave ``current_path`` pointing at that file,
+        # otherwise "Guardar" would overwrite it with the previous program.
         try:
-            self.current_path = Path(path)
-            self.editor.setPlainText(self.current_path.read_text(encoding="utf-8"))
-        except OSError as exc:
+            text = Path(path).read_text(encoding="utf-8")
+        except (OSError, UnicodeDecodeError) as exc:
             QMessageBox.critical(self, "No se pudo abrir el archivo", str(exc))
-
-    def _save(self) -> None:
-        if self.current_path is None:
-            self._save_as()
             return
+        self._load_text(text, Path(path))
+
+    def _save(self) -> bool:
+        if self.current_path is None:
+            return self._save_as()
         try:
             self.current_path.write_text(self.editor.toPlainText(), encoding="utf-8")
         except OSError as exc:
             QMessageBox.critical(self, "No se pudo guardar el archivo", str(exc))
+            return False
+        self.editor.document().setModified(False)
+        self._update_file_label()
+        return True
 
-    def _save_as(self) -> None:
+    def _save_as(self) -> bool:
         path, _ = QFileDialog.getSaveFileName(
             self,
             "Guardar programa SL",
@@ -117,14 +179,20 @@ class EditorView(QWidget):
             "Programas SL (*.pysl)",
         )
         if not path:
-            return
+            return False
+        previous_path = self.current_path
         self.current_path = Path(path if path.casefold().endswith(".pysl") else f"{path}.pysl")
-        self._save()
+        if not self._save():
+            self.current_path = previous_path
+            self._update_file_label()
+            return False
+        return True
 
     def _run(self) -> None:
         if self._execution_task is not None:
             return
         inputs = [value.strip() for value in self.inputs.text().split(",") if value.strip()]
+        self.editor.clear_error_line()
         task = ExecutionTask(self.editor.toPlainText(), inputs)
         task.signals.succeeded.connect(self._execution_succeeded)
         task.signals.failed.connect(self._execution_failed)
@@ -136,10 +204,14 @@ class EditorView(QWidget):
         QThreadPool.globalInstance().start(task)
 
     def _execution_succeeded(self, result: ExecutionResult) -> None:
+        self.editor.clear_error_line()
         self.console.setPlainText(result.output or "Programa finalizado sin salida.")
 
-    def _execution_failed(self, message: str) -> None:
-        self.console.setPlainText(f"ERROR: {message}")
+    def _execution_failed(self, message: str, line: int) -> None:
+        # Runtime messages already start with "Error de ejecución:"; avoid "ERROR: Error …".
+        self.console.setPlainText(message if message.startswith("Error") else f"ERROR: {message}")
+        if line > 0:
+            self.editor.show_error_line(line)
 
     def _execution_completed(self) -> None:
         self._execution_task = None
