@@ -77,3 +77,46 @@ def test_record_game_distinguishes_draws_from_losses(tmp_path: Path) -> None:
 
     with pytest.raises(ValueError, match="empate"):
         db.record_game("tic_tac_toe", True, drawn=True)
+
+
+def test_corrupt_database_is_quarantined_and_recreated(tmp_path: Path) -> None:
+    path = tmp_path / "pysl.db"
+    path.write_bytes(b"esto no es una base sqlite" * 50)
+
+    db = Database(path)
+    db.record_game("hangman", True)
+
+    assert db.summary().games_played == 1
+    backups = list(tmp_path.glob("pysl.db.corrupt-*"))
+    assert len(backups) == 1
+    assert backups[0].read_bytes().startswith(b"esto no es")
+
+
+def test_new_database_records_schema_version_and_uses_wal(tmp_path: Path) -> None:
+    db = Database(tmp_path / "nuevo.db")
+
+    with db.connect() as connection:
+        assert connection.execute("PRAGMA user_version").fetchone()[0] == 1
+        assert connection.execute("PRAGMA journal_mode").fetchone()[0] == "wal"
+        assert connection.execute("PRAGMA busy_timeout").fetchone()[0] == 5000
+    connection.close()
+
+
+def test_reopening_keeps_data_and_missing_directories_are_created(tmp_path: Path) -> None:
+    path = tmp_path / "a" / "b" / "pysl.db"
+    Database(path).mark_completed("smallest_even")
+
+    assert Database(path).summary().completed_labs == 1
+
+
+def test_reset_clears_every_table(tmp_path: Path) -> None:
+    db = Database(tmp_path / "t.db")
+    db.mark_completed("x")
+    db.record_game("g", True)
+    db.set_preference("theme", "Claro")
+
+    db.reset()
+
+    assert db.summary().completed_labs == 0
+    assert db.summary().games_played == 0
+    assert db.get_preference("theme", "Oscuro") == "Oscuro"

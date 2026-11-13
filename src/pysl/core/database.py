@@ -1,12 +1,17 @@
 from __future__ import annotations
 
+import logging
 import sqlite3
 from collections.abc import Iterator
 from contextlib import contextmanager
 from dataclasses import dataclass
+from datetime import UTC, datetime
 from pathlib import Path
 
 from pysl.core.settings import SETTINGS
+
+LOGGER = logging.getLogger("pysl")
+SCHEMA_VERSION = 1
 
 
 @dataclass(frozen=True, slots=True)
@@ -25,7 +30,21 @@ class Database:
     def __init__(self, path: Path | None = None) -> None:
         self.path = path or (SETTINGS.data_dir / "pysl.db")
         self.path.parent.mkdir(parents=True, exist_ok=True)
-        self._initialize()
+        try:
+            self._initialize()
+        except sqlite3.DatabaseError:
+            # A damaged file must not prevent PySL from starting: keep it for inspection
+            # and begin with a fresh database.
+            self._quarantine_corrupt_file()
+            self._initialize()
+
+    def _quarantine_corrupt_file(self) -> None:
+        stamp = datetime.now(UTC).strftime("%Y%m%d%H%M%S")
+        for suffix in ("", "-wal", "-shm"):
+            source = self.path.with_name(self.path.name + suffix)
+            if source.exists():
+                source.replace(source.with_name(f"{source.name}.corrupt-{stamp}"))
+        LOGGER.error("La base de datos estaba dañada; se conservó una copia .corrupt-%s.", stamp)
 
     def connect(self) -> sqlite3.Connection:
         connection = sqlite3.connect(self.path, timeout=5.0)
@@ -73,6 +92,8 @@ class Database:
                 );
                 """
             )
+            if connection.execute("PRAGMA user_version").fetchone()[0] == 0:
+                connection.execute(f"PRAGMA user_version = {SCHEMA_VERSION}")
 
     def mark_completed(self, item_key: str, item_type: str = "lab", score: int = 100) -> None:
         self._validate_key(item_key, "item_key")
