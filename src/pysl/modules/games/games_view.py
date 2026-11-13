@@ -75,6 +75,12 @@ class TicView(QWidget):
         self.game = TicTacToe()
         self.buttons = []
         root = QVBoxLayout(self)
+        rules = QLabel(
+            "Dos jugadores en el mismo equipo. X es el jugador principal: si gana X cuenta "
+            "como victoria, si gana O como derrota y si nadie gana como empate."
+        )
+        rules.setObjectName("subtitle")
+        rules.setWordWrap(True)
         self.status = QLabel("Turno: X")
         grid = QGridLayout()
         for i in range(9):
@@ -85,6 +91,7 @@ class TicView(QWidget):
             grid.addWidget(b, i // 3, i % 3)
         reset = QPushButton("Reiniciar")
         reset.clicked.connect(self.reset)
+        root.addWidget(rules)
         root.addWidget(self.status)
         root.addLayout(grid)
         root.addWidget(reset)
@@ -98,7 +105,7 @@ class TicView(QWidget):
             return
         if winner:
             self.status.setText(f"Resultado: {winner}")
-            self.db.record_game("tic_tac_toe", winner in {"X", "O"}, drawn=winner == "empate")
+            self.db.record_game("tic_tac_toe", winner == "X", drawn=winner == "empate")
             for b in self.buttons:
                 b.setEnabled(False)
         else:
