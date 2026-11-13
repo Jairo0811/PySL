@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import ast
 import io
+import keyword
 import re
 import tokenize
 from dataclasses import dataclass
@@ -9,12 +10,29 @@ from typing import ClassVar
 
 
 class TranspilationError(ValueError):
-    """Raised when SL source code cannot be translated."""
+    """Raised when SL source code cannot be translated.
+
+    ``line`` is the first SL line number mentioned in the message (or ``None``), so the
+    interface can point the student at the offending line.
+    """
+
+    def __init__(self, message: str) -> None:
+        super().__init__(message)
+        match = re.search(r"línea (\d+)", message)
+        self.line: int | None = int(match.group(1)) if match else None
 
 
 @dataclass(frozen=True, slots=True)
 class TranspiledProgram:
     python_code: str
+    # line_map[n - 1] is the SL source line that produced line n of ``python_code``.
+    line_map: tuple[int, ...] = ()
+
+    def sl_line(self, python_line: int | None) -> int | None:
+        """Translate a generated Python line number back to the SL source line."""
+        if python_line is None or not 1 <= python_line <= len(self.line_map):
+            return None
+        return self.line_map[python_line - 1]
 
 
 @dataclass(slots=True)
@@ -44,14 +62,17 @@ class SLTranspiler:
 
     def transpile(self, source: str) -> TranspiledProgram:
         output: list[str] = []
+        line_map: list[int] = []
         indent = 0
         saw_start = False
         saw_end = False
         block_stack: list[_BlockState] = []
 
         for number, raw_line in enumerate(source.splitlines(), start=1):
-            line = raw_line.strip()
-            if not line or line.startswith(("//", "#")):
+            comment_start = self.comment_start(raw_line)
+            code = raw_line if comment_start is None else raw_line[:comment_start]
+            line = code.strip()
+            if not line:
                 continue
 
             normalized = line.casefold()
@@ -117,6 +138,7 @@ class SLTranspiler:
                 current.has_body = False
                 indent -= 1
                 output.append(self._indent(indent) + "else:")
+                line_map.append(number)
                 indent += 1
                 continue
 
@@ -130,6 +152,7 @@ class SLTranspiler:
             if block_stack:
                 block_stack[-1].has_body = True
             output.append(self._indent(indent) + translated)
+            line_map.append(number)
             if opens:
                 block_stack.append(_BlockState(opens, number))
                 indent += 1
@@ -140,16 +163,19 @@ class SLTranspiler:
             )
         if not saw_start or not saw_end:
             raise TranspilationError("Todo programa SL debe contener 'inicio' y 'fin'.")
-        return TranspiledProgram("\n".join(output) + "\n")
+        return TranspiledProgram("\n".join(output) + "\n", tuple(line_map))
 
     def _translate_statement(self, line: str, number: int) -> tuple[str, str | None]:
         read_match = re.fullmatch(r"leer\s*\(\s*([A-Za-z_]\w*)\s*\)", line, re.IGNORECASE)
         if read_match:
-            return f"{read_match.group(1)} = __leer__()", None
+            return f"{self._name(read_match.group(1), number)} = __leer__()", None
 
         print_match = re.fullmatch(r"imprimir\s*\((.*)\)", line, re.IGNORECASE)
         if print_match:
-            return f"__imprimir__({self._expression(print_match.group(1), number)})", None
+            arguments = print_match.group(1)
+            if not arguments.strip():
+                return "__imprimir__()", None
+            return f"__imprimir__({self._expression(arguments, number)})", None
 
         if_match = re.fullmatch(r"si\s+(.+?)(?:\s+entonces)?", line, re.IGNORECASE)
         if if_match:
@@ -166,6 +192,7 @@ class SLTranspiler:
         )
         if for_match:
             name, start, end = for_match.groups()
+            self._name(name, number)
             start_expression = self._expression(start, number)
             end_expression = self._expression(end, number)
             return (
@@ -176,6 +203,7 @@ class SLTranspiler:
         function_match = re.fullmatch(r"funcion\s+([A-Za-z_]\w*)\s*\((.*?)\)", line, re.IGNORECASE)
         if function_match:
             name, raw_parameters = function_match.groups()
+            self._name(name, number)
             parameters = [parameter.strip() for parameter in raw_parameters.split(",")]
             if parameters == [""]:
                 parameters = []
@@ -183,6 +211,8 @@ class SLTranspiler:
                 raise TranspilationError(f"Parámetros inválidos en la línea {number}.")
             if len(parameters) != len(set(parameters)):
                 raise TranspilationError(f"Hay parámetros duplicados en la línea {number}.")
+            for parameter in parameters:
+                self._name(parameter, number)
             return f"def {name}({', '.join(parameters)}):", "funcion"
 
         return_match = re.fullmatch(r"retornar(?:\s+(.+))?", line, re.IGNORECASE)
@@ -196,6 +226,7 @@ class SLTranspiler:
         index_assignment = re.fullmatch(r"([A-Za-z_]\w*)\s*\[\s*(.+?)\s*\]\s*=\s*(.+)", line)
         if index_assignment:
             name, index, value = index_assignment.groups()
+            self._name(name, number)
             return (
                 f"{name}[{self._expression(index, number)}] = {self._expression(value, number)}",
                 None,
@@ -204,7 +235,8 @@ class SLTranspiler:
         assignment = re.fullmatch(r"([A-Za-z_]\w*)\s*=\s*(.+)", line)
         if assignment:
             return (
-                f"{assignment.group(1)} = {self._expression(assignment.group(2), number)}",
+                f"{self._name(assignment.group(1), number)} = "
+                f"{self._expression(assignment.group(2), number)}",
                 None,
             )
 
@@ -216,6 +248,7 @@ class SLTranspiler:
         )
         if declaration:
             name, value = declaration.groups()
+            self._name(name, number)
             return f"{name} = {self._expression(value, number) if value else 'None'}", None
 
         call = re.fullmatch(r"([A-Za-z_]\w*)\s*\((.*)\)", line)
@@ -245,6 +278,42 @@ class SLTranspiler:
                 f"Expresión inválida en la línea {line}: {expression}"
             ) from exc
         return translated
+
+    @staticmethod
+    def comment_start(text: str) -> int | None:
+        """Return the column where a comment begins on ``text``, or ``None``.
+
+        ``//`` only starts a comment at the beginning of a line, because anywhere else it is
+        the integer-division operator. ``#`` starts a comment anywhere outside a string.
+        """
+        stripped = text.lstrip()
+        if stripped.startswith("//"):
+            return len(text) - len(stripped)
+        quote: str | None = None
+        escaped = False
+        for index, character in enumerate(text):
+            if quote is not None:
+                if escaped:
+                    escaped = False
+                elif character == "\\":
+                    escaped = True
+                elif character == quote:
+                    quote = None
+            elif character in {'"', "'"}:
+                quote = character
+            elif character == "#":
+                return index
+        return None
+
+    @staticmethod
+    def _name(identifier: str, line: int) -> str:
+        """Reject names that are reserved words in the generated Python."""
+        if keyword.iskeyword(identifier):
+            raise TranspilationError(
+                f"'{identifier}' es una palabra reservada y no puede usarse como nombre "
+                f"(línea {line})."
+            )
+        return identifier
 
     @staticmethod
     def _indent(level: int) -> str:

@@ -46,3 +46,76 @@ fin"""
 
     with pytest.raises(RuntimeError, match="reservado"):
         SLExecutor().execute(source)
+
+
+@pytest.mark.parametrize(
+    ("body", "expected_message"),
+    [
+        ("x = 1 / 0", "división entre cero"),
+        ("vector v = [1, 2]\nimprimir(v[5])", "fuera del rango"),
+        ("imprimir(desconocida)", "'desconocida' no está definida"),
+        ('x = "a" + 1', "tipos de datos no son compatibles"),
+        ('x = int("abc")', "no se pudo convertir"),
+        ("numerico x\nimprimir(x + 1)", "todavía no tiene valor"),
+    ],
+)
+def test_runtime_errors_are_spanish(body: str, expected_message: str) -> None:
+    with pytest.raises(RuntimeError, match=expected_message) as error:
+        SLExecutor().execute(f"inicio\n{body}\nfin")
+
+    message = str(error.value)
+    assert message.startswith("Error de ejecución:")
+    assert "division by zero" not in message
+    assert "is not defined" not in message
+
+
+def test_runtime_errors_report_the_sl_line() -> None:
+    source = "// comentario\ninicio\nimprimir(1)\nx = 1 / 0\nfin"
+
+    with pytest.raises(RuntimeError, match=r"\(línea 4\)") as error:
+        SLExecutor().execute(source)
+
+    assert error.value.line == 4  # type: ignore[attr-defined]
+
+
+def test_limit_errors_report_the_sl_line() -> None:
+    executor = SLExecutor(limits=ExecutionLimits(max_steps=500, timeout_seconds=5.0))
+    source = "inicio\nentero n = 0\nmientras verdadero\n    n = n + 1\nfinmientras\nfin"
+
+    with pytest.raises(ExecutionLimitExceeded, match="línea") as error:
+        executor.execute(source)
+
+    assert error.value.line in {3, 4}
+
+
+def test_errors_inside_functions_point_to_the_function_body() -> None:
+    source = "funcion dividir(a, b)\n    retornar a / b\nfinfuncion\ninicio\nimprimir(dividir(1, 0))\nfin"
+
+    with pytest.raises(RuntimeError, match=r"\(línea 2\)"):
+        SLExecutor().execute(source)
+
+
+def test_wrong_argument_count_has_a_clear_message() -> None:
+    source = "funcion f(a)\n    retornar a\nfinfuncion\ninicio\nimprimir(f(1, 2))\nfin"
+
+    with pytest.raises(RuntimeError, match="cantidad de argumentos"):
+        SLExecutor().execute(source)
+
+
+def test_empty_imprimir_produces_a_blank_output_line() -> None:
+    result = SLExecutor().execute('inicio\nimprimir("a")\nimprimir()\nimprimir("b")\nfin')
+
+    assert result.output == "a\n\nb"
+
+
+def test_programs_with_inline_comments_execute() -> None:
+    source = """// Programa con comentarios
+inicio # arranque
+    entero a = 7 # valor
+    si a // 2 == 3 entonces # división entera, no comentario
+        imprimir("ok # no soy comentario") # salida
+    finsi # fin
+fin # listo
+"""
+
+    assert SLExecutor().execute(source).output == "ok # no soy comentario"
