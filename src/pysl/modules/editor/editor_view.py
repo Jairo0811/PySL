@@ -105,7 +105,7 @@ class EditorView(QWidget):
 
     def _update_file_label(self, *_: object) -> None:
         name = self.current_path.name if self.current_path else "Sin título"
-        marker = " ●" if self.editor.document().isModified() else ""
+        marker = " *" if self.editor.document().isModified() else ""
         self.file_label.setText(f"{name}{marker}")
 
     def confirm_discard(self) -> bool:
