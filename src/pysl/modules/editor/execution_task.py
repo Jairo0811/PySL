@@ -7,7 +7,7 @@ from pysl.language.executor import ExecutionResult, SLExecutor
 
 class ExecutionSignals(QObject):
     succeeded = Signal(object)
-    failed = Signal(str)
+    failed = Signal(str, int)  # message, SL line (0 when unknown)
     completed = Signal()
 
 
@@ -25,7 +25,7 @@ class ExecutionTask(QRunnable):
         try:
             result: ExecutionResult = SLExecutor().execute(self._source, self._inputs)
             self.signals.succeeded.emit(result)
-        except Exception as exc:
-            self.signals.failed.emit(str(exc))
+        except Exception as exc:  # worker boundary: any failure must reach the interface
+            self.signals.failed.emit(str(exc), getattr(exc, "line", None) or 0)
         finally:
             self.signals.completed.emit()

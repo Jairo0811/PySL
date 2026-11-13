@@ -8,15 +8,13 @@ from pysl.core.database import Database
 from pysl.core.error_handler import configure_logging, install_global_exception_handler
 from pysl.core.settings import SETTINGS
 from pysl.ui.main_window import MainWindow
-from pysl.ui.styles import DARK_THEME, DEFAULT_FONT_SIZE, apply_theme, normalize_theme
-
-
-def _stored_font_size(database: Database) -> int:
-    try:
-        value = int(database.get_preference("font_size", str(DEFAULT_FONT_SIZE)))
-    except ValueError:
-        return DEFAULT_FONT_SIZE
-    return max(11, min(24, value))
+from pysl.ui.styles import (
+    DARK_THEME,
+    DEFAULT_FONT_SIZE,
+    apply_theme,
+    normalize_theme,
+    parse_font_size,
+)
 
 
 def main() -> int:
@@ -32,9 +30,10 @@ def main() -> int:
 
     database = Database()
     stored_theme = normalize_theme(database.get_preference("theme", DARK_THEME))
-    apply_theme(app, stored_theme, _stored_font_size(database))
+    stored_font_size = parse_font_size(database.get_preference("font_size", str(DEFAULT_FONT_SIZE)))
+    apply_theme(app, stored_theme, stored_font_size)
 
-    window = MainWindow()
+    window = MainWindow(database)
     window.show()
 
     return app.exec()

@@ -41,10 +41,16 @@ class HangmanView(QWidget):
         subtitle.setObjectName("subtitle")
         self._stage = QLabel()
         self._stage.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        self._stage.setStyleSheet("font-family: Consolas; font-size: 36px; min-height: 180px;")
+        self._stage.setStyleSheet(
+            "font-family: Consolas, 'Cascadia Mono', 'DejaVu Sans Mono', monospace; "
+            "font-size: 36px; min-height: 180px;"
+        )
         self._word = QLabel()
         self._word.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        self._word.setStyleSheet("font-family: Consolas; font-size: 28px; font-weight: 700;")
+        self._word.setStyleSheet(
+            "font-family: Consolas, 'Cascadia Mono', 'DejaVu Sans Mono', monospace; "
+            "font-size: 28px; font-weight: 700;"
+        )
         self._status = QLabel()
         self._status.setObjectName("resultLabel")
         row = QHBoxLayout()

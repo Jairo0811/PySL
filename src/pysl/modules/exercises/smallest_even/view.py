@@ -15,6 +15,7 @@ from PySide6.QtWidgets import (
     QWidget,
 )
 
+from pysl.core.database import Database
 from pysl.modules.exercises.smallest_even.service import SmallestEvenService
 
 SL_CODE = """var
@@ -50,9 +51,13 @@ PYTHON_CODE = """def buscar_menor_par(numeros: list[int]) -> tuple[int, int] | N
     return menor, indice"""
 
 
+LAB_KEY = "smallest_even"
+
+
 class SmallestEvenView(QWidget):
-    def __init__(self) -> None:
+    def __init__(self, database: Database | None = None) -> None:
         super().__init__()
+        self._database = database or Database()
         self._service = SmallestEvenService()
         self._inputs: list[QLineEdit] = []
         self._build_ui()
@@ -131,6 +136,7 @@ class SmallestEvenView(QWidget):
 
         result = self._service.solve(values)
         self._render_result(result.values, result.index)
+        self._database.mark_completed(LAB_KEY, "lab")
 
         if result.found:
             self._result_label.setText(

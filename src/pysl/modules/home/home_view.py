@@ -1,7 +1,7 @@
 from collections.abc import Callable
 
 from PySide6.QtCore import Qt
-from PySide6.QtGui import QPixmap
+from PySide6.QtGui import QPixmap, QShowEvent
 from PySide6.QtWidgets import (
     QFrame,
     QGridLayout,
@@ -17,12 +17,34 @@ from pysl.core.settings import SETTINGS
 
 
 class HomeView(QWidget):
-    def __init__(self, username: str, navigate: Callable[[str], None]) -> None:
+    def __init__(
+        self,
+        username: str,
+        navigate: Callable[[str], None],
+        database: Database | None = None,
+    ) -> None:
         super().__init__()
         self._username = username
         self._navigate = navigate
-        self._database = Database()
+        self._database = database or Database()
+        self._stat_values: dict[str, QLabel] = {}
         self._build_ui()
+
+    def showEvent(self, event: QShowEvent) -> None:
+        # The page stays alive in a QStackedWidget, so refresh whenever it becomes visible.
+        super().showEvent(event)
+        self.refresh_stats()
+
+    def refresh_stats(self) -> None:
+        """Reload progress counters from the database."""
+        summary = self._database.summary()
+        values = {
+            "labs": str(summary.completed_labs),
+            "played": str(summary.games_played),
+            "won": str(summary.games_won),
+        }
+        for key, text in values.items():
+            self._stat_values[key].setText(text)
 
     def _build_ui(self) -> None:
         root = QVBoxLayout(self)
@@ -77,22 +99,22 @@ class HomeView(QWidget):
         hero_layout.addLayout(text, 3)
         hero_layout.addWidget(logo, 1)
 
-        summary = self._database.summary()
         stats_data = (
-            (str(summary.completed_labs), "Laboratorios completados"),
-            (str(summary.games_played), "Partidas jugadas"),
-            (str(summary.games_won), "Victorias"),
-            (SETTINGS.version, "Versión estable"),
+            ("labs", "0", "Laboratorios completados"),
+            ("played", "0", "Partidas jugadas"),
+            ("won", "0", "Victorias"),
+            ("version", SETTINGS.version, "Versión estable"),
         )
         stats = QGridLayout()
         stats.setHorizontalSpacing(14)
-        for column, (value, label) in enumerate(stats_data):
+        for column, (key, value, label) in enumerate(stats_data):
             card = QFrame()
             card.setObjectName("statCard")
             card_layout = QVBoxLayout(card)
             card_layout.setContentsMargins(18, 16, 18, 16)
             number = QLabel(value)
             number.setObjectName("sectionTitle")
+            self._stat_values[key] = number
             description = QLabel(label)
             description.setObjectName("subtitle")
             description.setWordWrap(True)
@@ -115,6 +137,8 @@ class HomeView(QWidget):
             button.setObjectName("secondaryButton")
             button.clicked.connect(lambda checked=False, target=destination: self._navigate(target))
             quick_actions.addWidget(button, index // 2, index % 2)
+
+        self.refresh_stats()
 
         root.addWidget(hero)
         root.addLayout(stats)

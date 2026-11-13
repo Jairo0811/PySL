@@ -7,6 +7,8 @@ from PySide6.QtWidgets import QApplication
 DARK_THEME: Final = "Oscuro"
 LIGHT_THEME: Final = "Claro"
 DEFAULT_FONT_SIZE: Final = 14
+MIN_FONT_SIZE: Final = 11
+MAX_FONT_SIZE: Final = 24
 
 _THEME_COLORS: Final = {
     DARK_THEME: {
@@ -31,6 +33,7 @@ _THEME_COLORS: Final = {
         "line_number_background": "#111827",
         "line_number_foreground": "#64748b",
         "current_line": "#172033",
+        "error_line": "#4a1d25",
     },
     LIGHT_THEME: {
         "background": "#f8fafc",
@@ -54,6 +57,7 @@ _THEME_COLORS: Final = {
         "line_number_background": "#f1f5f9",
         "line_number_foreground": "#64748b",
         "current_line": "#ede9fe",
+        "error_line": "#fee2e2",
     },
 }
 
@@ -65,7 +69,15 @@ def normalize_theme(theme: str) -> str:
 
 def normalize_font_size(font_size: int) -> int:
     """Keep the configurable UI/editor font size inside the supported range."""
-    return max(11, min(24, int(font_size)))
+    return max(MIN_FONT_SIZE, min(MAX_FONT_SIZE, int(font_size)))
+
+
+def parse_font_size(raw_value: str) -> int:
+    """Convert a stored preference into a valid font size, tolerating corrupt values."""
+    try:
+        return normalize_font_size(int(raw_value))
+    except (TypeError, ValueError):
+        return DEFAULT_FONT_SIZE
 
 
 def theme_colors(theme: str) -> dict[str, str]:
@@ -85,6 +97,7 @@ QWidget {{
     font-family: "Segoe UI";
     font-size: {size}px;
 }}
+QLabel {{ background-color: transparent; }}
 QFrame#sidebar, QFrame#card, QFrame#statCard {{
     background-color: {colors["card"]};
     border: 1px solid {colors["border"]};

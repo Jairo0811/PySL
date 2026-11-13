@@ -1,6 +1,7 @@
-from PySide6.QtGui import QIcon
+from PySide6.QtGui import QCloseEvent, QIcon
 from PySide6.QtWidgets import QMainWindow, QStackedWidget, QWidget
 
+from pysl.core.database import Database
 from pysl.core.session import UserSession
 from pysl.core.settings import SETTINGS
 from pysl.modules.authentication.login_view import LoginView
@@ -9,8 +10,9 @@ from pysl.modules.dashboard.dashboard_view import DashboardView
 
 
 class MainWindow(QMainWindow):
-    def __init__(self) -> None:
+    def __init__(self, database: Database | None = None) -> None:
         super().__init__()
+        self._database = database or Database()
         self._session = UserSession()
         self._authentication_service = AuthenticationService()
         self._stack = QStackedWidget()
@@ -28,11 +30,23 @@ class MainWindow(QMainWindow):
 
     def _handle_authenticated(self, username: str) -> None:
         self._session.start(username)
-        self._replace_current_view(DashboardView(username, self._handle_logout))
+        self._replace_current_view(DashboardView(username, self._handle_logout, self._database))
 
     def _handle_logout(self) -> None:
+        if not self._confirm_exit():
+            return
         self._session.clear()
         self._show_login()
+
+    def closeEvent(self, event: QCloseEvent) -> None:
+        if self._confirm_exit():
+            super().closeEvent(event)
+        else:
+            event.ignore()
+
+    def _confirm_exit(self) -> bool:
+        current = self._stack.currentWidget()
+        return not isinstance(current, DashboardView) or current.confirm_exit()
 
     def _replace_current_view(self, widget: QWidget) -> None:
         while self._stack.count():

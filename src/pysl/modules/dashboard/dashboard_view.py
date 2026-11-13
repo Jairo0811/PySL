@@ -14,6 +14,7 @@ from PySide6.QtWidgets import (
     QWidget,
 )
 
+from pysl.core.database import Database
 from pysl.core.settings import SETTINGS
 from pysl.modules.about.about_view import AboutView
 from pysl.modules.converter.converter_view import ConverterView
@@ -41,8 +42,14 @@ class DashboardView(QWidget):
         "Acerca de PySL",
     )
 
-    def __init__(self, username: str, on_logout: Callable[[], None]) -> None:
+    def __init__(
+        self,
+        username: str,
+        on_logout: Callable[[], None],
+        database: Database | None = None,
+    ) -> None:
         super().__init__()
+        self._database = database or Database()
         self._username = username
         self._on_logout = on_logout
         self._index_by_name: dict[str, int] = {}
@@ -96,16 +103,17 @@ class DashboardView(QWidget):
         sidebar.addWidget(logout)
 
         self._pages = QStackedWidget()
+        self._editor_view = EditorView()
         pages = [
-            HomeView(self._username, self.navigate),
+            HomeView(self._username, self.navigate, self._database),
             ProfileView(),
             CourseView(),
-            SmallestEvenView(),
-            GamesView(),
-            EditorView(),
+            SmallestEvenView(self._database),
+            GamesView(self._database),
+            self._editor_view,
             ConverterView(),
             DocsView(),
-            SettingsView(),
+            SettingsView(self._database),
             AboutView(),
         ]
         for index, (name, page) in enumerate(zip(self.MODULES, pages, strict=True)):
@@ -115,6 +123,10 @@ class DashboardView(QWidget):
         root.addWidget(sidebar_frame)
         root.addWidget(self._pages, 1)
         self._menu.setCurrentRow(0)
+
+    def confirm_exit(self) -> bool:
+        """Return False when the student cancels leaving with unsaved editor changes."""
+        return self._editor_view.confirm_discard()
 
     def navigate(self, module_name: str) -> None:
         aliases = {

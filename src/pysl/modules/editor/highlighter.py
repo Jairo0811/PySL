@@ -4,6 +4,7 @@ from typing import Any
 from PySide6.QtGui import QColor, QSyntaxHighlighter, QTextCharFormat
 from PySide6.QtWidgets import QApplication
 
+from pysl.language.transpiler import SLTranspiler
 from pysl.ui.styles import DARK_THEME, LIGHT_THEME, normalize_theme
 
 
@@ -13,6 +14,7 @@ class SLHighlighter(QSyntaxHighlighter):
     def __init__(self, document: Any) -> None:
         super().__init__(document)
         self.rules: list[tuple[re.Pattern[str], QTextCharFormat]] = []
+        self._comment_format = QTextCharFormat()
         self.refresh_theme()
 
     def refresh_theme(self) -> None:
@@ -41,9 +43,10 @@ class SLHighlighter(QSyntaxHighlighter):
         self.rules.extend(
             (
                 (re.compile(r'"[^"\\]*(?:\\.[^"\\]*)*"'), string),
-                (re.compile(r"//.*$|#.*$"), comment),
+                (re.compile(r"'[^'\\]*(?:\\.[^'\\]*)*'"), string),
             )
         )
+        self._comment_format = comment
         self.rehighlight()
 
     @staticmethod
@@ -66,3 +69,6 @@ class SLHighlighter(QSyntaxHighlighter):
         for regex, text_format in self.rules:
             for match in regex.finditer(text):
                 self.setFormat(match.start(), match.end() - match.start(), text_format)
+        start = SLTranspiler.comment_start(text)
+        if start is not None:
+            self.setFormat(start, len(text) - start, self._comment_format)

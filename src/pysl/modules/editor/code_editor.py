@@ -3,7 +3,7 @@ from __future__ import annotations
 from typing import Any
 
 from PySide6.QtCore import QRect, QSize, Qt
-from PySide6.QtGui import QColor, QPainter, QTextFormat
+from PySide6.QtGui import QColor, QPainter, QTextCursor, QTextFormat
 from PySide6.QtWidgets import QApplication, QPlainTextEdit, QTextEdit, QWidget
 
 from pysl.ui.styles import DARK_THEME, theme_colors
@@ -28,11 +28,13 @@ class CodeEditor(QPlainTextEdit):
 
     def __init__(self) -> None:
         super().__init__()
+        self.error_line: int | None = None
         self.line_number_area = LineNumberArea(self)
 
         self.blockCountChanged.connect(self.update_line_number_area_width)
         self.updateRequest.connect(self.update_line_number_area)
         self.cursorPositionChanged.connect(self.highlight_current_line)
+        self.textChanged.connect(self.clear_error_line)
 
         self.update_line_number_area_width()
         self.highlight_current_line()
@@ -100,12 +102,41 @@ class CodeEditor(QPlainTextEdit):
 
     def highlight_current_line(self) -> None:
         colors = theme_colors(self._active_theme())
-        selection = QTextEdit.ExtraSelection()
-        selection.format.setBackground(QColor(colors["current_line"]))
-        selection.format.setProperty(QTextFormat.Property.FullWidthSelection, True)
-        selection.cursor = self.textCursor()
-        selection.cursor.clearSelection()
-        self.setExtraSelections([selection])
+        selections: list[QTextEdit.ExtraSelection] = []
+
+        if self.error_line is not None:
+            block = self.document().findBlockByNumber(self.error_line - 1)
+            if block.isValid():
+                error = QTextEdit.ExtraSelection()
+                error.format.setBackground(QColor(colors["error_line"]))
+                error.format.setProperty(QTextFormat.Property.FullWidthSelection, True)
+                error.cursor = QTextCursor(block)
+                selections.append(error)
+
+        current = QTextEdit.ExtraSelection()
+        current.format.setBackground(QColor(colors["current_line"]))
+        current.format.setProperty(QTextFormat.Property.FullWidthSelection, True)
+        current.cursor = self.textCursor()
+        current.cursor.clearSelection()
+        # Drawn first so an error on the cursor's own line remains visible.
+        selections.insert(0, current)
+        self.setExtraSelections(selections)
+
+    def show_error_line(self, line: int) -> None:
+        """Mark a 1-based line as failing and move the cursor to it."""
+        block = self.document().findBlockByNumber(line - 1)
+        if not block.isValid():
+            return
+        self.error_line = line
+        self.setTextCursor(QTextCursor(block))
+        self.centerCursor()
+        self.highlight_current_line()
+
+    def clear_error_line(self) -> None:
+        if self.error_line is None:
+            return
+        self.error_line = None
+        self.highlight_current_line()
 
     def refresh_theme(self) -> None:
         """Refresh custom-painted editor elements and syntax colors after a theme change."""

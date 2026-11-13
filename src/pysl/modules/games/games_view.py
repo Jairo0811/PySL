@@ -33,7 +33,7 @@ class GuessView(QWidget):
         layout.addWidget(self.result)
         layout.addStretch()
 
-    def guess(self):
+    def guess(self) -> None:
         result = self.game.guess(self.value.value())
         self.result.setText(
             {
@@ -62,10 +62,10 @@ class RpsView(QWidget):
         layout.addWidget(self.result)
         layout.addStretch()
 
-    def run(self):
+    def run(self) -> None:
         result, computer = play(self.choice.currentText())
         self.result.setText(f"Computadora: {computer}. Resultado: {result}.")
-        self.db.record_game("rps", result == "ganaste")
+        self.db.record_game("rps", result == "ganaste", drawn=result == "empate")
 
 
 class TicView(QWidget):
@@ -90,7 +90,7 @@ class TicView(QWidget):
         root.addWidget(reset)
         root.addStretch()
 
-    def move(self, index):
+    def move(self, index: int) -> None:
         try:
             winner = self.game.move(index)
             self.buttons[index].setText(self.game.board[index])
@@ -98,13 +98,13 @@ class TicView(QWidget):
             return
         if winner:
             self.status.setText(f"Resultado: {winner}")
-            self.db.record_game("tic_tac_toe", winner in {"X", "O"})
+            self.db.record_game("tic_tac_toe", winner in {"X", "O"}, drawn=winner == "empate")
             for b in self.buttons:
                 b.setEnabled(False)
         else:
             self.status.setText(f"Turno: {self.game.turn}")
 
-    def reset(self):
+    def reset(self) -> None:
         self.game = TicTacToe()
         self.status.setText("Turno: X")
         for b in self.buttons:
@@ -113,9 +113,9 @@ class TicView(QWidget):
 
 
 class GamesView(QWidget):
-    def __init__(self) -> None:
+    def __init__(self, database: Database | None = None) -> None:
         super().__init__()
-        db = Database()
+        db = database or Database()
         root = QVBoxLayout(self)
         title = QLabel("Arcade PySL")
         title.setObjectName("pageTitle")
