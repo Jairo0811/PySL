@@ -1,8 +1,10 @@
+from PySide6.QtCore import Qt
 from PySide6.QtGui import QHideEvent
 from PySide6.QtWidgets import (
     QApplication,
     QComboBox,
     QFormLayout,
+    QHBoxLayout,
     QLabel,
     QMessageBox,
     QPushButton,
@@ -39,14 +41,19 @@ class SettingsView(QWidget):
         subtitle.setObjectName("subtitle")
 
         form = QFormLayout()
+        form.setLabelAlignment(Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignVCenter)
+        form.setFieldGrowthPolicy(QFormLayout.FieldGrowthPolicy.FieldsStayAtSizeHint)
+        form.setVerticalSpacing(14)
         self._saved_theme = normalize_theme(self.db.get_preference("theme", DARK_THEME))
         self._saved_font_size = self._stored_font_size()
 
         self.theme = QComboBox()
+        self.theme.setMinimumWidth(180)
         self.theme.addItems([DARK_THEME, LIGHT_THEME])
         self.theme.setCurrentText(self._saved_theme)
 
         self.font_size = QSpinBox()
+        self.font_size.setMinimumWidth(180)
         self.font_size.setRange(MIN_FONT_SIZE, MAX_FONT_SIZE)
         self.font_size.setValue(self._saved_font_size)
 
@@ -66,8 +73,11 @@ class SettingsView(QWidget):
         root.addWidget(title)
         root.addWidget(subtitle)
         root.addLayout(form)
-        root.addWidget(save)
-        root.addWidget(reset)
+        buttons = QHBoxLayout()
+        buttons.addWidget(save)
+        buttons.addWidget(reset)
+        buttons.addStretch()
+        root.addLayout(buttons)
         root.addStretch()
 
     def hideEvent(self, event: QHideEvent) -> None:

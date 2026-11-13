@@ -64,11 +64,10 @@ class SmallestEvenView(QWidget):
 
     def _build_ui(self) -> None:
         root = QVBoxLayout(self)
-        root.setContentsMargins(26, 22, 26, 22)
-        root.setSpacing(16)
+        root.setSpacing(12)
 
         title = QLabel("Menor número par")
-        title.setObjectName("title")
+        title.setObjectName("pageTitle")
         subtitle = QLabel(
             "Digite cinco números. PySL encontrará el menor número par y resaltará su posición."
         )
@@ -108,6 +107,7 @@ class SmallestEvenView(QWidget):
         self._table.horizontalHeader().setStretchLastSection(True)
 
         code_tabs = QTabWidget()
+        code_tabs.setMinimumHeight(230)
         code_tabs.addTab(self._code_view(SL_CODE), "Algoritmo SL")
         code_tabs.addTab(self._code_view(PYTHON_CODE), "Implementación Python")
 

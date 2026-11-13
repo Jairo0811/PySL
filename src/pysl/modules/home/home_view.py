@@ -74,8 +74,7 @@ class HomeView(QWidget):
 
     def _build_ui(self) -> None:
         root = QVBoxLayout(self)
-        root.setContentsMargins(6, 6, 6, 6)
-        root.setSpacing(20)
+        root.setSpacing(16)
 
         root.addWidget(self._build_hero())
         root.addLayout(self._build_stats())
@@ -91,8 +90,8 @@ class HomeView(QWidget):
         hero = QFrame()
         hero.setObjectName("card")
         layout = QVBoxLayout(hero)
-        layout.setContentsMargins(40, 34, 40, 34)
-        layout.setSpacing(10)
+        layout.setContentsMargins(32, 26, 32, 26)
+        layout.setSpacing(8)
 
         eyebrow = QLabel("PLATAFORMA EDUCATIVA · SL + PYTHON")
         eyebrow.setObjectName("accent")
@@ -159,7 +158,7 @@ class HomeView(QWidget):
             card = QFrame()
             card.setObjectName("card")
             layout = QVBoxLayout(card)
-            layout.setContentsMargins(22, 18, 22, 18)
+            layout.setContentsMargins(20, 16, 20, 16)
             layout.setSpacing(6)
             heading = QLabel(title_text)
             heading.setObjectName("sectionTitle")

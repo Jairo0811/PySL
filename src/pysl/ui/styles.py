@@ -108,6 +108,11 @@ QLabel#title {{ font-size: 30px; font-weight: 750; }}
 QLabel#pageTitle {{ font-size: 28px; font-weight: 750; }}
 QLabel#sectionTitle {{ font-size: 19px; font-weight: 700; }}
 QLabel#subtitle, QLabel#muted {{ color: {colors["muted"]}; }}
+QLabel#aboutTitle {{ font-size: 34px; font-weight: 800; }}
+QLabel#aboutVersion, QLabel#aboutSlogan {{ color: {colors["muted"]}; }}
+QLabel#aboutInstitution {{ font-weight: 650; }}
+QLabel#academicFieldLabel {{ color: {colors["muted"]}; font-size: 12px; }}
+QLabel#academicFieldValue {{ font-weight: 650; }}
 QLabel#accent {{ color: {colors["accent"]}; font-weight: 700; letter-spacing: 1px; }}
 QLabel#notice {{
     color: {colors["muted"]};
@@ -190,8 +195,8 @@ QListWidget {{
     outline: none;
 }}
 QListWidget::item {{
-    padding: 13px 12px;
-    margin: 2px 0;
+    padding: 9px 12px;
+    margin: 1px 0;
     border-radius: 9px;
 }}
 QListWidget#mainMenu:focus {{

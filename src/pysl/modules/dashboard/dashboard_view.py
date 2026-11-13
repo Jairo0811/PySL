@@ -26,6 +26,7 @@ from pysl.modules.games.games_view import GamesView
 from pysl.modules.home.home_view import HomeView
 from pysl.modules.profile.profile_view import ProfileView
 from pysl.modules.settings.settings_view import SettingsView
+from pysl.ui.layout import scrollable
 
 
 class DashboardView(QWidget):
@@ -72,14 +73,14 @@ class DashboardView(QWidget):
         if not pixmap.isNull():
             logo.setPixmap(
                 pixmap.scaled(
-                    128,
-                    128,
+                    104,
+                    104,
                     Qt.AspectRatioMode.KeepAspectRatio,
                     Qt.TransformationMode.SmoothTransformation,
                 )
             )
         logo.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        logo.setMinimumHeight(132)
+        logo.setMinimumHeight(108)
 
         user = QLabel(f"Sesión: {self._username}")
         user.setObjectName("subtitle")
@@ -104,10 +105,10 @@ class DashboardView(QWidget):
         self._pages = QStackedWidget()
         self._editor_view = EditorView()
         pages = [
-            HomeView(self._username, self.navigate, self._database),
+            scrollable(HomeView(self._username, self.navigate, self._database)),
             ProfileView(),
             CourseView(),
-            SmallestEvenView(self._database),
+            scrollable(SmallestEvenView(self._database)),
             GamesView(self._database),
             self._editor_view,
             ConverterView(),

@@ -45,6 +45,7 @@ class LoginView(QWidget):
 
         account_note = QLabel("Cuenta académica de demostración · sesión local")
         account_note.setObjectName("accent")
+        account_note.setWordWrap(True)
         account_note.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
         self._username_input = QLineEdit()

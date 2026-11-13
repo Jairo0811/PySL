@@ -42,9 +42,6 @@ class AboutView(QWidget):
         content_layout.setSpacing(14)
         content_layout.setAlignment(Qt.AlignmentFlag.AlignTop)
 
-        content_layout.addWidget(self._create_itla_logo())
-        content_layout.addSpacing(6)
-
         title = QLabel("PySL")
         title.setObjectName("aboutTitle")
         title.setAlignment(Qt.AlignmentFlag.AlignCenter)
@@ -60,9 +57,26 @@ class AboutView(QWidget):
         slogan.setAlignment(Qt.AlignmentFlag.AlignCenter)
         content_layout.addWidget(slogan)
 
+        independence = QLabel(
+            "PySL es un proyecto académico independiente y no constituye una aplicación "
+            "oficial del Instituto Tecnológico de Las Américas (ITLA)."
+        )
+        independence.setObjectName("notice")
+        independence.setWordWrap(True)
+        independence.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        independence.setFixedWidth(560)
+        independence.setMinimumHeight(64)
+        content_layout.addWidget(independence, alignment=Qt.AlignmentFlag.AlignHCenter)
+
         content_layout.addSpacing(4)
         content_layout.addWidget(self._create_separator())
         content_layout.addSpacing(8)
+
+        context = QLabel("Contexto académico original (2016)")
+        context.setObjectName("subtitle")
+        context.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        content_layout.addWidget(context)
+        content_layout.addWidget(self._create_itla_logo())
 
         institution = QLabel("Instituto Tecnológico de Las Américas\n(ITLA)")
         institution.setObjectName("aboutInstitution")
@@ -111,8 +125,8 @@ class AboutView(QWidget):
         logo_label.setObjectName("itlaLogo")
         logo_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
-        logo_label.setMinimumSize(360, 150)
-        logo_label.setMaximumHeight(170)
+        logo_label.setMinimumSize(200, 64)
+        logo_label.setMaximumHeight(72)
         logo_label.setSizePolicy(
             QSizePolicy.Policy.Expanding,
             QSizePolicy.Policy.Fixed,
@@ -127,8 +141,8 @@ class AboutView(QWidget):
             return logo_label
 
         scaled_pixmap = pixmap.scaled(
-            310,
-            140,
+            200,
+            64,
             Qt.AspectRatioMode.KeepAspectRatio,
             Qt.TransformationMode.SmoothTransformation,
         )
