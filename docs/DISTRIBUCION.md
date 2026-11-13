@@ -36,3 +36,8 @@ El workflow también admite ejecución manual y tags creados de forma explícita
 ## Datos de usuario
 
 El ejecutable no escribe la base de datos dentro de `dist`. En Windows utiliza `%LOCALAPPDATA%\PySL`, por lo que actualizar o reemplazar la carpeta de la aplicación no elimina el progreso.
+
+
+## Material histórico
+
+El ejecutable solo incluye `legacy/web-original/1.jpg` (imagen de la página Mi perfil). El resto del archivo histórico permanece en el repositorio fuente, no en la distribución. Consulta [THIRD_PARTY_NOTICES.md](../THIRD_PARTY_NOTICES.md).
