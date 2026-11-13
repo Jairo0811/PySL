@@ -57,6 +57,7 @@ class _SafeOperationTransformer(ast.NodeTransformer):
         ast.Add: "__suma_segura__",
         ast.Mult: "__multiplicacion_segura__",
         ast.Pow: "__potencia_segura__",
+        ast.Mod: "__modulo_seguro__",
     }
 
     def visit_BinOp(self, node: ast.BinOp) -> ast.AST:
@@ -338,6 +339,7 @@ def _execute_in_child(
             "__suma_segura__": lambda left, right: _safe_add(left, right, limits),
             "__multiplicacion_segura__": lambda left, right: _safe_multiply(left, right, limits),
             "__potencia_segura__": lambda base, exponent: _safe_power(base, exponent, limits),
+            "__modulo_seguro__": lambda left, right: _safe_modulo(left, right, limits),
             "int": safe_int,
             "float": safe_float,
             "str": safe_str,
@@ -442,6 +444,19 @@ def _safe_multiply(left: object, right: object, limits: ExecutionLimits) -> obje
                 "La multiplicación produciría una colección demasiado grande."
             )
     result = left * right  # type: ignore[operator]
+    _ensure_safe_value(result, limits)
+    return result
+
+
+def _safe_modulo(left: object, right: object, limits: ExecutionLimits) -> object:
+    """Allow numeric ``%`` only.
+
+    With text on the left Python performs printf-style formatting, which can allocate a
+    huge string (``"%900000000d" % 1``) before any size check runs. SL has no formatting.
+    """
+    if isinstance(left, (str, list, tuple)):
+        raise SLExecutionError("El operador % solo admite números.")
+    result = left % right  # type: ignore[operator]
     _ensure_safe_value(result, limits)
     return result
 

@@ -119,3 +119,18 @@ fin # listo
 """
 
     assert SLExecutor().execute(source).output == "ok # no soy comentario"
+
+
+@pytest.mark.parametrize(
+    "expression",
+    ['"%900000000d" % 1', '"%s" % "a"', '"%s%s" % [1, 2]', "[1, 2] % 2"],
+)
+def test_percent_operator_rejects_text_formatting_before_allocating(expression: str) -> None:
+    with pytest.raises(RuntimeError, match="solo admite números"):
+        SLExecutor().execute(f"inicio\nx = {expression}\nfin")
+
+
+def test_percent_operator_still_works_for_numbers() -> None:
+    assert (
+        SLExecutor().execute("inicio\nimprimir(17 % 5, -7 % 3, 7.5 % 2)\nfin").output == "2 2 1.5"
+    )
